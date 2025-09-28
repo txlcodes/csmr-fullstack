@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Submissions - CSMR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .timeline-item {
+            position: relative;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            bottom: -20px;
+            width: 2px;
+            background-color: #e5e7eb;
+        }
+        .timeline-item:last-child::before {
+            display: none;
+        }
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-submitted {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        .status-review {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+        .status-accepted {
+            background-color: #d1fae5;
+            color: #059669;
+        }
+        .status-rejected {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+        .status-revision {
+            background-color: #e0e7ff;
+            color: #7c3aed;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Top Header Bar -->
+    <div class="bg-gray-100 text-gray-600 text-sm py-2">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-blue-600"><i class="fas fa-lock mr-1"></i>Institutional Access</a>
+                <a href="#" class="hover:text-blue-600">Learn More</a>
+            </div>
+            <div class="flex space-x-4 items-center">
+                <div id="authSectionTop" class="flex items-center space-x-4">
+                    <a href="login.html" class="hover:text-blue-600">Login / Register</a>
+                </div>
+                <div class="relative">
+                    <select class="bg-transparent border-none text-gray-600 text-sm focus:outline-none">
+                        <option>English</option>
+                        <option>Hindi</option>
+                    </select>
+                    <i class="fas fa-chevron-down absolute right-0 top-1/2 -translate-y-1/2 text-xs pointer-events-none"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="bg-white shadow-sm py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="text-3xl font-black text-blue-900">CSMR</div>
+                <div class="w-0.5 h-8 bg-blue-400"></div>
+                <div class="text-blue-600 font-medium">
+                    <div class="text-sm leading-tight">Centre for Sustainability</div>
+                    <div class="text-sm leading-tight">& Management Research</div>
+                </div>
+            </div>
+            <div class="relative w-full max-w-md hidden md:block">
+                <input type="text" placeholder="Search journals, articles, authors..." class="w-full pl-4 pr-10 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center space-x-8 py-4">
+                <a href="index.html" class="text-gray-600 hover:text-blue-600 font-medium">Home</a>
+                <a href="journals.html" class="text-gray-600 hover:text-blue-600 font-medium">Journals</a>
+                <a href="articles.html" class="text-gray-600 hover:text-blue-600 font-medium">Articles</a>
+                <a href="about.html" class="text-gray-600 hover:text-blue-600 font-medium">About</a>
+                <a href="admin-login.html" class="text-gray-600 hover:text-blue-600 font-medium">Admin Panel</a>
+                <a href="contact.html" class="text-gray-600 hover:text-blue-600 font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="gradient-bg py-12 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold mb-2">My Submissions</h1>
+                    <p class="text-blue-100">Track and manage your manuscript submissions</p>
+                </div>
+                <a href="submit.html" class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-all duration-300">
+                    <i class="fas fa-plus mr-2"></i>New Submission
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="card-hover bg-white p-6 rounded-xl shadow-lg border border-blue-100">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Total Submissions</p>
+                        <p class="text-3xl font-bold text-blue-600">3</p>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-file-alt text-2xl text-blue-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-hover bg-white p-6 rounded-xl shadow-lg border border-yellow-100">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Under Review</p>
+                        <p class="text-3xl font-bold text-yellow-600">1</p>
+                    </div>
+                    <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-search text-2xl text-yellow-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-hover bg-white p-6 rounded-xl shadow-lg border border-green-100">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Accepted</p>
+                        <p class="text-3xl font-bold text-green-600">1</p>
+                    </div>
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-check-circle text-2xl text-green-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-hover bg-white p-6 rounded-xl shadow-lg border border-red-100">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Rejected</p>
+                        <p class="text-3xl font-bold text-red-600">1</p>
+                    </div>
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-times-circle text-2xl text-red-600"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submissions List -->
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900">Your Submissions</h3>
+            </div>
+            
+            <div class="divide-y divide-gray-200">
+                <!-- Submission 1 -->
+                <div class="p-6 hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex-1">
+                            <h4 class="text-lg font-medium text-gray-900 mb-2">Sustainable Supply Chain Management in Indian Manufacturing</h4>
+                            <p class="text-sm text-gray-600 mb-2">Submitted on January 15, 2025 • Submission ID: CSMR-2025-001</p>
+                            <p class="text-sm text-gray-500">Journal: Journal of Sustainable Management</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <span class="status-badge status-review">Under Review</span>
+                            <button onclick="viewSubmissionDetails('CSMR-2025-001')" class="text-blue-600 hover:text-blue-800 font-medium">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-6 text-sm text-gray-500">
+                        <span><i class="fas fa-user mr-1"></i>Dr. Rajesh Kumar (Corresponding)</span>
+                        <span><i class="fas fa-tag mr-1"></i>Research Article</span>
+                        <span><i class="fas fa-calendar mr-1"></i>Submitted 5 days ago</span>
+                    </div>
+                </div>
+
+                <!-- Submission 2 -->
+                <div class="p-6 hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex-1">
+                            <h4 class="text-lg font-medium text-gray-900 mb-2">ESG Reporting Impact on Financial Performance</h4>
+                            <p class="text-sm text-gray-600 mb-2">Submitted on January 10, 2025 • Submission ID: CSMR-2025-002</p>
+                            <p class="text-sm text-gray-500">Journal: Innovation & Sustainability Review</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <span class="status-badge status-accepted">Accepted</span>
+                            <button onclick="viewSubmissionDetails('CSMR-2025-002')" class="text-blue-600 hover:text-blue-800 font-medium">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-6 text-sm text-gray-500">
+                        <span><i class="fas fa-user mr-1"></i>Dr. Vikram Singh (Corresponding)</span>
+                        <span><i class="fas fa-tag mr-1"></i>Review Article</span>
+                        <span><i class="fas fa-calendar mr-1"></i>Accepted 2 days ago</span>
+                    </div>
+                </div>
+
+                <!-- Submission 3 -->
+                <div class="p-6 hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex-1">
+                            <h4 class="text-lg font-medium text-gray-900 mb-2">Climate Change Adaptation Strategies for Business</h4>
+                            <p class="text-sm text-gray-600 mb-2">Submitted on January 5, 2025 • Submission ID: CSMR-2025-003</p>
+                            <p class="text-sm text-gray-500">Journal: Management Studies Quarterly</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <span class="status-badge status-rejected">Rejected</span>
+                            <button onclick="viewSubmissionDetails('CSMR-2025-003')" class="text-blue-600 hover:text-blue-800 font-medium">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-6 text-sm text-gray-500">
+                        <span><i class="fas fa-user mr-1"></i>Dr. Meena Patel (Corresponding)</span>
+                        <span><i class="fas fa-tag mr-1"></i>Case Study</span>
+                        <span><i class="fas fa-calendar mr-1"></i>Rejected 1 day ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submission Details Modal -->
+    <div id="submissionModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center hidden">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-hidden">
+            <div class="bg-blue-600 text-white px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-bold">Submission Details</h2>
+                    <button onclick="closeSubmissionModal()" class="text-white hover:text-blue-200">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="p-6 max-h-[70vh] overflow-y-auto">
+                <div id="submissionContent">
+                    <!-- Content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="text-3xl font-black text-white">CSMR</div>
+                        <div class="w-0.5 h-8 bg-blue-200"></div>
+                        <div class="text-blue-100 font-medium">
+                            <div class="text-sm leading-tight">Centre for Sustainability</div>
+                            <div class="text-sm leading-tight">& Management Research</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Publishing cutting-edge research in sustainability, innovation, and responsible management practices across India and beyond.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="journals.html" class="text-gray-300 hover:text-blue-400 transition-colors">Journals</a></li>
+                        <li><a href="articles.html" class="text-gray-300 hover:text-blue-400 transition-colors">Articles</a></li>
+                        <li><a href="about.html" class="text-gray-300 hover:text-blue-400 transition-colors">About</a></li>
+                        <li><a href="contact.html" class="text-gray-300 hover:text-blue-400 transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Contact Us</h3>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-map-marker-alt mr-2 text-blue-400"></i>123 Research Lane, New Delhi, India
+                    </p>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-envelope mr-2 text-blue-400"></i>info@csmr.org
+                    </p>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-phone mr-2 text-blue-400"></i>+91 98765 43210
+                    </p>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
+                &copy; 2025 CSMR. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Check if user is logged in
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Please login to view your submissions');
+                window.location.href = 'login.html';
+                return false;
+            }
+            return true;
+        }
+
+        // View submission details
+        function viewSubmissionDetails(submissionId) {
+            const modal = document.getElementById('submissionModal');
+            const content = document.getElementById('submissionContent');
+            
+            // Mock data for different submissions
+            const submissionData = {
+                'CSMR-2025-001': {
+                    title: 'Sustainable Supply Chain Management in Indian Manufacturing',
+                    status: 'Under Review',
+                    statusClass: 'status-review',
+                    submittedDate: 'January 15, 2025',
+                    journal: 'Journal of Sustainable Management',
+                    authors: 'Dr. Rajesh Kumar (Corresponding), Dr. Priya Sharma',
+                    type: 'Research Article',
+                    abstract: 'This study examines sustainable supply chain management practices in Indian manufacturing firms, analyzing implementation strategies, challenges, and performance outcomes through comprehensive case studies.',
+                    timeline: [
+                        { date: 'Jan 15, 2025', status: 'Submitted', description: 'Manuscript submitted for review' },
+                        { date: 'Jan 16, 2025', status: 'Under Review', description: 'Assigned to Editor: Dr. Sarah Johnson' },
+                        { date: 'Jan 18, 2025', status: 'Reviewers Assigned', description: '2 reviewers assigned' },
+                        { date: 'Jan 20, 2025', status: 'Under Review', description: 'Review in progress' }
+                    ]
+                },
+                'CSMR-2025-002': {
+                    title: 'ESG Reporting Impact on Financial Performance',
+                    status: 'Accepted',
+                    statusClass: 'status-accepted',
+                    submittedDate: 'January 10, 2025',
+                    journal: 'Innovation & Sustainability Review',
+                    authors: 'Dr. Vikram Singh (Corresponding), Dr. Anita Desai',
+                    type: 'Review Article',
+                    abstract: 'A comprehensive review of ESG reporting practices and their correlation with financial performance metrics across Indian corporations.',
+                    timeline: [
+                        { date: 'Jan 10, 2025', status: 'Submitted', description: 'Manuscript submitted for review' },
+                        { date: 'Jan 11, 2025', status: 'Under Review', description: 'Assigned to Editor: Dr. Michael Chen' },
+                        { date: 'Jan 15, 2025', status: 'Reviewers Assigned', description: '3 reviewers assigned' },
+                        { date: 'Jan 20, 2025', status: 'Review Complete', description: 'All reviews received' },
+                        { date: 'Jan 22, 2025', status: 'Accepted', description: 'Manuscript accepted for publication' }
+                    ]
+                },
+                'CSMR-2025-003': {
+                    title: 'Climate Change Adaptation Strategies for Business',
+                    status: 'Rejected',
+                    statusClass: 'status-rejected',
+                    submittedDate: 'January 5, 2025',
+                    journal: 'Management Studies Quarterly',
+                    authors: 'Dr. Meena Patel (Corresponding), Dr. Rahul Verma',
+                    type: 'Case Study',
+                    abstract: 'Analyzing climate change adaptation strategies implemented by businesses in South Asia.',
+                    timeline: [
+                        { date: 'Jan 5, 2025', status: 'Submitted', description: 'Manuscript submitted for review' },
+                        { date: 'Jan 6, 2025', status: 'Under Review', description: 'Assigned to Editor: Dr. Emily Rodriguez' },
+                        { date: 'Jan 10, 2025', status: 'Reviewers Assigned', description: '2 reviewers assigned' },
+                        { date: 'Jan 18, 2025', status: 'Review Complete', description: 'All reviews received' },
+                        { date: 'Jan 20, 2025', status: 'Rejected', description: 'Manuscript rejected after review' }
+                    ]
+                }
+            };
+
+            const data = submissionData[submissionId];
+            if (data) {
+                content.innerHTML = `
+                    <div class="space-y-6">
+                        <!-- Basic Info -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Submission Information</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Title</label>
+                                    <p class="text-sm text-gray-900">${data.title}</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Status</label>
+                                    <span class="status-badge ${data.statusClass}">${data.status}</span>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Submitted Date</label>
+                                    <p class="text-sm text-gray-900">${data.submittedDate}</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Journal</label>
+                                    <p class="text-sm text-gray-900">${data.journal}</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Authors</label>
+                                    <p class="text-sm text-gray-900">${data.authors}</p>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700">Article Type</label>
+                                    <p class="text-sm text-gray-900">${data.type}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Abstract -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Abstract</h3>
+                            <p class="text-sm text-gray-700">${data.abstract}</p>
+                        </div>
+
+                        <!-- Timeline -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Submission Timeline</h3>
+                            <div class="space-y-4">
+                                ${data.timeline.map(item => `
+                                    <div class="timeline-item flex items-start">
+                                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                            <i class="fas fa-circle text-blue-600 text-xs"></i>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="flex items-center justify-between">
+                                                <h4 class="text-sm font-medium text-gray-900">${item.status}</h4>
+                                                <span class="text-xs text-gray-500">${item.date}</span>
+                                            </div>
+                                            <p class="text-sm text-gray-600 mt-1">${item.description}</p>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Actions</h3>
+                            <div class="flex space-x-3">
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                    <i class="fas fa-download mr-2"></i>Download PDF
+                                </button>
+                                <button class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors">
+                                    <i class="fas fa-upload mr-2"></i>Upload Revision
+                                </button>
+                                <button class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                                    <i class="fas fa-envelope mr-2"></i>Contact Editor
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        // Close submission modal
+        function closeSubmissionModal() {
+            const modal = document.getElementById('submissionModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Check if user is logged in and update navbar
+        function updateNavbar() {
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const authSection = document.getElementById('authSectionTop');
+            
+            if (token && user.firstName) {
+                authSection.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <span class="text-gray-600 text-sm">Welcome, ${user.firstName}!</span>
+                        <button onclick="logout()" class="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </button>
+                    </div>
+                `;
+            } else {
+                authSection.innerHTML = `
+                    <a href="login.html" class="hover:text-blue-600">Login / Register</a>
+                `;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            updateNavbar();
+            window.location.href = 'index.html';
+        }
+
+        // Initialize
+        if (!checkAuth()) return;
+        updateNavbar();
+    </script>
+</body>
+</html>

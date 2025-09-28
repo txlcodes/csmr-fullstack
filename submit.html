@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Manuscript - CSMR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
+        }
+        .step {
+            display: none;
+        }
+        .step.active {
+            display: block;
+        }
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+        .file-upload-area {
+            border: 2px dashed #3b82f6;
+            transition: all 0.3s ease;
+        }
+        .file-upload-area.dragover {
+            border-color: #1e40af;
+            background-color: #eff6ff;
+        }
+        .author-row {
+            transition: all 0.3s ease;
+        }
+        .author-row:hover {
+            background-color: #f8fafc;
+        }
+        .modal {
+            display: none;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .timeline-item {
+            position: relative;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            bottom: -20px;
+            width: 2px;
+            background-color: #e5e7eb;
+        }
+        .timeline-item:last-child::before {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Top Header Bar -->
+    <div class="bg-gray-100 text-gray-600 text-sm py-2">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-blue-600"><i class="fas fa-lock mr-1"></i>Institutional Access</a>
+                <a href="#" class="hover:text-blue-600">Learn More</a>
+            </div>
+            <div class="flex space-x-4 items-center">
+                <div id="authSectionTop" class="flex items-center space-x-4">
+                    <a href="login.html" class="hover:text-blue-600">Login / Register</a>
+                </div>
+                <div class="relative">
+                    <select class="bg-transparent border-none text-gray-600 text-sm focus:outline-none">
+                        <option>English</option>
+                        <option>Hindi</option>
+                    </select>
+                    <i class="fas fa-chevron-down absolute right-0 top-1/2 -translate-y-1/2 text-xs pointer-events-none"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="bg-white shadow-sm py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="text-3xl font-black text-blue-900">CSMR</div>
+                <div class="w-0.5 h-8 bg-blue-400"></div>
+                <div class="text-blue-600 font-medium">
+                    <div class="text-sm leading-tight">Centre for Sustainability</div>
+                    <div class="text-sm leading-tight">& Management Research</div>
+                </div>
+            </div>
+            <div class="relative w-full max-w-md hidden md:block">
+                <input type="text" placeholder="Search journals, articles, authors..." class="w-full pl-4 pr-10 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center space-x-8 py-4">
+                <a href="index.html" class="text-gray-600 hover:text-blue-600 font-medium">Home</a>
+                <a href="journals.html" class="text-gray-600 hover:text-blue-600 font-medium">Journals</a>
+                <a href="articles.html" class="text-gray-600 hover:text-blue-600 font-medium">Articles</a>
+                <a href="about.html" class="text-gray-600 hover:text-blue-600 font-medium">About</a>
+                <a href="admin-login.html" class="text-gray-600 hover:text-blue-600 font-medium">Admin Panel</a>
+                <a href="contact.html" class="text-gray-600 hover:text-blue-600 font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg py-16 text-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-black mb-6">Submit Your Manuscript</h1>
+            <p class="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+                Share your research with the global academic community through our peer-reviewed publication platform
+            </p>
+            <button onclick="startSubmission()" class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                <i class="fas fa-paper-plane mr-2"></i>
+                Start New Submission
+            </button>
+        </div>
+    </section>
+
+    <!-- Submission Wizard Modal -->
+    <div id="submissionModal" class="modal fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-hidden">
+            <!-- Modal Header -->
+            <div class="bg-blue-600 text-white px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-bold">Submit Manuscript</h2>
+                    <button onclick="closeModal()" class="text-white hover:text-blue-200">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="mt-4">
+                    <div class="flex justify-between text-sm mb-2">
+                        <span>Step <span id="currentStep">1</span> of 7</span>
+                        <span id="stepTitle">Upload Manuscript</span>
+                    </div>
+                    <div class="w-full bg-blue-800 rounded-full h-2">
+                        <div id="progressBar" class="bg-white h-2 rounded-full progress-bar" style="width: 14.28%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Content -->
+            <div class="p-6 max-h-[70vh] overflow-y-auto">
+                <!-- Step 1: Upload Manuscript -->
+                <div id="step1" class="step active">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Upload Your Manuscript</h3>
+                    <div id="fileUploadArea" class="file-upload-area rounded-lg p-8 text-center">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-blue-600 mb-4"></i>
+                        <p class="text-lg font-medium text-gray-700 mb-2">Drag and drop your manuscript here</p>
+                        <p class="text-sm text-gray-500 mb-4">or click to browse files</p>
+                        <input type="file" id="manuscriptFile" accept=".pdf,.docx" class="hidden">
+                        <button onclick="document.getElementById('manuscriptFile').click()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                            Choose File
+                        </button>
+                        <p class="text-xs text-gray-400 mt-2">Accepted formats: PDF, DOCX (Max 10MB)</p>
+                    </div>
+                    <div id="filePreview" class="hidden mt-4 p-4 bg-gray-50 rounded-lg">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <i class="fas fa-file-pdf text-2xl text-blue-600 mr-3"></i>
+                                <div>
+                                    <p class="font-medium text-gray-900" id="fileName"></p>
+                                    <p class="text-sm text-gray-500" id="fileSize"></p>
+                                </div>
+                            </div>
+                            <button onclick="removeFile()" class="text-red-600 hover:text-red-800">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Metadata -->
+                <div id="step2" class="step">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Article Information</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Title *</label>
+                            <input type="text" id="articleTitle" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter article title">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Abstract *</label>
+                            <textarea id="articleAbstract" rows="6" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter abstract (max 300 words)"></textarea>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Article Type *</label>
+                                <select id="articleType" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Select article type</option>
+                                    <option value="research">Research Article</option>
+                                    <option value="review">Review Article</option>
+                                    <option value="case-study">Case Study</option>
+                                    <option value="short-communication">Short Communication</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Subject Area *</label>
+                                <select id="subjectArea" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Select subject area</option>
+                                    <option value="sustainability">Sustainability</option>
+                                    <option value="management">Management</option>
+                                    <option value="environment">Environment</option>
+                                    <option value="innovation">Innovation</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Keywords</label>
+                            <input type="text" id="keywords" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter keywords separated by commas">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Authors -->
+                <div id="step3" class="step">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Author Information</h3>
+                    <div id="authorsList" class="space-y-4">
+                        <div class="author-row border border-gray-200 rounded-lg p-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter full name">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                                    <input type="email" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter email">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Affiliation *</label>
+                                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter affiliation">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">ORCID (Optional)</label>
+                                    <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="0000-0000-0000-0000">
+                                </div>
+                            </div>
+                            <div class="mt-3 flex items-center justify-between">
+                                <label class="flex items-center">
+                                    <input type="radio" name="correspondingAuthor" value="0" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
+                                    <span class="ml-2 text-sm text-gray-700">Corresponding Author</span>
+                                </label>
+                                <button onclick="removeAuthor(this)" class="text-red-600 hover:text-red-800 text-sm">
+                                    <i class="fas fa-trash mr-1"></i>Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="addAuthor()" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-plus mr-2"></i>Add Author
+                    </button>
+                </div>
+
+                <!-- Step 4: Cover Letter -->
+                <div id="step4" class="step">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Cover Letter</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Cover Letter *</label>
+                            <textarea id="coverLetter" rows="8" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your cover letter explaining the significance and novelty of your research..."></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Upload Cover Letter (Optional)</label>
+                            <input type="file" id="coverLetterFile" accept=".pdf,.docx" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Supplementary Files -->
+                <div id="step5" class="step">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Supplementary Files</h3>
+                    <div id="supplementaryUploadArea" class="file-upload-area rounded-lg p-6 text-center">
+                        <i class="fas fa-folder-plus text-3xl text-blue-600 mb-3"></i>
+                        <p class="text-lg font-medium text-gray-700 mb-2">Upload Supplementary Files</p>
+                        <p class="text-sm text-gray-500 mb-4">Figures, tables, datasets, etc.</p>
+                        <input type="file" id="supplementaryFiles" multiple class="hidden">
+                        <button onclick="document.getElementById('supplementaryFiles').click()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                            Choose Files
+                        </button>
+                    </div>
+                    <div id="supplementaryFilesList" class="mt-4 space-y-2"></div>
+                </div>
+
+                <!-- Step 6: Declarations -->
+                <div id="step6" class="step">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Declarations & Agreements</h3>
+                    <div class="space-y-4">
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <label class="flex items-start">
+                                <input type="checkbox" id="originality" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1">
+                                <span class="ml-3 text-sm text-gray-700">
+                                    <strong>Originality Statement:</strong> I confirm that this manuscript is original, has not been published elsewhere, and is not under consideration by any other journal.
+                                </span>
+                            </label>
+                        </div>
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <label class="flex items-start">
+                                <input type="checkbox" id="ethics" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1">
+                                <span class="ml-3 text-sm text-gray-700">
+                                    <strong>Ethics Approval:</strong> I confirm that all necessary ethics approvals have been obtained for this research (if applicable).
+                                </span>
+                            </label>
+                        </div>
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <label class="flex items-start">
+                                <input type="checkbox" id="conflict" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1">
+                                <span class="ml-3 text-sm text-gray-700">
+                                    <strong>Conflict of Interest:</strong> I declare that there are no conflicts of interest that could have influenced the research or its interpretation.
+                                </span>
+                            </label>
+                        </div>
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <label class="flex items-start">
+                                <input type="checkbox" id="copyright" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1">
+                                <span class="ml-3 text-sm text-gray-700">
+                                    <strong>Copyright Transfer:</strong> I agree to transfer copyright to CSMR upon acceptance of this manuscript.
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 7: Review & Submit -->
+                <div id="step7" class="step">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Review & Submit</h3>
+                    <div class="space-y-6">
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-900 mb-2">Article Information</h4>
+                            <p class="text-sm text-gray-600" id="reviewTitle"></p>
+                            <p class="text-sm text-gray-600" id="reviewType"></p>
+                            <p class="text-sm text-gray-600" id="reviewSubject"></p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-900 mb-2">Authors</h4>
+                            <div id="reviewAuthors"></div>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-medium text-gray-900 mb-2">Files</h4>
+                            <p class="text-sm text-gray-600" id="reviewFiles"></p>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="finalAgreement" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <label for="finalAgreement" class="ml-2 text-sm text-gray-700">
+                                I have reviewed all information and agree to submit this manuscript for peer review.
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="bg-gray-50 px-6 py-4 flex justify-between">
+                <button id="prevBtn" onclick="previousStep()" class="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors" style="display: none;">
+                    <i class="fas fa-arrow-left mr-2"></i>Previous
+                </button>
+                <div class="flex space-x-3">
+                    <button onclick="closeModal()" class="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors">
+                        Cancel
+                    </button>
+                    <button id="nextBtn" onclick="nextStep()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        Next
+                    </button>
+                    <button id="submitBtn" onclick="submitManuscript()" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors" style="display: none;">
+                        <i class="fas fa-paper-plane mr-2"></i>Submit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submission Success Modal -->
+    <div id="successModal" class="modal fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-6 text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-check text-2xl text-green-600"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Submission Successful!</h3>
+            <p class="text-gray-600 mb-6">Your manuscript has been submitted for peer review. You will receive a confirmation email shortly.</p>
+            <div class="flex space-x-3">
+                <button onclick="closeSuccessModal()" class="flex-1 bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors">
+                    Close
+                </button>
+                <button onclick="viewDashboard()" class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                    View Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="text-3xl font-black text-white">CSMR</div>
+                        <div class="w-0.5 h-8 bg-blue-200"></div>
+                        <div class="text-blue-100 font-medium">
+                            <div class="text-sm leading-tight">Centre for Sustainability</div>
+                            <div class="text-sm leading-tight">& Management Research</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Publishing cutting-edge research in sustainability, innovation, and responsible management practices across India and beyond.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="journals.html" class="text-gray-300 hover:text-blue-400 transition-colors">Journals</a></li>
+                        <li><a href="articles.html" class="text-gray-300 hover:text-blue-400 transition-colors">Articles</a></li>
+                        <li><a href="about.html" class="text-gray-300 hover:text-blue-400 transition-colors">About</a></li>
+                        <li><a href="contact.html" class="text-gray-300 hover:text-blue-400 transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Contact Us</h3>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-map-marker-alt mr-2 text-blue-400"></i>123 Research Lane, New Delhi, India
+                    </p>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-envelope mr-2 text-blue-400"></i>info@csmr.org
+                    </p>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-phone mr-2 text-blue-400"></i>+91 98765 43210
+                    </p>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
+                &copy; 2025 CSMR. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 7;
+        let submissionData = {};
+
+        // Check if user is logged in
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Please login to submit a manuscript');
+                window.location.href = 'login.html';
+                return false;
+            }
+            return true;
+        }
+
+        // Start submission process
+        function startSubmission() {
+            if (!checkAuth()) return;
+            document.getElementById('submissionModal').classList.add('active');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('submissionModal').classList.remove('active');
+            resetForm();
+        }
+
+        // Close success modal
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.remove('active');
+        }
+
+        // View dashboard
+        function viewDashboard() {
+            window.location.href = 'dashboard.html';
+        }
+
+        // Next step
+        function nextStep() {
+            if (validateCurrentStep()) {
+                if (currentStep < totalSteps) {
+                    currentStep++;
+                    updateStep();
+                }
+            }
+        }
+
+        // Previous step
+        function previousStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStep();
+            }
+        }
+
+        // Update step display
+        function updateStep() {
+            // Hide all steps
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+
+            // Show current step
+            document.getElementById(`step${currentStep}`).classList.add('active');
+
+            // Update progress bar
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+
+            // Update step info
+            document.getElementById('currentStep').textContent = currentStep;
+            
+            const stepTitles = [
+                'Upload Manuscript',
+                'Article Information',
+                'Author Information',
+                'Cover Letter',
+                'Supplementary Files',
+                'Declarations & Agreements',
+                'Review & Submit'
+            ];
+            document.getElementById('stepTitle').textContent = stepTitles[currentStep - 1];
+
+            // Update buttons
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+
+            prevBtn.style.display = currentStep > 1 ? 'block' : 'none';
+            
+            if (currentStep === totalSteps) {
+                nextBtn.style.display = 'none';
+                submitBtn.style.display = 'block';
+                updateReviewSummary();
+            } else {
+                nextBtn.style.display = 'block';
+                submitBtn.style.display = 'none';
+            }
+        }
+
+        // Validate current step
+        function validateCurrentStep() {
+            switch (currentStep) {
+                case 1:
+                    const file = document.getElementById('manuscriptFile').files[0];
+                    if (!file) {
+                        alert('Please upload your manuscript file');
+                        return false;
+                    }
+                    break;
+                case 2:
+                    const title = document.getElementById('articleTitle').value;
+                    const abstract = document.getElementById('articleAbstract').value;
+                    const type = document.getElementById('articleType').value;
+                    const subject = document.getElementById('subjectArea').value;
+                    
+                    if (!title || !abstract || !type || !subject) {
+                        alert('Please fill in all required fields');
+                        return false;
+                    }
+                    break;
+                case 3:
+                    const authorRows = document.querySelectorAll('#authorsList .author-row');
+                    if (authorRows.length === 0) {
+                        alert('Please add at least one author');
+                        return false;
+                    }
+                    break;
+                case 4:
+                    const coverLetter = document.getElementById('coverLetter').value;
+                    if (!coverLetter.trim()) {
+                        alert('Please provide a cover letter');
+                        return false;
+                    }
+                    break;
+                case 6:
+                    const originality = document.getElementById('originality').checked;
+                    const ethics = document.getElementById('ethics').checked;
+                    const conflict = document.getElementById('conflict').checked;
+                    const copyright = document.getElementById('copyright').checked;
+                    
+                    if (!originality || !ethics || !conflict || !copyright) {
+                        alert('Please accept all declarations');
+                        return false;
+                    }
+                    break;
+                case 7:
+                    const finalAgreement = document.getElementById('finalAgreement').checked;
+                    if (!finalAgreement) {
+                        alert('Please confirm your submission');
+                        return false;
+                    }
+                    break;
+            }
+            return true;
+        }
+
+        // File upload handling
+        document.getElementById('manuscriptFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                showFilePreview(file);
+            }
+        });
+
+        // Drag and drop handling
+        const uploadArea = document.getElementById('fileUploadArea');
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                document.getElementById('manuscriptFile').files = files;
+                showFilePreview(files[0]);
+            }
+        });
+
+        // Show file preview
+        function showFilePreview(file) {
+            document.getElementById('filePreview').classList.remove('hidden');
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('fileSize').textContent = formatFileSize(file.size);
+        }
+
+        // Remove file
+        function removeFile() {
+            document.getElementById('manuscriptFile').value = '';
+            document.getElementById('filePreview').classList.add('hidden');
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Add author
+        function addAuthor() {
+            const authorsList = document.getElementById('authorsList');
+            const authorCount = authorsList.children.length;
+            const authorRow = document.createElement('div');
+            authorRow.className = 'author-row border border-gray-200 rounded-lg p-4';
+            authorRow.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                        <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter full name">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                        <input type="email" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter email">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Affiliation *</label>
+                        <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter affiliation">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">ORCID (Optional)</label>
+                        <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="0000-0000-0000-0000">
+                    </div>
+                </div>
+                <div class="mt-3 flex items-center justify-between">
+                    <label class="flex items-center">
+                        <input type="radio" name="correspondingAuthor" value="${authorCount}" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
+                        <span class="ml-2 text-sm text-gray-700">Corresponding Author</span>
+                    </label>
+                    <button onclick="removeAuthor(this)" class="text-red-600 hover:text-red-800 text-sm">
+                        <i class="fas fa-trash mr-1"></i>Remove
+                    </button>
+                </div>
+            `;
+            authorsList.appendChild(authorRow);
+        }
+
+        // Remove author
+        function removeAuthor(button) {
+            button.closest('.author-row').remove();
+        }
+
+        // Update review summary
+        function updateReviewSummary() {
+            document.getElementById('reviewTitle').textContent = document.getElementById('articleTitle').value;
+            document.getElementById('reviewType').textContent = `Type: ${document.getElementById('articleType').options[document.getElementById('articleType').selectedIndex].text}`;
+            document.getElementById('reviewSubject').textContent = `Subject: ${document.getElementById('subjectArea').options[document.getElementById('subjectArea').selectedIndex].text}`;
+            
+            // Update authors
+            const authorsList = document.getElementById('reviewAuthors');
+            const authorRows = document.querySelectorAll('#authorsList .author-row');
+            authorsList.innerHTML = '';
+            authorRows.forEach((row, index) => {
+                const name = row.querySelector('input[type="text"]').value;
+                const email = row.querySelector('input[type="email"]').value;
+                const isCorresponding = row.querySelector('input[type="radio"]').checked;
+                authorsList.innerHTML += `<p class="text-sm text-gray-600">${name} (${email})${isCorresponding ? ' - Corresponding Author' : ''}</p>`;
+            });
+            
+            // Update files
+            const file = document.getElementById('manuscriptFile').files[0];
+            document.getElementById('reviewFiles').textContent = file ? `Manuscript: ${file.name}` : 'No files uploaded';
+        }
+
+        // Submit manuscript
+        function submitManuscript() {
+            if (!validateCurrentStep()) return;
+            
+            // Simulate submission
+            setTimeout(() => {
+                document.getElementById('submissionModal').classList.remove('active');
+                document.getElementById('successModal').classList.add('active');
+            }, 1000);
+        }
+
+        // Reset form
+        function resetForm() {
+            currentStep = 1;
+            updateStep();
+            document.getElementById('submissionModal').querySelector('form').reset();
+            document.getElementById('filePreview').classList.add('hidden');
+            document.getElementById('supplementaryFilesList').innerHTML = '';
+        }
+
+        // Check if user is logged in and update navbar
+        function updateNavbar() {
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const authSection = document.getElementById('authSectionTop');
+            
+            if (token && user.firstName) {
+                authSection.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <span class="text-gray-600 text-sm">Welcome, ${user.firstName}!</span>
+                        <button onclick="logout()" class="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </button>
+                    </div>
+                `;
+            } else {
+                authSection.innerHTML = `
+                    <a href="login.html" class="hover:text-blue-600">Login / Register</a>
+                `;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            updateNavbar();
+            window.location.href = 'index.html';
+        }
+
+        // Initialize
+        updateNavbar();
+    </script>
+</body>
+</html>
