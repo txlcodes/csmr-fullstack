@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journals - CSMR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .fade-in-up.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .fade-in-left.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .fade-in-right.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .discipline-item {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .discipline-item:hover {
+            background-color: #f8fafc;
+            transform: translateX(5px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Top Header Bar -->
+    <div class="bg-gray-100 text-gray-600 text-sm py-2">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-blue-600"><i class="fas fa-lock mr-1"></i>Institutional Access</a>
+                <a href="#" class="hover:text-blue-600">Learn More</a>
+            </div>
+            <div class="flex space-x-4 items-center">
+                <div id="authSectionTop" class="flex items-center space-x-4">
+                    <a href="login.html" class="hover:text-blue-600">Login / Register</a>
+                </div>
+                <div class="relative">
+                    <select class="bg-transparent border-none text-gray-600 text-sm focus:outline-none">
+                        <option>English</option>
+                        <option>Hindi</option>
+                    </select>
+                    <i class="fas fa-chevron-down absolute right-0 top-1/2 -translate-y-1/2 text-xs pointer-events-none"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="bg-white shadow-sm py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="text-3xl font-black text-blue-900">CSMR</div>
+                <div class="w-0.5 h-8 bg-blue-400"></div>
+                <div class="text-blue-600 font-medium">
+                    <div class="text-sm leading-tight">Centre for Sustainability</div>
+                    <div class="text-sm leading-tight">& Management Research</div>
+                </div>
+            </div>
+            <div class="relative w-full max-w-md hidden md:block">
+                <input type="text" placeholder="Search journals, articles, authors..." class="w-full pl-4 pr-10 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center space-x-6 py-4 overflow-x-auto">
+                <a href="index.html" class="text-gray-600 hover:text-blue-600 font-medium whitespace-nowrap">Home</a>
+                <a href="journals.html" class="text-blue-600 border-b-2 border-blue-600 pb-2 font-medium whitespace-nowrap">Journals</a>
+                <a href="#articles" class="text-gray-600 hover:text-blue-600 font-medium whitespace-nowrap">Articles</a>
+                <a href="#authors" class="text-gray-600 hover:text-blue-600 font-medium flex items-center whitespace-nowrap">
+                    Authors
+                    <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                </a>
+                <a href="#conferences" class="text-gray-600 hover:text-blue-600 font-medium whitespace-nowrap">Conferences</a>
+                <a href="#review" class="text-gray-600 hover:text-blue-600 font-medium whitespace-nowrap">Review System</a>
+                <a href="#about" class="text-gray-600 hover:text-blue-600 font-medium whitespace-nowrap">About</a>
+                <a href="#editorial" class="text-gray-600 hover:text-blue-600 font-medium whitespace-nowrap">Editorial Board</a>
+                <a href="#admin" class="text-gray-600 hover:text-blue-600 font-medium whitespace-nowrap">Admin Panel</a>
+                <a href="#contact" class="text-gray-600 hover:text-blue-600 font-medium whitespace-nowrap">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="bg-gray-50 py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex" aria-label="Breadcrumb">
+                <ol class="flex items-center space-x-2">
+                    <li>
+                        <a href="index.html" class="text-gray-500 hover:text-blue-600">
+                            <i class="fas fa-home"></i>
+                            <span class="sr-only">Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="flex items-center">
+                            <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                            <span class="text-gray-900 font-medium">Journals</span>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg py-16 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-black mb-6 fade-in-up">Browse Our Journals</h1>
+            <p class="text-xl text-blue-100 mb-8 max-w-3xl mx-auto fade-in-up">Explore our comprehensive collection of peer-reviewed journals across multiple academic disciplines</p>
+        </div>
+    </section>
+
+    <!-- Featured Journals -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in-up">
+                <h2 class="text-3xl font-bold text-blue-900 mb-4">Featured Journals</h2>
+                <div class="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card-hover fade-in-left bg-white rounded-xl p-8 shadow-lg border border-blue-100 text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-leaf text-3xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">Journal of Sustainable Management</h3>
+                    <p class="text-gray-600 mb-4">ISSN: 2456-7890</p>
+                    <p class="text-gray-600 mb-6">Focused on sustainable business practices and environmental management policies.</p>
+                    <button class="bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg">
+                        View Journal
+                    </button>
+                </div>
+
+                <div class="card-hover fade-in-up bg-white rounded-xl p-8 shadow-lg border border-blue-100 text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-lightbulb text-3xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">Innovation & Sustainability Review</h3>
+                    <p class="text-gray-600 mb-4">ISSN: 2345-6789</p>
+                    <p class="text-gray-600 mb-6">Examines the intersection of innovation and sustainable development.</p>
+                    <button class="bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg">
+                        View Journal
+                    </button>
+                </div>
+
+                <div class="card-hover fade-in-right bg-white rounded-xl p-8 shadow-lg border border-blue-100 text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-chart-line text-3xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-blue-900 mb-2">Management Studies Quarterly</h3>
+                    <p class="text-gray-600 mb-4">ISSN: 3456-7891</p>
+                    <p class="text-gray-600 mb-6">Covers contemporary management theories and practices in global contexts.</p>
+                    <button class="bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg">
+                        View Journal
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Academic Disciplines -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="text-4xl font-bold text-blue-900 mb-4">Browse by Discipline</h2>
+                <div class="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
+                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Select a discipline to explore journals and research in that field</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Left Column -->
+                <div class="space-y-0">
+                    <div class="discipline-item fade-in-left bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Area Studies</h3>
+                    </div>
+                    <div class="discipline-item fade-in-left bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Arts</h3>
+                    </div>
+                    <div class="discipline-item fade-in-left bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Behavioral Sciences</h3>
+                    </div>
+                    <div class="discipline-item fade-in-left bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Bioscience</h3>
+                    </div>
+                    <div class="discipline-item fade-in-left bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Built Environment</h3>
+                    </div>
+                    <div class="discipline-item fade-in-left bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Communication Studies</h3>
+                    </div>
+                    <div class="discipline-item fade-in-left bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Computer Science</h3>
+                    </div>
+                    <div class="discipline-item fade-in-left bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Earth Sciences</h3>
+                    </div>
+                    <div class="discipline-item fade-in-left bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Economics, Finance, Business & Industry</h3>
+                    </div>
+                    <div class="discipline-item fade-in-left bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Education</h3>
+                    </div>
+                    <div class="discipline-item fade-in-left bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Engineering & Technology</h3>
+                    </div>
+                    <div class="discipline-item fade-in-left bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Environment & Agriculture</h3>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="space-y-0">
+                    <div class="discipline-item fade-in-right bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Global Development</h3>
+                    </div>
+                    <div class="discipline-item fade-in-right bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Health and Social Care</h3>
+                    </div>
+                    <div class="discipline-item fade-in-right bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Humanities</h3>
+                    </div>
+                    <div class="discipline-item fade-in-right bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Information Science</h3>
+                    </div>
+                    <div class="discipline-item fade-in-right bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Language & Literature</h3>
+                    </div>
+                    <div class="discipline-item fade-in-right bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Law</h3>
+                    </div>
+                    <div class="discipline-item fade-in-right bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Mathematics & Statistics</h3>
+                    </div>
+                    <div class="discipline-item fade-in-right bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Medicine, Dentistry, Nursing & Allied Health</h3>
+                    </div>
+                    <div class="discipline-item fade-in-right bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Museum and Heritage Studies</h3>
+                    </div>
+                    <div class="discipline-item fade-in-right bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Physical Sciences</h3>
+                    </div>
+                    <div class="discipline-item fade-in-right bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Politics & International Relations</h3>
+                    </div>
+                    <div class="discipline-item fade-in-right bg-white p-6 border-b border-gray-200 hover:bg-blue-50">
+                        <h3 class="text-lg font-semibold text-blue-900">Social Sciences</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="fade-in-up">
+                <h2 class="text-3xl font-bold text-blue-900 mb-6">Ready to Submit Your Research?</h2>
+                <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">Join our community of researchers and contribute to advancing knowledge in your field</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="bg-blue-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        Submit Your Manuscript
+                    </button>
+                    <button class="border-2 border-blue-600 text-blue-600 px-8 py-4 rounded-full font-semibold hover:bg-blue-50 transition-all duration-300">
+                        <i class="fas fa-book mr-2"></i>
+                        Browse All Articles
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="text-3xl font-black text-white">CSMR</div>
+                        <div class="w-0.5 h-8 bg-blue-200"></div>
+                        <div class="text-blue-100 font-medium">
+                            <div class="text-sm leading-tight">Centre for Sustainability</div>
+                            <div class="text-sm leading-tight">& Management Research</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Publishing cutting-edge research in sustainability, innovation, and responsible management practices across India and beyond.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                            <i class="fab fa-facebook-f text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                            <i class="fab fa-twitter text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                            <i class="fab fa-linkedin-in text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                            <i class="fab fa-instagram text-white"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="journals.html" class="text-gray-300 hover:text-blue-400 transition-colors">Journals</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-blue-400 transition-colors">Submit Paper</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-blue-400 transition-colors">For Authors</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-blue-400 transition-colors">Conferences</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-blue-400 transition-colors">About Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Contact Us</h3>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-map-marker-alt mr-2 text-blue-400"></i>123 Research Lane, New Delhi, India
+                    </p>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-envelope mr-2 text-blue-400"></i>info@csmr.org
+                    </p>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-phone mr-2 text-blue-400"></i>+91 98765 43210
+                    </p>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
+                &copy; 2025 CSMR. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Check if user is logged in and update navbar
+        function updateNavbar() {
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const authSection = document.getElementById('authSectionTop');
+            
+            if (token && user.firstName) {
+                // User is logged in - show name and logout
+                authSection.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <span class="text-gray-600 text-sm">Welcome, ${user.firstName}!</span>
+                        <button onclick="logout()" class="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </button>
+                    </div>
+                `;
+            } else {
+                // User not logged in - show login button
+                authSection.innerHTML = `
+                    <a href="login.html" class="hover:text-blue-600">Login / Register</a>
+                `;
+            }
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            updateNavbar();
+            window.location.href = 'index.html';
+        }
+
+        // Update navbar on page load
+        updateNavbar();
+
+        // Scroll animation observer
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        // Observe all animated elements
+        const animatedElements = document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .card-hover, .discipline-item');
+        animatedElements.forEach(element => {
+            scrollObserver.observe(element);
+        });
+
+        // Add click handlers for discipline items
+        document.querySelectorAll('.discipline-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const discipline = this.querySelector('h3').textContent;
+                alert(`Coming soon: ${discipline} journals will be available here!`);
+            });
+        });
+    </script>
+</body>
+</html>
