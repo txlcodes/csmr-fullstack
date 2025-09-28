@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles - CSMR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
+        }
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+        .fade-in-up.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Top Header Bar -->
+    <div class="bg-gray-100 text-gray-600 text-sm py-2">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-blue-600"><i class="fas fa-lock mr-1"></i>Institutional Access</a>
+                <a href="#" class="hover:text-blue-600">Learn More</a>
+            </div>
+            <div class="flex space-x-4 items-center">
+                <div id="authSectionTop" class="flex items-center space-x-4">
+                    <a href="login.html" class="hover:text-blue-600">Login / Register</a>
+                </div>
+                <div class="relative">
+                    <select class="bg-transparent border-none text-gray-600 text-sm focus:outline-none">
+                        <option>English</option>
+                        <option>Hindi</option>
+                    </select>
+                    <i class="fas fa-chevron-down absolute right-0 top-1/2 -translate-y-1/2 text-xs pointer-events-none"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="bg-white shadow-sm py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="text-3xl font-black text-blue-900">CSMR</div>
+                <div class="w-0.5 h-8 bg-blue-400"></div>
+                <div class="text-blue-600 font-medium">
+                    <div class="text-sm leading-tight">Centre for Sustainability</div>
+                    <div class="text-sm leading-tight">& Management Research</div>
+                </div>
+            </div>
+            <div class="relative w-full max-w-md hidden md:block">
+                <input type="text" placeholder="Search journals, articles, authors..." class="w-full pl-4 pr-10 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center space-x-8 py-4">
+                <a href="index.html" class="text-gray-600 hover:text-blue-600 font-medium">Home</a>
+                <a href="journals.html" class="text-gray-600 hover:text-blue-600 font-medium">Journals</a>
+                <a href="articles.html" class="text-blue-600 border-b-2 border-blue-600 pb-2 font-medium">Articles</a>
+                <a href="about.html" class="text-gray-600 hover:text-blue-600 font-medium">About</a>
+                <a href="admin.html" class="text-gray-600 hover:text-blue-600 font-medium">Admin Panel</a>
+                <a href="contact.html" class="text-gray-600 hover:text-blue-600 font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Coming Soon Section -->
+    <section class="gradient-bg py-32 text-white text-center">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="fade-in-up">
+                <i class="fas fa-newspaper text-8xl mb-8 text-blue-200"></i>
+                <h1 class="text-5xl md:text-6xl font-black mb-6">Articles</h1>
+                <p class="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
+                    Comprehensive collection of research articles and publications
+                </p>
+                <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-8 max-w-2xl mx-auto">
+                    <h2 class="text-3xl font-bold mb-4">Coming Soon</h2>
+                    <p class="text-lg text-blue-100 mb-6">
+                        We're working hard to bring you a comprehensive articles section with advanced search, filtering, and browsing capabilities.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="journals.html" class="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-blue-50 transition-all duration-300">
+                            <i class="fas fa-book mr-2"></i>
+                            Browse Journals
+                        </a>
+                        <a href="index.html" class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition-all duration-300">
+                            <i class="fas fa-home mr-2"></i>
+                            Back to Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="text-3xl font-black text-white">CSMR</div>
+                        <div class="w-0.5 h-8 bg-blue-200"></div>
+                        <div class="text-blue-100 font-medium">
+                            <div class="text-sm leading-tight">Centre for Sustainability</div>
+                            <div class="text-sm leading-tight">& Management Research</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Publishing cutting-edge research in sustainability, innovation, and responsible management practices across India and beyond.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="journals.html" class="text-gray-300 hover:text-blue-400 transition-colors">Journals</a></li>
+                        <li><a href="articles.html" class="text-gray-300 hover:text-blue-400 transition-colors">Articles</a></li>
+                        <li><a href="about.html" class="text-gray-300 hover:text-blue-400 transition-colors">About</a></li>
+                        <li><a href="contact.html" class="text-gray-300 hover:text-blue-400 transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Contact Us</h3>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-map-marker-alt mr-2 text-blue-400"></i>123 Research Lane, New Delhi, India
+                    </p>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-envelope mr-2 text-blue-400"></i>info@csmr.org
+                    </p>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-phone mr-2 text-blue-400"></i>+91 98765 43210
+                    </p>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
+                &copy; 2025 CSMR. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Check if user is logged in and update navbar
+        function updateNavbar() {
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const authSection = document.getElementById('authSectionTop');
+            
+            if (token && user.firstName) {
+                authSection.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <span class="text-gray-600 text-sm">Welcome, ${user.firstName}!</span>
+                        <button onclick="logout()" class="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </button>
+                    </div>
+                `;
+            } else {
+                authSection.innerHTML = `
+                    <a href="login.html" class="hover:text-blue-600">Login / Register</a>
+                `;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            updateNavbar();
+            window.location.href = 'index.html';
+        }
+
+        updateNavbar();
+
+        // Scroll animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
