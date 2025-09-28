@@ -608,6 +608,10 @@
             const file = e.target.files[0];
             if (file) {
                 showFilePreview(file);
+                // Automatically go to next step after file selection
+                setTimeout(() => {
+                    nextStep();
+                }, 500);
             }
         });
 
@@ -630,6 +634,10 @@
             if (files.length > 0) {
                 document.getElementById('manuscriptFile').files = files;
                 showFilePreview(files[0]);
+                // Automatically go to next step after file drop
+                setTimeout(() => {
+                    nextStep();
+                }, 500);
             }
         });
 
