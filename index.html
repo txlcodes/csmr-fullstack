@@ -1,0 +1,564 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSMR - Centre for Sustainability & Management Research</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { 
+            font-family: 'Inter', system-ui, sans-serif; 
+            overflow-x: hidden;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .text-animate {
+            animation: textSlideUp 1.2s ease-out forwards;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        .text-animate:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+        
+        .text-animate:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+        
+        .text-animate:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes textSlideUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(50px) scale(0.9); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-effect">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="text-3xl font-black text-white">CSMR</div>
+                        <div class="w-0.5 h-8 bg-blue-200"></div>
+                        <div class="text-blue-100 font-medium">
+                            <div class="text-sm leading-tight">Centre for Sustainability</div>
+                            <div class="text-sm leading-tight">& Management Research</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-white hover:text-blue-200 transition-colors font-medium">Home</a>
+                    <a href="#papers" class="text-white hover:text-blue-200 transition-colors font-medium">Papers</a>
+                    <a href="#about" class="text-white hover:text-blue-200 transition-colors font-medium">About</a>
+                    <a href="#contact" class="text-white hover:text-blue-200 transition-colors font-medium">Contact</a>
+                    <div id="authSection">
+                        <a href="login.html" class="bg-white text-blue-600 px-6 py-2 rounded-full font-semibold hover:bg-blue-50 transition-all duration-300 shadow-lg">
+                            <i class="fas fa-user mr-2"></i>Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="gradient-bg min-h-screen flex items-center relative overflow-hidden pt-32">
+        <!-- Animated Background Elements -->
+        <div class="absolute inset-0">
+            <div class="floating absolute top-20 left-10 w-20 h-20 bg-white bg-opacity-10 rounded-full"></div>
+            <div class="floating absolute top-40 right-20 w-16 h-16 bg-white bg-opacity-10 rounded-full" style="animation-delay: 1s;"></div>
+            <div class="floating absolute bottom-20 left-1/4 w-12 h-12 bg-white bg-opacity-10 rounded-full" style="animation-delay: 2s;"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <div class="fade-in">
+                <h1 class="text-5xl md:text-7xl font-black mb-8 leading-tight">
+                    <span class="text-white text-animate">Centre for</span><br>
+                    <span class="text-gray-200 text-animate">Sustainability & Management</span><br>
+                    <span class="text-gray-200 text-animate">Research</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-white text-opacity-90 mb-12 max-w-4xl mx-auto leading-relaxed text-animate" style="animation-delay: 0.8s;">
+                    Publishing cutting-edge research in sustainability, innovation, and responsible management practices across India and beyond.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-6 justify-center mb-16 text-animate" style="animation-delay: 1s;">
+                    <button class="group bg-white text-blue-600 hover:bg-gray-50 font-bold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-2xl flex items-center justify-center space-x-3">
+                        <i class="fas fa-book-open text-xl"></i>
+                        <span>Browse Papers</span>
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                    <button class="group border-2 border-white text-white hover:bg-white hover:text-blue-600 font-bold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-2xl flex items-center justify-center space-x-3">
+                        <i class="fas fa-paper-plane text-xl"></i>
+                        <span>Submit Research</span>
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </div>
+                
+                <!-- Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+                    <div class="text-center">
+                        <div class="text-4xl font-black text-white mb-2">500+</div>
+                        <div class="text-white text-opacity-80">Published Papers</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-black text-white mb-2">2.5K+</div>
+                        <div class="text-white text-opacity-80">Researchers</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-black text-white mb-2">45+</div>
+                        <div class="text-white text-opacity-80">Countries</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-black text-white mb-2">98%</div>
+                        <div class="text-white text-opacity-80">Success Rate</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Papers Section -->
+    <section id="papers" class="py-20 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-6">
+                    Featured Research Papers
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Discover groundbreaking research that's shaping the future of sustainability and management
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Paper 1 -->
+                <div class="card-hover bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="px-4 py-2 bg-blue-100 text-blue-800 text-sm font-bold rounded-full">
+                            Journal of Sustainable Management
+                        </span>
+                        <div class="flex items-center space-x-1 text-blue-500">
+                            <i class="fas fa-star text-sm"></i>
+                            <span class="text-sm font-bold">4.8</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 leading-tight">
+                        Green Innovation in Supply Chain Management: A Systematic Review
+                    </h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        This comprehensive study examines the integration of sustainable practices in modern supply chain operations, analyzing 150+ case studies from global organizations.
+                    </p>
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-user text-blue-500"></i>
+                            <span class="text-sm text-gray-600">Dr. Sarah Johnson, Prof. Michael Chen</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-calendar text-blue-500"></i>
+                            <span class="text-sm text-gray-600">December 2024</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-eye text-blue-500"></i>
+                            <span class="text-sm text-gray-600">1,250 views</span>
+                        </div>
+                    </div>
+                    <button class="w-full bg-gradient-to-r from-blue-600 to-blue-800 text-white py-3 px-6 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-900 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        <i class="fas fa-book-open mr-2"></i>Read Paper
+                    </button>
+                </div>
+
+                <!-- Paper 2 -->
+                <div class="card-hover bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="px-4 py-2 bg-blue-100 text-blue-800 text-sm font-bold rounded-full">
+                            Healthcare Innovation Review
+                        </span>
+                        <div class="flex items-center space-x-1 text-blue-500">
+                            <i class="fas fa-star text-sm"></i>
+                            <span class="text-sm font-bold">4.6</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 leading-tight">
+                        Digital Transformation in Healthcare: A Multi-Country Analysis
+                    </h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        An in-depth analysis of digital transformation initiatives across healthcare systems in 12 countries, identifying key success factors and implementation challenges.
+                    </p>
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-user text-blue-500"></i>
+                            <span class="text-sm text-gray-600">Dr. Rajesh Kumar, Dr. Emily Watson</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-calendar text-blue-500"></i>
+                            <span class="text-sm text-gray-600">November 2024</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-eye text-blue-500"></i>
+                            <span class="text-sm text-gray-600">980 views</span>
+                        </div>
+                    </div>
+                    <button class="w-full bg-gradient-to-r from-blue-600 to-blue-800 text-white py-3 px-6 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-900 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        <i class="fas fa-book-open mr-2"></i>Read Paper
+                    </button>
+                </div>
+
+                <!-- Paper 3 -->
+                <div class="card-hover bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="px-4 py-2 bg-blue-100 text-blue-800 text-sm font-bold rounded-full">
+                            Environmental Business Review
+                        </span>
+                        <div class="flex items-center space-x-1 text-blue-500">
+                            <i class="fas fa-star text-sm"></i>
+                            <span class="text-sm font-bold">4.7</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 leading-tight">
+                        Climate Change Adaptation Strategies for Small Businesses
+                    </h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        This research explores practical adaptation strategies that small businesses can implement to build resilience against climate change impacts.
+                    </p>
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-user text-blue-500"></i>
+                            <span class="text-sm text-gray-600">Dr. Maria Rodriguez, Prof. James Wilson</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-calendar text-blue-500"></i>
+                            <span class="text-sm text-gray-600">October 2024</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-eye text-blue-500"></i>
+                            <span class="text-sm text-gray-600">1,100 views</span>
+                        </div>
+                    </div>
+                    <button class="w-full bg-gradient-to-r from-blue-600 to-blue-800 text-white py-3 px-6 rounded-xl font-semibold hover:from-blue-700 hover:to-blue-900 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        <i class="fas fa-book-open mr-2"></i>Read Paper
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-6">
+                    Why Choose CSMR?
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    We provide the tools and platform for researchers to make a real impact
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center group">
+                    <div class="w-20 h-20 bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-award text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Peer Reviewed</h3>
+                    <p class="text-gray-600">Rigorous peer review process ensures highest quality research</p>
+                </div>
+                
+                <div class="text-center group">
+                    <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-globe text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Open Access</h3>
+                    <p class="text-gray-600">All research freely accessible to global community</p>
+                </div>
+                
+                <div class="text-center group">
+                    <div class="w-20 h-20 bg-gradient-to-r from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-users text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Global Community</h3>
+                    <p class="text-gray-600">Connect with researchers from 45+ countries worldwide</p>
+                </div>
+                
+                <div class="text-center group">
+                    <div class="w-20 h-20 bg-gradient-to-r from-blue-700 to-blue-900 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-rocket text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Fast Publishing</h3>
+                    <p class="text-gray-600">Quick turnaround times for manuscript review and publication</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Impact & Reach -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-blue-900 mb-4">Our Impact & Reach</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-blue-700 mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="impact-card bg-white rounded-xl p-8 shadow-lg border border-blue-100 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    <div class="border-l-4 border-blue-600 pl-6">
+                        <div class="text-5xl font-black text-blue-600 mb-2 counter" data-target="150">0</div>
+                        <div class="text-gray-600 font-medium">RESEARCHERS PUBLISHED</div>
+                    </div>
+                </div>
+                
+                <div class="impact-card bg-white rounded-xl p-8 shadow-lg border border-blue-100 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    <div class="border-l-4 border-blue-600 pl-6">
+                        <div class="text-5xl font-black text-blue-600 mb-2 counter" data-target="85">0</div>
+                        <div class="text-gray-600 font-medium">COUNTRIES REACHED</div>
+                    </div>
+                </div>
+                
+                <div class="impact-card bg-white rounded-xl p-8 shadow-lg border border-blue-100 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    <div class="border-l-4 border-blue-600 pl-6">
+                        <div class="text-5xl font-black text-blue-600 mb-2 counter" data-target="450">0</div>
+                        <div class="text-gray-600 font-medium">PEER-REVIEWED ARTICLES</div>
+                    </div>
+                </div>
+                
+                <div class="impact-card bg-white rounded-xl p-8 shadow-lg border border-blue-100 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    <div class="border-l-4 border-blue-600 pl-6">
+                        <div class="text-5xl font-black text-blue-600 mb-2 counter" data-target="25">0</div>
+                        <div class="text-gray-600 font-medium">INSTITUTIONAL PARTNERSHIPS</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 gradient-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl md:text-5xl font-black text-white mb-6">
+                Ready to Make an Impact?
+            </h2>
+            <p class="text-xl text-white text-opacity-90 mb-12 max-w-3xl mx-auto">
+                Join thousands of researchers who trust CSMR for publishing their groundbreaking work
+            </p>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <button class="group bg-white text-blue-600 hover:bg-gray-50 font-bold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-2xl flex items-center justify-center space-x-3">
+                    <i class="fas fa-paper-plane text-xl"></i>
+                    <span>Submit Your Paper</span>
+                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </button>
+                <button class="group border-2 border-white text-white hover:bg-white hover:text-blue-600 font-bold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-2xl flex items-center justify-center space-x-3">
+                    <i class="fas fa-envelope text-xl"></i>
+                    <span>Get Updates</span>
+                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="text-3xl font-black text-white">CSMR</div>
+                        <div class="w-0.5 h-8 bg-blue-200"></div>
+                        <div class="text-blue-100 font-medium">
+                            <div class="text-sm leading-tight">Centre for Sustainability</div>
+                            <div class="text-sm leading-tight">& Management Research</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Publishing cutting-edge research in sustainability, innovation, and responsible management practices across India and beyond.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Browse Papers</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Submit Paper</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Editorial Board</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Resources</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Guidelines</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Review Process</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Ethics Policy</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-gray-400">
+                     2024 Centre for Sustainability & Management Research. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.classList.add('bg-opacity-95');
+            } else {
+                nav.classList.remove('bg-opacity-95');
+            }
+        });
+
+        // Counter animation for impact numbers
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter');
+            const speed = 200; // Animation speed
+
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const increment = target / speed;
+                let current = 0;
+
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        counter.textContent = Math.ceil(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+
+                updateCounter();
+            });
+        }
+
+        // Intersection Observer for counter animation
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe the impact section
+        const impactSection = document.querySelector('.impact-card');
+        if (impactSection) {
+            observer.observe(impactSection);
+        }
+
+        // Check if user is logged in and update navbar
+        function updateNavbar() {
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const authSection = document.getElementById('authSection');
+            
+            if (token && user.firstName) {
+                // User is logged in - show name and logout
+                authSection.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <span class="text-white text-sm">Welcome, ${user.firstName}!</span>
+                        <button onclick="logout()" class="bg-white text-blue-600 px-6 py-2 rounded-full font-semibold hover:bg-blue-50 transition-all duration-300 shadow-lg">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </button>
+                    </div>
+                `;
+            } else {
+                // User not logged in - show login button
+                authSection.innerHTML = `
+                    <a href="login.html" class="bg-white text-blue-600 px-6 py-2 rounded-full font-semibold hover:bg-blue-50 transition-all duration-300 shadow-lg">
+                        <i class="fas fa-user mr-2"></i>Login
+                    </a>
+                `;
+            }
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            updateNavbar();
+            // Optionally redirect to homepage
+            window.location.href = 'index.html';
+        }
+
+        // Update navbar on page load
+        updateNavbar();
+    </script>
+</body>
+</html>
