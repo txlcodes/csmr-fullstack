@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - CSMR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/recharts@2.8.0/dist/Recharts.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
+        }
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        .sidebar.collapsed {
+            width: 80px;
+        }
+        .sidebar.collapsed .sidebar-text {
+            display: none;
+        }
+        .main-content {
+            transition: all 0.3s ease;
+        }
+        .main-content.expanded {
+            margin-left: 80px;
+        }
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar fixed left-0 top-0 h-full w-64 bg-white shadow-lg z-30">
+        <!-- Logo -->
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex items-center space-x-3">
+                <div class="text-2xl font-black text-blue-900">CSMR</div>
+                <div class="w-0.5 h-6 bg-blue-400"></div>
+                <div class="text-blue-600 font-medium sidebar-text">
+                    <div class="text-xs leading-tight">Admin Panel</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="mt-6">
+            <div class="px-4 space-y-2">
+                <a href="#" onclick="showPage('dashboard')" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
+                    <i class="fas fa-tachometer-alt w-5"></i>
+                    <span class="sidebar-text ml-3 font-medium">Dashboard</span>
+                </a>
+                <a href="#" onclick="showPage('submissions')" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
+                    <i class="fas fa-file-alt w-5"></i>
+                    <span class="sidebar-text ml-3 font-medium">New Submissions</span>
+                    <span class="sidebar-text ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">12</span>
+                </a>
+                <a href="#" onclick="showPage('editors')" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
+                    <i class="fas fa-user-tie w-5"></i>
+                    <span class="sidebar-text ml-3 font-medium">Assign Editors</span>
+                </a>
+                <a href="#" onclick="showPage('reviewers')" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
+                    <i class="fas fa-user-graduate w-5"></i>
+                    <span class="sidebar-text ml-3 font-medium">Assign Reviewers</span>
+                </a>
+                <a href="#" onclick="showPage('decisions')" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
+                    <i class="fas fa-check-circle w-5"></i>
+                    <span class="sidebar-text ml-3 font-medium">Decisions</span>
+                </a>
+                <a href="#" onclick="showPage('analytics')" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
+                    <i class="fas fa-chart-bar w-5"></i>
+                    <span class="sidebar-text ml-3 font-medium">Analytics & Reports</span>
+                </a>
+                <a href="#" onclick="showPage('settings')" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
+                    <i class="fas fa-cog w-5"></i>
+                    <span class="sidebar-text ml-3 font-medium">Settings</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Collapse Button -->
+        <div class="absolute bottom-4 left-4">
+            <button onclick="toggleSidebar()" class="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="main-content ml-64 min-h-screen">
+        <!-- Top Navigation -->
+        <header class="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <h1 id="pageTitle" class="text-2xl font-bold text-gray-900">Dashboard</h1>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Search -->
+                    <div class="relative">
+                        <input type="text" placeholder="Search..." class="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    
+                    <!-- Notifications -->
+                    <button class="relative p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
+                        <i class="fas fa-bell"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                    </button>
+                    
+                    <!-- Admin Profile Dropdown -->
+                    <div class="relative">
+                        <button onclick="toggleProfileDropdown()" class="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg">
+                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
+                                A
+                            </div>
+                            <div class="text-left">
+                                <div class="text-sm font-medium text-gray-900">Admin User</div>
+                                <div class="text-xs text-gray-500">admin123@gmail.com</div>
+                            </div>
+                            <i class="fas fa-chevron-down text-gray-400"></i>
+                        </button>
+                        
+                        <!-- Dropdown Menu -->
+                        <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                <i class="fas fa-user mr-2"></i>Profile
+                            </a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                <i class="fas fa-cog mr-2"></i>Settings
+                            </a>
+                            <hr class="my-2">
+                            <a href="#" onclick="logout()" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="p-6">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page active">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="card-hover bg-white p-6 rounded-xl shadow-lg border border-blue-100">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-600">New Submissions</p>
+                                <p class="text-3xl font-bold text-blue-600">12</p>
+                            </div>
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-file-alt text-2xl text-blue-600"></i>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2">+3 from last week</p>
+                    </div>
+
+                    <div class="card-hover bg-white p-6 rounded-xl shadow-lg border border-green-100">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-600">Under Review</p>
+                                <p class="text-3xl font-bold text-green-600">28</p>
+                            </div>
+                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-search text-2xl text-green-600"></i>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2">+5 from last week</p>
+                    </div>
+
+                    <div class="card-hover bg-white p-6 rounded-xl shadow-lg border border-yellow-100">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-600">Accepted</p>
+                                <p class="text-3xl font-bold text-yellow-600">45</p>
+                            </div>
+                            <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-check-circle text-2xl text-yellow-600"></i>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2">+8 from last week</p>
+                    </div>
+
+                    <div class="card-hover bg-white p-6 rounded-xl shadow-lg border border-red-100">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-600">Rejected</p>
+                                <p class="text-3xl font-bold text-red-600">18</p>
+                            </div>
+                            <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-times-circle text-2xl text-red-600"></i>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2">+2 from last week</p>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Submissions</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <div>
+                                    <p class="font-medium text-gray-900">Sustainable Supply Chain Management</p>
+                                    <p class="text-sm text-gray-500">Dr. Rajesh Kumar • 2 hours ago</p>
+                                </div>
+                                <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-semibold rounded-full">New</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <div>
+                                    <p class="font-medium text-gray-900">ESG Reporting Impact Analysis</p>
+                                    <p class="text-sm text-gray-500">Dr. Priya Sharma • 4 hours ago</p>
+                                </div>
+                                <span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full">Under Review</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <div>
+                                    <p class="font-medium text-gray-900">Climate Change Adaptation Strategies</p>
+                                    <p class="text-sm text-gray-500">Dr. Vikram Singh • 6 hours ago</p>
+                                </div>
+                                <span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">Accepted</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <button onclick="showPage('submissions')" class="p-4 bg-blue-50 hover:bg-blue-100 rounded-lg text-center transition-colors">
+                                <i class="fas fa-file-alt text-2xl text-blue-600 mb-2"></i>
+                                <p class="text-sm font-medium text-blue-900">Review Submissions</p>
+                            </button>
+                            <button onclick="showPage('editors')" class="p-4 bg-green-50 hover:bg-green-100 rounded-lg text-center transition-colors">
+                                <i class="fas fa-user-tie text-2xl text-green-600 mb-2"></i>
+                                <p class="text-sm font-medium text-green-900">Assign Editors</p>
+                            </button>
+                            <button onclick="showPage('reviewers')" class="p-4 bg-yellow-50 hover:bg-yellow-100 rounded-lg text-center transition-colors">
+                                <i class="fas fa-user-graduate text-2xl text-yellow-600 mb-2"></i>
+                                <p class="text-sm font-medium text-yellow-900">Assign Reviewers</p>
+                            </button>
+                            <button onclick="showPage('analytics')" class="p-4 bg-purple-50 hover:bg-purple-100 rounded-lg text-center transition-colors">
+                                <i class="fas fa-chart-bar text-2xl text-purple-600 mb-2"></i>
+                                <p class="text-sm font-medium text-purple-900">View Analytics</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Submissions Page -->
+            <div id="submissions" class="page">
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900">New Submissions</h3>
+                        <p class="text-sm text-gray-500">Manage and review new paper submissions</p>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Author(s)</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Sustainable Supply Chain Management in Indian Manufacturing</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Dr. Rajesh Kumar, Dr. Priya Sharma</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">2025-01-15</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">New</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-blue-600 hover:text-blue-900 mr-3">Assign Editor</button>
+                                        <button class="text-red-600 hover:text-red-900">Desk Reject</button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">ESG Reporting Impact on Financial Performance</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Dr. Vikram Singh, Dr. Anita Desai</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">2025-01-14</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Under Review</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-blue-600 hover:text-blue-900 mr-3">View Details</button>
+                                        <button class="text-green-600 hover:text-green-900">Track Progress</button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Climate Change Adaptation Strategies for Business</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Dr. Meena Patel, Dr. Rahul Verma</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">2025-01-13</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Accepted</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-blue-600 hover:text-blue-900 mr-3">View Details</button>
+                                        <button class="text-purple-600 hover:text-purple-900">Publish</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assign Editors Page -->
+            <div id="editors" class="page">
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-6">Assign Editors</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="flex items-center justify-between mb-3">
+                                <h4 class="font-medium text-gray-900">Dr. Sarah Johnson</h4>
+                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">Available</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">Sustainability & Management</p>
+                            <p class="text-xs text-gray-500 mb-3">Workload: 3 papers</p>
+                            <button class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                                Assign Editor
+                            </button>
+                        </div>
+
+                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="flex items-center justify-between mb-3">
+                                <h4 class="font-medium text-gray-900">Dr. Michael Chen</h4>
+                                <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full">Busy</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">Innovation & Technology</p>
+                            <p class="text-xs text-gray-500 mb-3">Workload: 7 papers</p>
+                            <button class="w-full bg-gray-300 text-gray-500 py-2 px-4 rounded-lg cursor-not-allowed" disabled>
+                                Assign Editor
+                            </button>
+                        </div>
+
+                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="flex items-center justify-between mb-3">
+                                <h4 class="font-medium text-gray-900">Dr. Emily Rodriguez</h4>
+                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">Available</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">Environmental Studies</p>
+                            <p class="text-xs text-gray-500 mb-3">Workload: 2 papers</p>
+                            <button class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                                Assign Editor
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assign Reviewers Page -->
+            <div id="reviewers" class="page">
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900">Assign Reviewers</h3>
+                        <div class="relative">
+                            <input type="text" placeholder="Search reviewers..." class="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="flex items-center justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-medium text-gray-900">Dr. James Wilson</h4>
+                                    <p class="text-sm text-gray-600">Professor of Sustainable Management</p>
+                                    <div class="flex flex-wrap gap-2 mt-2">
+                                        <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">Sustainability</span>
+                                        <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Management</span>
+                                        <span class="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">ESG</span>
+                                    </div>
+                                </div>
+                                <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                                    Invite
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="flex items-center justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-medium text-gray-900">Dr. Lisa Thompson</h4>
+                                    <p class="text-sm text-gray-600">Research Director, Innovation Lab</p>
+                                    <div class="flex flex-wrap gap-2 mt-2">
+                                        <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">Innovation</span>
+                                        <span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">Technology</span>
+                                        <span class="px-2 py-1 bg-indigo-100 text-indigo-800 text-xs rounded-full">Research</span>
+                                    </div>
+                                </div>
+                                <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                                    Invite
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="flex items-center justify-between">
+                                <div class="flex-1">
+                                    <h4 class="font-medium text-gray-900">Dr. Robert Kim</h4>
+                                    <p class="text-sm text-gray-600">Environmental Policy Expert</p>
+                                    <div class="flex flex-wrap gap-2 mt-2">
+                                        <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Environment</span>
+                                        <span class="px-2 py-1 bg-teal-100 text-teal-800 text-xs rounded-full">Policy</span>
+                                        <span class="px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded-full">Climate</span>
+                                    </div>
+                                </div>
+                                <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                                    Invite
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Decisions Page -->
+            <div id="decisions" class="page">
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-6">Editorial Decisions</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <h4 class="font-medium text-gray-900">Sustainable Supply Chain Management in Indian Manufacturing</h4>
+                                <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full">Reviews Complete</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Dr. Rajesh Kumar, Dr. Priya Sharma • Submitted: 2025-01-15</p>
+                            <div class="flex space-x-3">
+                                <button class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors">
+                                    Accept
+                                </button>
+                                <button class="bg-yellow-600 text-white py-2 px-4 rounded-lg hover:bg-yellow-700 transition-colors">
+                                    Minor Revision
+                                </button>
+                                <button class="bg-orange-600 text-white py-2 px-4 rounded-lg hover:bg-orange-700 transition-colors">
+                                    Major Revision
+                                </button>
+                                <button class="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors">
+                                    Reject
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="border border-gray-200 rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <h4 class="font-medium text-gray-900">ESG Reporting Impact on Financial Performance</h4>
+                                <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full">Reviews Complete</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-3">Dr. Vikram Singh, Dr. Anita Desai • Submitted: 2025-01-14</p>
+                            <div class="flex space-x-3">
+                                <button class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors">
+                                    Accept
+                                </button>
+                                <button class="bg-yellow-600 text-white py-2 px-4 rounded-lg hover:bg-yellow-700 transition-colors">
+                                    Minor Revision
+                                </button>
+                                <button class="bg-orange-600 text-white py-2 px-4 rounded-lg hover:bg-orange-700 transition-colors">
+                                    Major Revision
+                                </button>
+                                <button class="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors">
+                                    Reject
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Page -->
+            <div id="analytics" class="page">
+                <div class="space-y-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Submissions per Month</h3>
+                            <div id="submissionsChart" class="h-64"></div>
+                        </div>
+                        
+                        <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Acceptance Rate</h3>
+                            <div id="acceptanceChart" class="h-64"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Average Review Time</h3>
+                        <div id="reviewTimeChart" class="h-64"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div id="settings" class="page">
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-6">System Settings</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Journal Name</label>
+                            <input type="text" value="CSMR - Centre for Sustainability & Management Research" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Review Deadline (days)</label>
+                            <input type="number" value="30" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email Notifications</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="checkbox" checked class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <span class="ml-2 text-sm text-gray-700">New submissions</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" checked class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <span class="ml-2 text-sm text-gray-700">Review completions</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <span class="ml-2 text-sm text-gray-700">Weekly reports</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-end">
+                            <button class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors">
+                                Save Settings
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check admin authentication
+        function checkAdminAuth() {
+            const adminToken = localStorage.getItem('adminToken');
+            if (!adminToken) {
+                window.location.href = 'admin-login.html';
+                return;
+            }
+        }
+
+        // Page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update page title
+            const titles = {
+                'dashboard': 'Dashboard',
+                'submissions': 'New Submissions',
+                'editors': 'Assign Editors',
+                'reviewers': 'Assign Reviewers',
+                'decisions': 'Editorial Decisions',
+                'analytics': 'Analytics & Reports',
+                'settings': 'Settings'
+            };
+            document.getElementById('pageTitle').textContent = titles[pageId];
+            
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('bg-blue-50', 'text-blue-600');
+                item.classList.add('text-gray-700');
+            });
+            
+            event.target.closest('.nav-item').classList.add('bg-blue-50', 'text-blue-600');
+            event.target.closest('.nav-item').classList.remove('text-gray-700');
+        }
+
+        // Toggle sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+        }
+
+        // Toggle profile dropdown
+        function toggleProfileDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('adminToken');
+            localStorage.removeItem('adminUser');
+            window.location.href = 'admin-login.html';
+        }
+
+        // Initialize charts (simplified for demo)
+        function initCharts() {
+            // This would normally use Recharts or Chart.js
+            // For now, we'll just show placeholder content
+            document.getElementById('submissionsChart').innerHTML = '<div class="flex items-center justify-center h-full text-gray-500">Chart will be rendered here</div>';
+            document.getElementById('acceptanceChart').innerHTML = '<div class="flex items-center justify-center h-full text-gray-500">Chart will be rendered here</div>';
+            document.getElementById('reviewTimeChart').innerHTML = '<div class="flex items-center justify-center h-full text-gray-500">Chart will be rendered here</div>';
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('profileDropdown');
+            const button = event.target.closest('button');
+            
+            if (!button || !button.onclick || button.onclick.toString().indexOf('toggleProfileDropdown') === -1) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        // Initialize
+        checkAdminAuth();
+        initCharts();
+    </script>
+</body>
+</html>
