@@ -3,3 +3,6 @@ users.db
 .env
 .DS_Store
 *.log
+.next/
+dist/
+build/
