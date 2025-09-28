@@ -540,6 +540,11 @@
                 nextBtn.style.display = 'none';
                 submitBtn.style.display = 'block';
                 updateReviewSummary();
+            } else if (currentStep === 1) {
+                // For step 1, only show Next button if file is uploaded
+                const file = document.getElementById('manuscriptFile').files[0];
+                nextBtn.style.display = file ? 'block' : 'none';
+                submitBtn.style.display = 'none';
             } else {
                 nextBtn.style.display = 'block';
                 submitBtn.style.display = 'none';
@@ -638,12 +643,20 @@
             document.getElementById('filePreview').classList.remove('hidden');
             document.getElementById('fileName').textContent = file.name;
             document.getElementById('fileSize').textContent = formatFileSize(file.size);
+            
+            // Show Next button when file is uploaded
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.style.display = 'block';
         }
 
         // Remove file
         function removeFile() {
             document.getElementById('manuscriptFile').value = '';
             document.getElementById('filePreview').classList.add('hidden');
+            
+            // Hide Next button when file is removed
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.style.display = 'none';
         }
 
         // Format file size
