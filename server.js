@@ -23,6 +23,7 @@ const db = new sqlite3.Database('users.db', (err) => {
         console.error('Error opening database:', err.message);
     } else {
         console.log('Connected to SQLite database');
+        
         // Create users table if it doesn't exist
         db.run(`CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -33,27 +34,33 @@ const db = new sqlite3.Database('users.db', (err) => {
             role TEXT DEFAULT 'author',
             expertise TEXT,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        )`);
-        
-        // Add role column if it doesn't exist (for existing databases)
-        db.run(`ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'author'`, (err) => {
-            if (err && !err.message.includes('duplicate column name')) {
-                console.log('Role column added');
+        )`, (err) => {
+            if (err) {
+                console.error('Error creating users table:', err.message);
+            } else {
+                console.log('Users table created/verified');
+                
+                // Add role column if it doesn't exist (for existing databases)
+                db.run(`ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'author'`, (err) => {
+                    if (err && !err.message.includes('duplicate column name')) {
+                        console.log('Role column added');
+                    }
+                });
+                db.run(`ALTER TABLE users ADD COLUMN expertise TEXT`, (err) => {
+                    if (err && !err.message.includes('duplicate column name')) {
+                        console.log('Expertise column added');
+                    }
+                });
+                
+                // Insert sample reviewers for testing
+                db.run(`INSERT OR IGNORE INTO users (first_name, last_name, email, password, role, expertise) VALUES
+                    ('James', 'Wilson', 'james.wilson@example.com', '$2a$10$dummy.hash.for.testing', 'reviewer', 'Sustainability, Management, ESG'),
+                    ('Lisa', 'Thompson', 'lisa.thompson@example.com', '$2a$10$dummy.hash.for.testing', 'reviewer', 'Innovation, Technology, Research'),
+                    ('Robert', 'Kim', 'robert.kim@example.com', '$2a$10$dummy.hash.for.testing', 'reviewer', 'Environment, Policy, Climate'),
+                    ('Sarah', 'Johnson', 'sarah.johnson@example.com', '$2a$10$dummy.hash.for.testing', 'reviewer', 'Business, Finance, CSR'),
+                    ('Michael', 'Chen', 'michael.chen@example.com', '$2a$10$dummy.hash.for.testing', 'reviewer', 'Technology, Digital Transformation, Analytics')`);
             }
         });
-        db.run(`ALTER TABLE users ADD COLUMN expertise TEXT`, (err) => {
-            if (err && !err.message.includes('duplicate column name')) {
-                console.log('Expertise column added');
-            }
-        });
-        
-        // Insert sample reviewers for testing
-        db.run(`INSERT OR IGNORE INTO users (first_name, last_name, email, password, role, expertise) VALUES 
-            ('James', 'Wilson', 'james.wilson@example.com', '$2a$10$dummy.hash.for.testing', 'reviewer', 'Sustainability, Management, ESG'),
-            ('Lisa', 'Thompson', 'lisa.thompson@example.com', '$2a$10$dummy.hash.for.testing', 'reviewer', 'Innovation, Technology, Research'),
-            ('Robert', 'Kim', 'robert.kim@example.com', '$2a$10$dummy.hash.for.testing', 'reviewer', 'Environment, Policy, Climate'),
-            ('Sarah', 'Johnson', 'sarah.johnson@example.com', '$2a$10$dummy.hash.for.testing', 'reviewer', 'Business, Finance, CSR'),
-            ('Michael', 'Chen', 'michael.chen@example.com', '$2a$10$dummy.hash.for.testing', 'reviewer', 'Technology, Digital Transformation, Analytics')`);
     }
 });
 
