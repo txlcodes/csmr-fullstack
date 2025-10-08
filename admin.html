@@ -679,11 +679,15 @@
         // Load reviewers
         async function loadReviewers(searchTerm = '') {
             try {
+                console.log('Loading reviewers with search term:', searchTerm);
                 const response = await fetch(`/api/reviewers?search=${encodeURIComponent(searchTerm)}`);
                 const data = await response.json();
+                console.log('Reviewers data:', data);
                 
                 const reviewersList = document.getElementById('reviewersList');
                 const noReviewers = document.getElementById('noReviewers');
+                
+                console.log('Reviewers list element:', reviewersList);
                 
                 if (data.success && data.reviewers.length > 0) {
                     reviewersList.innerHTML = data.reviewers.map(reviewer => `
@@ -719,8 +723,11 @@
 
         // Invite reviewer
         async function inviteReviewer(reviewerId) {
+            console.log('Invite reviewer called with ID:', reviewerId);
             const manuscriptSelect = document.getElementById('manuscriptSelect');
             const selectedOption = manuscriptSelect.options[manuscriptSelect.selectedIndex];
+            
+            console.log('Selected manuscript:', selectedOption.value);
             
             if (!selectedOption.value) {
                 alert('Please select a manuscript first');
