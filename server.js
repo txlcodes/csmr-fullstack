@@ -59,6 +59,37 @@ const db = new sqlite3.Database('users.db', (err) => {
                     ('Robert', 'Kim', 'robert.kim@example.com', '$2a$10$dummy.hash.for.testing', 'reviewer', 'Environment, Policy, Climate'),
                     ('Sarah', 'Johnson', 'sarah.johnson@example.com', '$2a$10$dummy.hash.for.testing', 'reviewer', 'Business, Finance, CSR'),
                     ('Michael', 'Chen', 'michael.chen@example.com', '$2a$10$dummy.hash.for.testing', 'reviewer', 'Technology, Digital Transformation, Analytics')`);
+                
+                // Create reviews table
+                db.run(`CREATE TABLE IF NOT EXISTS reviews (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    reviewer_id INTEGER NOT NULL,
+                    manuscript_id TEXT NOT NULL,
+                    manuscript_title TEXT NOT NULL,
+                    assigned_date TEXT NOT NULL,
+                    due_date TEXT NOT NULL,
+                    status TEXT DEFAULT 'pending',
+                    comments_to_author TEXT,
+                    comments_to_editor TEXT,
+                    recommendation TEXT,
+                    submitted_date TEXT,
+                    authors TEXT,
+                    abstract TEXT,
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (reviewer_id) REFERENCES users (id)
+                )`, (err) => {
+                    if (err) {
+                        console.error('Error creating reviews table:', err.message);
+                    } else {
+                        console.log('Reviews table created/verified');
+                        
+                        // Insert sample reviews for testing
+                        db.run(`INSERT OR IGNORE INTO reviews (reviewer_id, manuscript_id, manuscript_title, assigned_date, due_date, status, authors, abstract) VALUES
+                            (1, 'MS-2024-001', 'Sustainable Supply Chain Management in Indian Manufacturing', '2024-01-15', '2024-02-15', 'pending', 'Dr. Rajesh Kumar, Dr. Priya Sharma', 'This study examines sustainable supply chain practices in Indian manufacturing industries...'),
+                            (2, 'MS-2024-002', 'ESG Reporting Impact on Financial Performance', '2024-01-20', '2024-02-20', 'in-progress', 'Dr. Vikram Singh', 'An analysis of how ESG reporting affects financial performance in publicly traded companies...'),
+                            (3, 'MS-2024-003', 'Climate Change Adaptation Strategies for Business', '2024-01-25', '2024-02-25', 'completed', 'Dr. Anjali Patel, Dr. Ravi Gupta', 'A comprehensive study on business adaptation strategies for climate change impacts...')`);
+                    }
+                });
             }
         });
     }
@@ -434,6 +465,128 @@ app.post('/api/reviewers/add', async (req, res) => {
             success: false, 
             message: 'Server error' 
         });
+    }
+});
+
+// Reviews API endpoints
+
+// Get all reviews
+app.get('/api/reviews', (req, res) => {
+    try {
+        const query = `
+            SELECT r.*, u.first_name, u.last_name, u.email as reviewer_email
+            FROM reviews r
+            LEFT JOIN users u ON r.reviewer_id = u.id
+            ORDER BY r.assigned_date DESC
+        `;
+        
+        db.all(query, [], (err, rows) => {
+            if (err) {
+                console.error('Database error:', err);
+                return res.status(500).json({ success: false, message: 'Database error' });
+            }
+            
+            const reviews = rows.map(row => ({
+                id: row.id,
+                manuscript_id: row.manuscript_id,
+                manuscript_title: row.manuscript_title,
+                reviewer_id: row.reviewer_id,
+                reviewer_name: `${row.first_name} ${row.last_name}`,
+                reviewer_email: row.reviewer_email,
+                assigned_date: row.assigned_date,
+                due_date: row.due_date,
+                status: row.status,
+                comments_to_author: row.comments_to_author,
+                comments_to_editor: row.comments_to_editor,
+                recommendation: row.recommendation,
+                submitted_date: row.submitted_date,
+                authors: row.authors,
+                abstract: row.abstract
+            }));
+            
+            res.json({ success: true, reviews });
+        });
+    } catch (error) {
+        console.error('Error fetching reviews:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+// Update review draft
+app.put('/api/reviews/:id/draft', (req, res) => {
+    try {
+        const { id } = req.params;
+        const { comments_to_author, comments_to_editor, recommendation, status } = req.body;
+        
+        const query = `
+            UPDATE reviews 
+            SET comments_to_author = ?, comments_to_editor = ?, recommendation = ?, status = ?
+            WHERE id = ?
+        `;
+        
+        db.run(query, [comments_to_author, comments_to_editor, recommendation, status, id], function(err) {
+            if (err) {
+                console.error('Database error:', err);
+                return res.status(500).json({ success: false, message: 'Database error' });
+            }
+            
+            res.json({ success: true, message: 'Draft saved successfully' });
+        });
+    } catch (error) {
+        console.error('Error saving draft:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+// Submit review
+app.put('/api/reviews/:id/submit', (req, res) => {
+    try {
+        const { id } = req.params;
+        const { comments_to_author, comments_to_editor, recommendation, status } = req.body;
+        const submitted_date = new Date().toISOString();
+        
+        const query = `
+            UPDATE reviews 
+            SET comments_to_author = ?, comments_to_editor = ?, recommendation = ?, status = ?, submitted_date = ?
+            WHERE id = ?
+        `;
+        
+        db.run(query, [comments_to_author, comments_to_editor, recommendation, status, submitted_date, id], function(err) {
+            if (err) {
+                console.error('Database error:', err);
+                return res.status(500).json({ success: false, message: 'Database error' });
+            }
+            
+            res.json({ success: true, message: 'Review submitted successfully' });
+        });
+    } catch (error) {
+        console.error('Error submitting review:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+// Create review assignment (when inviting reviewer)
+app.post('/api/reviews/assign', (req, res) => {
+    try {
+        const { reviewer_id, manuscript_id, manuscript_title, due_date, authors, abstract } = req.body;
+        const assigned_date = new Date().toISOString();
+        
+        const query = `
+            INSERT INTO reviews (reviewer_id, manuscript_id, manuscript_title, assigned_date, due_date, status, authors, abstract)
+            VALUES (?, ?, ?, ?, ?, 'pending', ?, ?)
+        `;
+        
+        db.run(query, [reviewer_id, manuscript_id, manuscript_title, assigned_date, due_date, authors, abstract], function(err) {
+            if (err) {
+                console.error('Database error:', err);
+                return res.status(500).json({ success: false, message: 'Database error' });
+            }
+            
+            res.json({ success: true, message: 'Review assigned successfully', review_id: this.lastID });
+        });
+    } catch (error) {
+        console.error('Error assigning review:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
     }
 });
 

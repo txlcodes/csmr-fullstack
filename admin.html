@@ -79,6 +79,10 @@
                     <i class="fas fa-user-graduate w-5"></i>
                     <span class="sidebar-text ml-3 font-medium">Assign Reviewers</span>
                 </a>
+                <a href="#" onclick="showPage('reviewer-desk')" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
+                    <i class="fas fa-clipboard-list w-5"></i>
+                    <span class="sidebar-text ml-3 font-medium">Reviewer Desk</span>
+                </a>
                 <a href="#" onclick="showPage('decisions')" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
                     <i class="fas fa-check-circle w-5"></i>
                     <span class="sidebar-text ml-3 font-medium">Decisions</span>
@@ -429,6 +433,64 @@
                 </div>
             </div>
 
+            <!-- Reviewer Desk Page -->
+            <div id="reviewer-desk" class="page">
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-clipboard-list text-2xl text-blue-600"></i>
+                            <h3 class="text-lg font-semibold text-gray-900">Reviewer Desk</h3>
+                        </div>
+                        <div class="flex space-x-4">
+                            <select id="statusFilter" onchange="filterReviews()" class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="all">All Reviews</option>
+                                <option value="pending">Pending</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                            <button onclick="refreshReviews()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                <i class="fas fa-sync-alt mr-2"></i>Refresh
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Search Bar -->
+                    <div class="mb-6">
+                        <div class="relative">
+                            <input type="text" id="reviewSearch" placeholder="Search by manuscript title, reviewer name, or ID..." 
+                                   class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                        </div>
+                    </div>
+
+                    <!-- Reviews Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3 font-medium text-gray-900">Manuscript ID</th>
+                                    <th class="px-4 py-3 font-medium text-gray-900">Title</th>
+                                    <th class="px-4 py-3 font-medium text-gray-900">Reviewer</th>
+                                    <th class="px-4 py-3 font-medium text-gray-900">Assigned Date</th>
+                                    <th class="px-4 py-3 font-medium text-gray-900">Due Date</th>
+                                    <th class="px-4 py-3 font-medium text-gray-900">Status</th>
+                                    <th class="px-4 py-3 font-medium text-gray-900">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reviewsTableBody">
+                                <!-- Reviews will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- No Reviews Message -->
+                    <div id="noReviews" class="text-center py-8 text-gray-500 hidden">
+                        <i class="fas fa-clipboard-list text-4xl mb-4"></i>
+                        <p>No reviews found. Assign reviewers to see them here.</p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Decisions Page -->
             <div id="decisions" class="page">
                 <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
@@ -593,6 +655,135 @@
         </div>
     </div>
 
+    <!-- Review Window Modal -->
+    <div id="reviewWindowModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                    <h3 class="text-lg font-semibold text-gray-900">Review Window</h3>
+                    <button onclick="closeReviewWindow()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div class="p-6">
+                    <!-- Manuscript Details -->
+                    <div class="mb-6">
+                        <h4 class="text-md font-semibold text-gray-900 mb-3">Manuscript Details</h4>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-sm text-gray-600">Manuscript ID:</p>
+                                    <p class="font-medium" id="modalManuscriptId">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">Title:</p>
+                                    <p class="font-medium" id="modalManuscriptTitle">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">Authors:</p>
+                                    <p class="font-medium" id="modalManuscriptAuthors">-</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">Abstract:</p>
+                                    <p class="font-medium" id="modalManuscriptAbstract">-</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex space-x-4">
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                    <i class="fas fa-download mr-2"></i>View PDF
+                                </button>
+                                <button class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                                    <i class="fas fa-file-alt mr-2"></i>View HTML
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review Form -->
+                    <div class="mb-6">
+                        <h4 class="text-md font-semibold text-gray-900 mb-3">Review Form</h4>
+                        <form id="reviewForm" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Comments to Author</label>
+                                <textarea id="commentsToAuthor" rows="4" 
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    placeholder="Provide constructive feedback for the authors..."></textarea>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Comments to Editor</label>
+                                <textarea id="commentsToEditor" rows="4" 
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    placeholder="Confidential comments for the editorial team..."></textarea>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Recommendation</label>
+                                <select id="recommendation" 
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Select recommendation...</option>
+                                    <option value="accept">Accept</option>
+                                    <option value="minor">Minor Revision</option>
+                                    <option value="major">Major Revision</option>
+                                    <option value="reject">Reject</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex justify-end space-x-4">
+                        <button onclick="closeReviewWindow()" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                            Cancel
+                        </button>
+                        <button onclick="saveReviewDraft()" class="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
+                            <i class="fas fa-save mr-2"></i>Save Draft
+                        </button>
+                        <button onclick="submitReview()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                            <i class="fas fa-check mr-2"></i>Submit Review
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Review Modal -->
+    <div id="viewReviewModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                    <h3 class="text-lg font-semibold text-gray-900">Submitted Review</h3>
+                    <button onclick="closeViewReviewModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div class="p-6">
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-sm text-gray-600">Comments to Author:</p>
+                            <p class="font-medium" id="viewCommentsToAuthor">-</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">Comments to Editor:</p>
+                            <p class="font-medium" id="viewCommentsToEditor">-</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">Recommendation:</p>
+                            <p class="font-medium" id="viewRecommendation">-</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600">Submitted Date:</p>
+                            <p class="font-medium" id="viewSubmittedDate">-</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Check admin authentication
         function checkAdminAuth() {
@@ -619,6 +810,7 @@
                 'submissions': 'New Submissions',
                 'editors': 'Assign Editors',
                 'reviewers': 'Assign Reviewers',
+                'reviewer-desk': 'Reviewer Desk',
                 'decisions': 'Editorial Decisions',
                 'analytics': 'Analytics & Reports',
                 'settings': 'Settings'
@@ -834,12 +1026,252 @@
             });
         }
 
+        // Reviewer Desk Functions
+        let currentReviews = [];
+        let currentReviewId = null;
+
+        // Load reviews
+        async function loadReviews() {
+            try {
+                console.log('Loading reviews...');
+                const response = await fetch('/api/reviews');
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentReviews = data.reviews;
+                    displayReviews(data.reviews);
+                } else {
+                    console.error('Failed to load reviews:', data.message);
+                    displayReviews([]);
+                }
+            } catch (error) {
+                console.error('Error loading reviews:', error);
+                displayReviews([]);
+            }
+        }
+
+        // Display reviews in table
+        function displayReviews(reviews) {
+            const tbody = document.getElementById('reviewsTableBody');
+            const noReviews = document.getElementById('noReviews');
+            
+            if (reviews.length === 0) {
+                tbody.innerHTML = '';
+                noReviews.classList.remove('hidden');
+                return;
+            }
+            
+            noReviews.classList.add('hidden');
+            tbody.innerHTML = reviews.map(review => `
+                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                    <td class="px-4 py-3 font-mono text-sm">${review.manuscript_id}</td>
+                    <td class="px-4 py-3">
+                        <div class="max-w-xs truncate" title="${review.manuscript_title}">
+                            ${review.manuscript_title}
+                        </div>
+                    </td>
+                    <td class="px-4 py-3">Dr. ${review.reviewer_name}</td>
+                    <td class="px-4 py-3">${new Date(review.assigned_date).toLocaleDateString()}</td>
+                    <td class="px-4 py-3">${new Date(review.due_date).toLocaleDateString()}</td>
+                    <td class="px-4 py-3">
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full ${getStatusClass(review.status)}">
+                            ${review.status}
+                        </span>
+                    </td>
+                    <td class="px-4 py-3">
+                        <div class="flex space-x-2">
+                            <button onclick="openReviewWindow(${review.id})" 
+                                class="bg-blue-600 text-white px-3 py-1 rounded text-xs hover:bg-blue-700 transition-colors">
+                                Open Review
+                            </button>
+                            ${review.status === 'completed' ? 
+                                `<button onclick="viewReview(${review.id})" 
+                                    class="bg-green-600 text-white px-3 py-1 rounded text-xs hover:bg-green-700 transition-colors">
+                                    View Review
+                                </button>` : 
+                                `<button onclick="remindReviewer(${review.id})" 
+                                    class="bg-yellow-600 text-white px-3 py-1 rounded text-xs hover:bg-yellow-700 transition-colors">
+                                    Remind
+                                </button>`
+                            }
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Get status CSS class
+        function getStatusClass(status) {
+            switch(status) {
+                case 'pending': return 'bg-yellow-100 text-yellow-800';
+                case 'in-progress': return 'bg-blue-100 text-blue-800';
+                case 'completed': return 'bg-green-100 text-green-800';
+                default: return 'bg-gray-100 text-gray-800';
+            }
+        }
+
+        // Filter reviews by status
+        function filterReviews() {
+            const filter = document.getElementById('statusFilter').value;
+            let filteredReviews = currentReviews;
+            
+            if (filter !== 'all') {
+                filteredReviews = currentReviews.filter(review => review.status === filter);
+            }
+            
+            displayReviews(filteredReviews);
+        }
+
+        // Refresh reviews
+        function refreshReviews() {
+            loadReviews();
+        }
+
+        // Open review window
+        function openReviewWindow(reviewId) {
+            const review = currentReviews.find(r => r.id === reviewId);
+            if (!review) return;
+            
+            currentReviewId = reviewId;
+            
+            // Populate modal with review data
+            document.getElementById('modalManuscriptId').textContent = review.manuscript_id;
+            document.getElementById('modalManuscriptTitle').textContent = review.manuscript_title;
+            document.getElementById('modalManuscriptAuthors').textContent = review.authors || 'Not specified';
+            document.getElementById('modalManuscriptAbstract').textContent = review.abstract || 'Not available';
+            
+            // Clear form
+            document.getElementById('commentsToAuthor').value = review.comments_to_author || '';
+            document.getElementById('commentsToEditor').value = review.comments_to_editor || '';
+            document.getElementById('recommendation').value = review.recommendation || '';
+            
+            document.getElementById('reviewWindowModal').classList.remove('hidden');
+        }
+
+        // Close review window
+        function closeReviewWindow() {
+            document.getElementById('reviewWindowModal').classList.add('hidden');
+            currentReviewId = null;
+        }
+
+        // Save review draft
+        async function saveReviewDraft() {
+            if (!currentReviewId) return;
+            
+            const reviewData = {
+                comments_to_author: document.getElementById('commentsToAuthor').value,
+                comments_to_editor: document.getElementById('commentsToEditor').value,
+                recommendation: document.getElementById('recommendation').value,
+                status: 'in-progress'
+            };
+            
+            try {
+                const response = await fetch(`/api/reviews/${currentReviewId}/draft`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(reviewData)
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    alert('Draft saved successfully!');
+                    loadReviews(); // Refresh the list
+                } else {
+                    alert('Failed to save draft: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error saving draft:', error);
+                alert('Failed to save draft');
+            }
+        }
+
+        // Submit review
+        async function submitReview() {
+            if (!currentReviewId) return;
+            
+            const reviewData = {
+                comments_to_author: document.getElementById('commentsToAuthor').value,
+                comments_to_editor: document.getElementById('commentsToEditor').value,
+                recommendation: document.getElementById('recommendation').value,
+                status: 'completed'
+            };
+            
+            if (!reviewData.recommendation) {
+                alert('Please select a recommendation before submitting.');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/reviews/${currentReviewId}/submit`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(reviewData)
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    alert('Review submitted successfully!');
+                    closeReviewWindow();
+                    loadReviews(); // Refresh the list
+                } else {
+                    alert('Failed to submit review: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error submitting review:', error);
+                alert('Failed to submit review');
+            }
+        }
+
+        // View submitted review
+        function viewReview(reviewId) {
+            const review = currentReviews.find(r => r.id === reviewId);
+            if (!review) return;
+            
+            document.getElementById('viewCommentsToAuthor').textContent = review.comments_to_author || 'No comments';
+            document.getElementById('viewCommentsToEditor').textContent = review.comments_to_editor || 'No comments';
+            document.getElementById('viewRecommendation').textContent = review.recommendation || 'Not specified';
+            document.getElementById('viewSubmittedDate').textContent = new Date(review.submitted_date).toLocaleString();
+            
+            document.getElementById('viewReviewModal').classList.remove('hidden');
+        }
+
+        // Close view review modal
+        function closeViewReviewModal() {
+            document.getElementById('viewReviewModal').classList.add('hidden');
+        }
+
+        // Remind reviewer (placeholder)
+        function remindReviewer(reviewId) {
+            alert('Reminder email functionality will be implemented in the future.');
+        }
+
+        // Setup search functionality
+        function setupReviewSearch() {
+            const searchInput = document.getElementById('reviewSearch');
+            let searchTimeout;
+            
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    const searchTerm = e.target.value.toLowerCase();
+                    const filteredReviews = currentReviews.filter(review => 
+                        review.manuscript_title.toLowerCase().includes(searchTerm) ||
+                        review.reviewer_name.toLowerCase().includes(searchTerm) ||
+                        review.manuscript_id.toString().includes(searchTerm)
+                    );
+                    displayReviews(filteredReviews);
+                }, 300);
+            });
+        }
+
         // Initialize
         checkAdminAuth();
         initCharts();
         loadReviewers();
         setupReviewerSearch();
         setupAddReviewerForm();
+        loadReviews();
+        setupReviewSearch();
     </script>
 </body>
 </html>
