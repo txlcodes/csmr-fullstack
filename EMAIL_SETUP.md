@@ -91,7 +91,7 @@ npm start
 
 You should see:
 ```
-🚀 Server running on http://localhost:3000
+🚀 Server running on ruhttp://localhost:3000
 📊 Database: users.db
 🔐 Authentication endpoints ready!
 Email config: { user: 'your_email@gmail.com', pass: '***hidden***' }

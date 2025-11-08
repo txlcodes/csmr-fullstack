@@ -395,6 +395,15 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+// Verify transporter connection
+transporter.verify(function (error, success) {
+    if (error) {
+        console.error('❌ Email transporter verification failed:', error);
+    } else {
+        console.log('✅ Email transporter is ready to send emails');
+    }
+});
+
 // Get reviewers endpoint
 app.get('/api/reviewers', (req, res) => {
     try {
@@ -567,6 +576,13 @@ app.post('/api/reviewers/invite', async (req, res) => {
             try {
                 // Save invitation to database first
                 const dueDateISO = dueDate ? new Date(dueDate).toISOString().split('T')[0] : dueDateObj.toISOString().split('T')[0];
+                
+                console.log('Saving invitation to database...', {
+                    manuscriptId,
+                    reviewerId,
+                    reviewerEmail: reviewer.email
+                });
+                
                 db.run(
                     `INSERT INTO review_invitations (manuscript_id, manuscript_title, reviewer_id, status, accept_token, decline_token, expires_at, authors, abstract, due_date)
                      VALUES (?, ?, ?, 'pending', ?, ?, ?, ?, ?, ?)`,
@@ -581,22 +597,38 @@ app.post('/api/reviewers/invite', async (req, res) => {
                         }
                         
                         const invitationId = this.lastID;
+                        console.log('Invitation saved with ID:', invitationId);
+                        console.log('Preparing to send email to:', reviewer.email);
+                        console.log('Email transporter configured:', !!transporter);
                         
                         try {
                             // Send email
-                            await transporter.sendMail(mailOptions);
+                            console.log('Sending email...');
+                            const emailResult = await transporter.sendMail(mailOptions);
+                            console.log('Email sent successfully!', {
+                                messageId: emailResult.messageId,
+                                to: reviewer.email
+                            });
                             
                             res.json({ 
                                 success: true, 
                                 message: 'Invitation sent successfully' 
                             });
                         } catch (emailError) {
-                            console.error('Email error:', emailError);
+                            console.error('Email sending failed:', emailError);
+                            console.error('Email error details:', {
+                                code: emailError.code,
+                                command: emailError.command,
+                                response: emailError.response,
+                                message: emailError.message
+                            });
                             // Rollback invitation if email fails
-                            db.run('DELETE FROM review_invitations WHERE id = ?', [invitationId]);
+                            db.run('DELETE FROM review_invitations WHERE id = ?', [invitationId], (delErr) => {
+                                if (delErr) console.error('Error deleting invitation after email failure:', delErr);
+                            });
                             res.status(500).json({ 
                                 success: false, 
-                                message: 'Failed to send email: ' + emailError.message 
+                                message: 'Failed to send email: ' + (emailError.message || 'Unknown error') 
                             });
                         }
                     }
@@ -605,7 +637,7 @@ app.post('/api/reviewers/invite', async (req, res) => {
                 console.error('Error in invitation process:', error);
                 res.status(500).json({ 
                     success: false, 
-                    message: 'Server error' 
+                    message: 'Server error: ' + error.message 
                 });
             }
         });
@@ -1277,19 +1309,24 @@ app.post('/api/reviewers/add', async (req, res) => {
             });
         }
         
-        // Check if reviewer already exists
-        db.get('SELECT id FROM users WHERE email = ?', [email], async (err, row) => {
+        // Check if reviewer already exists (including pending)
+        db.get('SELECT id, status FROM users WHERE email = ?', [email], async (err, row) => {
             if (err) {
+                console.error('Error checking existing reviewer:', err);
                 return res.status(500).json({ 
                     success: false, 
-                    message: 'Database error' 
+                    message: 'Database error: ' + err.message 
                 });
             }
             
             if (row) {
+                const statusMsg = row.status === 'pending' 
+                    ? 'A pending invitation already exists for this email. Please wait for the reviewer to approve their invitation.'
+                    : 'Reviewer with this email already exists';
+                console.log('Reviewer already exists:', { email, status: row.status });
                 return res.status(400).json({ 
                     success: false, 
-                    message: 'Reviewer with this email already exists' 
+                    message: statusMsg 
                 });
             }
             
@@ -1310,19 +1347,34 @@ app.post('/api/reviewers/add', async (req, res) => {
                 }
                 
                 // Hash password
-                const hashedPassword = await bcrypt.hash(password, 10);
-                
+            const hashedPassword = await bcrypt.hash(password, 10);
+            
                 // Create a temporary user record with pending status
-                db.run(
+            console.log('Creating reviewer user record...', {
+                firstName,
+                lastName,
+                email,
+                role: 'reviewer',
+                expertise: expertise || '',
+                status: 'pending'
+            });
+            
+            db.run(
                     'INSERT INTO users (first_name, last_name, email, password, role, expertise, status) VALUES (?, ?, ?, ?, ?, ?, ?)',
                     [firstName, lastName, email, hashedPassword, 'reviewer', expertise || '', 'pending'],
                     async function(err) {
-                        if (err) {
-                            return res.status(500).json({ 
-                                success: false, 
-                                message: 'Error creating reviewer' 
-                            });
-                        }
+                    if (err) {
+                        console.error('❌ Error creating reviewer in database:', err);
+                        console.error('Database error details:', {
+                            code: err.code,
+                            message: err.message,
+                            stack: err.stack
+                        });
+                        return res.status(500).json({ 
+                            success: false, 
+                            message: 'Error creating reviewer: ' + (err.message || 'Database error') 
+                        });
+                    }
                         
                         const reviewerId = this.lastID;
                         
@@ -1357,6 +1409,15 @@ app.post('/api/reviewers/add', async (req, res) => {
                                 
                                 const reviewerName = `${firstName} ${lastName}`;
                                 const reviewerExpertise = expertise || 'your field';
+                                
+                                console.log('Preparing to send reviewer approval email to:', email);
+                                console.log('Reviewer details:', {
+                                    reviewerId,
+                                    firstName,
+                                    lastName,
+                                    email,
+                                    expertise
+                                });
                                 
                                 const mailOptions = {
                                     from: `"CSMR - Centre for Sustainability & Management Research" <${process.env.EMAIL_USER || 'peerreview@csmr.org'}>`,
@@ -1419,22 +1480,45 @@ app.post('/api/reviewers/add', async (req, res) => {
                                 };
                                 
                                 try {
-                                    await transporter.sendMail(mailOptions);
+                                    console.log('Sending reviewer approval email...');
+                                    console.log('Email transporter configured:', !!transporter);
+                                    console.log('Email config check:', {
+                                        user: process.env.EMAIL_USER ? 'SET' : 'NOT_SET',
+                                        pass: process.env.EMAIL_PASS ? 'SET' : 'NOT_SET'
+                                    });
                                     
-                                    res.json({ 
-                                        success: true, 
+                                    const emailResult = await transporter.sendMail(mailOptions);
+                                    console.log('✅ Reviewer approval email sent successfully!', {
+                                        messageId: emailResult.messageId,
+                                        to: email,
+                                        reviewerId: reviewerId
+                                    });
+                    
+                    res.json({ 
+                        success: true, 
                                         message: 'Reviewer invitation sent successfully! The reviewer will receive an email to approve their account.',
                                         reviewerId: reviewerId
                                     });
                                 } catch (emailError) {
-                                    console.error('Error sending approval email:', emailError);
+                                    console.error('❌ Error sending approval email:', emailError);
+                                    console.error('Email error details:', {
+                                        code: emailError.code,
+                                        command: emailError.command,
+                                        response: emailError.response,
+                                        message: emailError.message,
+                                        stack: emailError.stack
+                                    });
                                     // Rollback: delete user and approval record if email fails
-                                    db.run('DELETE FROM reviewer_approvals WHERE reviewer_id = ?', [reviewerId]);
-                                    db.run('DELETE FROM users WHERE id = ?', [reviewerId]);
+                                    db.run('DELETE FROM reviewer_approvals WHERE reviewer_id = ?', [reviewerId], (err) => {
+                                        if (err) console.error('Error deleting approval record:', err);
+                                    });
+                                    db.run('DELETE FROM users WHERE id = ?', [reviewerId], (err) => {
+                                        if (err) console.error('Error deleting user:', err);
+                                    });
                                     
                                     return res.status(500).json({ 
                                         success: false, 
-                                        message: 'Reviewer created but failed to send approval email. Please try again.' 
+                                        message: 'Reviewer created but failed to send approval email: ' + (emailError.message || 'Unknown error') 
                                     });
                                 }
                             }

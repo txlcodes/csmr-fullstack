@@ -961,6 +961,12 @@
             dueDate.setDate(dueDate.getDate() + 14); // 14 days from now (matching academic journal standards)
             
             try {
+                console.log('Sending invitation request:', {
+                    reviewerId,
+                    manuscriptId,
+                    manuscriptTitle
+                });
+                
                 const response = await fetch('/api/reviewers/invite', {
                     method: 'POST',
                     headers: {
@@ -976,16 +982,25 @@
                     })
                 });
                 
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Response error:', errorText);
+                    throw new Error(`Server error: ${response.status} - ${errorText}`);
+                }
+                
                 const data = await response.json();
+                console.log('Response data:', data);
                 
                 if (data.success) {
                     alert('Review invitation sent successfully! The reviewer will receive a professional email invitation.');
                 } else {
-                    alert('Failed to send invitation: ' + data.message);
+                    alert('Failed to send invitation: ' + (data.message || 'Unknown error'));
                 }
             } catch (error) {
                 console.error('Error sending invitation:', error);
-                alert('Failed to send invitation');
+                alert('Failed to send invitation: ' + error.message);
             }
         }
 
