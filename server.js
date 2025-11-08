@@ -52,6 +52,11 @@ const db = new sqlite3.Database('users.db', (err) => {
                         console.log('Expertise column added');
                     }
                 });
+                db.run(`ALTER TABLE users ADD COLUMN status TEXT DEFAULT 'approved'`, (err) => {
+                    if (err && !err.message.includes('duplicate column name')) {
+                        console.log('Status column added');
+                    }
+                });
                 
                 // Insert sample reviewers for testing
                 db.run(`INSERT OR IGNORE INTO users (first_name, last_name, email, password, role, expertise) VALUES
@@ -129,6 +134,35 @@ const db = new sqlite3.Database('users.db', (err) => {
                         db.run(`ALTER TABLE review_invitations ADD COLUMN due_date TEXT`, (err) => {
                             if (err && !err.message.includes('duplicate column name')) {
                                 console.log('due_date column added');
+                            }
+                        });
+                    }
+                });
+                
+                // Create reviewer_approvals table
+                db.run(`CREATE TABLE IF NOT EXISTS reviewer_approvals (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    reviewer_id INTEGER NOT NULL,
+                    approval_token TEXT UNIQUE NOT NULL,
+                    decline_token TEXT UNIQUE NOT NULL,
+                    email TEXT NOT NULL,
+                    first_name TEXT NOT NULL,
+                    last_name TEXT NOT NULL,
+                    expertise TEXT,
+                    password_hash TEXT NOT NULL,
+                    status TEXT DEFAULT 'pending',
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    expires_at DATETIME NOT NULL,
+                    FOREIGN KEY (reviewer_id) REFERENCES users (id)
+                )`, (err) => {
+                    if (err) {
+                        console.error('Error creating reviewer_approvals table:', err.message);
+                    } else {
+                        console.log('Reviewer approvals table created/verified');
+                        // Add decline_token column if it doesn't exist
+                        db.run(`ALTER TABLE reviewer_approvals ADD COLUMN decline_token TEXT`, (err) => {
+                            if (err && !err.message.includes('duplicate column name')) {
+                                console.log('Decline token column added');
                             }
                         });
                     }
@@ -365,8 +399,8 @@ const transporter = nodemailer.createTransport({
 app.get('/api/reviewers', (req, res) => {
     try {
         const { search } = req.query;
-        let query = 'SELECT id, first_name, last_name, email, expertise FROM users WHERE role = ?';
-        let params = ['reviewer'];
+        let query = 'SELECT id, first_name, last_name, email, expertise FROM users WHERE role = ? AND (status IS NULL OR status = ? OR status = ?)';
+        let params = ['reviewer', 'approved', 'active'];
         
         if (search) {
             query += ' AND (first_name LIKE ? OR last_name LIKE ? OR email LIKE ? OR expertise LIKE ?)';
@@ -1230,7 +1264,7 @@ app.delete('/api/reviewers/:id', (req, res) => {
     }
 });
 
-// Add reviewer endpoint
+// Add reviewer endpoint - creates pending reviewer and sends approval email
 app.post('/api/reviewers/add', async (req, res) => {
     try {
         const { firstName, lastName, email, expertise, password } = req.body;
@@ -1259,34 +1293,451 @@ app.post('/api/reviewers/add', async (req, res) => {
                 });
             }
             
-            // Hash password and create reviewer
-            const hashedPassword = await bcrypt.hash(password, 10);
-            
-            db.run(
-                'INSERT INTO users (first_name, last_name, email, password, role, expertise) VALUES (?, ?, ?, ?, ?, ?)',
-                [firstName, lastName, email, hashedPassword, 'reviewer', expertise || ''],
-                function(err) {
-                    if (err) {
-                        return res.status(500).json({ 
-                            success: false, 
-                            message: 'Error creating reviewer' 
-                        });
-                    }
-                    
-                    res.json({ 
-                        success: true, 
-                        message: 'Reviewer added successfully!',
-                        reviewerId: this.lastID
+            // Check if there's a pending approval for this email
+            db.get('SELECT id FROM reviewer_approvals WHERE email = ? AND status = ?', [email, 'pending'], async (err, pendingApproval) => {
+                if (err) {
+                    return res.status(500).json({ 
+                        success: false, 
+                        message: 'Database error' 
                     });
                 }
-            );
+                
+                if (pendingApproval) {
+                    return res.status(400).json({ 
+                        success: false, 
+                        message: 'A pending approval already exists for this email. Please wait for the reviewer to approve.' 
+                    });
+                }
+                
+                // Hash password
+                const hashedPassword = await bcrypt.hash(password, 10);
+                
+                // Create a temporary user record with pending status
+                db.run(
+                    'INSERT INTO users (first_name, last_name, email, password, role, expertise, status) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                    [firstName, lastName, email, hashedPassword, 'reviewer', expertise || '', 'pending'],
+                    async function(err) {
+                        if (err) {
+                            return res.status(500).json({ 
+                                success: false, 
+                                message: 'Error creating reviewer' 
+                            });
+                        }
+                        
+                        const reviewerId = this.lastID;
+                        
+                        // Generate approval and decline tokens
+                        const approvalToken = generateSecureToken();
+                        const declineToken = generateSecureToken();
+                        
+                        // Set token expiry to 7 days from now
+                        const expiresAt = new Date();
+                        expiresAt.setDate(expiresAt.getDate() + 7);
+                        const expiresAtISO = expiresAt.toISOString();
+                        
+                        // Save approval record
+                        db.run(
+                            `INSERT INTO reviewer_approvals (reviewer_id, approval_token, decline_token, email, first_name, last_name, expertise, password_hash, expires_at)
+                             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                            [reviewerId, approvalToken, declineToken, email, firstName, lastName, expertise || '', hashedPassword, expiresAtISO],
+                            async function(err) {
+                                if (err) {
+                                    // Rollback: delete the user if approval record creation fails
+                                    db.run('DELETE FROM users WHERE id = ?', [reviewerId]);
+                                    return res.status(500).json({ 
+                                        success: false, 
+                                        message: 'Error creating approval record' 
+                                    });
+                                }
+                                
+                                // Send approval email with Accept/Decline links
+                                const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
+                                const approvalLink = `${baseUrl}/api/reviewers/approve/${approvalToken}`;
+                                const declineLink = `${baseUrl}/api/reviewers/decline-invitation/${declineToken}`;
+                                
+                                const reviewerName = `${firstName} ${lastName}`;
+                                const reviewerExpertise = expertise || 'your field';
+                                
+                                const mailOptions = {
+                                    from: `"CSMR - Centre for Sustainability & Management Research" <${process.env.EMAIL_USER || 'peerreview@csmr.org'}>`,
+                                    to: email,
+                                    replyTo: process.env.REPLY_TO_EMAIL || 'peerreview@csmr.org',
+                                    subject: 'Invitation to Join CSMR as a Reviewer',
+                                    html: `
+                                        <!DOCTYPE html>
+                                        <html>
+                                        <head>
+                                            <meta charset="UTF-8">
+                                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                        </head>
+                                        <body style="font-family: Arial, Helvetica, sans-serif; line-height: 1.6; color: #333333; max-width: 700px; margin: 0 auto; padding: 20px;">
+                                            <div style="background-color: #ffffff; padding: 30px; border: 1px solid #e0e0e0;">
+                                                <p style="margin: 0 0 20px 0;">Dear ${reviewerName},</p>
+                                                
+                                                <p style="margin: 0 0 15px 0;">You have been invited to join <strong>Centre for Sustainability & Management Research (CSMR)</strong> as a reviewer.</p>
+                                                
+                                                <p style="margin: 0 0 15px 0;">We would be honored to have you as part of our peer review team. Your expertise in <strong>${reviewerExpertise}</strong> would be invaluable to our publication process.</p>
+                                                
+                                                <p style="margin: 0 0 15px 0;"><strong>If you agree to join as a reviewer, please click the appropriate link below:</strong></p>
+                                                
+                                                <p style="margin: 0 0 10px 0;">If you are unable to accept this invitation, you can decline via the link below.</p>
+                                                
+                                                <p style="margin: 15px 0; padding: 10px; background-color: #fff3cd; border-left: 4px solid #ffc107; color: #856404;">
+                                                    <strong>*** PLEASE NOTE: This is a two-step process. After clicking on the link, you will be directed to a webpage to confirm. ***</strong>
+                                                </p>
+                                                
+                                                <div style="margin: 25px 0; padding: 20px; background-color: #f8f9fa; border-radius: 5px;">
+                                                    <p style="margin: 0 0 15px 0; font-weight: bold;">Action Links:</p>
+                                                    <p style="margin: 0 0 10px 0;">
+                                                        <strong>Accept:</strong> 
+                                                        <a href="${approvalLink}" style="color: #0066cc; word-break: break-all;">${approvalLink}</a>
+                                                    </p>
+                                                    <p style="margin: 0;">
+                                                        <strong>Decline:</strong> 
+                                                        <a href="${declineLink}" style="color: #0066cc; word-break: break-all;">${declineLink}</a>
+                                                    </p>
+                                                </div>
+                                                
+                                                <p style="margin: 15px 0; font-size: 12px; color: #666666;">This invitation will expire in 7 days.</p>
+                                                
+                                                <p style="margin: 15px 0;">For questions, contact <a href="mailto:${process.env.REPLY_TO_EMAIL || 'peerreview@csmr.org'}" style="color: #0066cc;">${process.env.REPLY_TO_EMAIL || 'peerreview@csmr.org'}</a>.</p>
+                                                
+                                                <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #e0e0e0;">
+                                                    <p style="margin: 0 0 5px 0;">Regards,</p>
+                                                    <p style="margin: 0 0 5px 0;"><strong>Editorial Office</strong></p>
+                                                    <p style="margin: 0 0 5px 0;"><strong>Centre for Sustainability & Management Research (CSMR)</strong></p>
+                                                </div>
+                                                
+                                                <div style="margin-top: 20px; padding: 15px; background-color: #f5f5f5; border-radius: 5px; font-size: 12px; color: #666;">
+                                                    <p style="margin: 0;"><strong>Note:</strong> This is an automated email. Please do not reply directly to this message.</p>
+                                                    <p style="margin: 5px 0 0 0;">If you have questions, contact us at <a href="mailto:${process.env.REPLY_TO_EMAIL || 'peerreview@csmr.org'}" style="color: #0066cc;">${process.env.REPLY_TO_EMAIL || 'peerreview@csmr.org'}</a></p>
+                                                </div>
+                                            </div>
+                                        </body>
+                                        </html>
+                                    `
+                                };
+                                
+                                try {
+                                    await transporter.sendMail(mailOptions);
+                                    
+                                    res.json({ 
+                                        success: true, 
+                                        message: 'Reviewer invitation sent successfully! The reviewer will receive an email to approve their account.',
+                                        reviewerId: reviewerId
+                                    });
+                                } catch (emailError) {
+                                    console.error('Error sending approval email:', emailError);
+                                    // Rollback: delete user and approval record if email fails
+                                    db.run('DELETE FROM reviewer_approvals WHERE reviewer_id = ?', [reviewerId]);
+                                    db.run('DELETE FROM users WHERE id = ?', [reviewerId]);
+                                    
+                                    return res.status(500).json({ 
+                                        success: false, 
+                                        message: 'Reviewer created but failed to send approval email. Please try again.' 
+                                    });
+                                }
+                            }
+                        );
+                    }
+                );
+            });
         });
         
     } catch (error) {
+        console.error('Error adding reviewer:', error);
         res.status(500).json({ 
             success: false, 
             message: 'Server error' 
         });
+    }
+});
+
+// Reviewer approval endpoint
+app.get('/api/reviewers/approve/:token', (req, res) => {
+    try {
+        const { token } = req.params;
+        
+        if (!token) {
+            return res.status(400).send(`
+                <html>
+                <head><title>Invalid Link</title></head>
+                <body style="font-family: Arial, sans-serif; padding: 40px; text-align: center;">
+                    <h2 style="color: #dc2626;">Invalid or Missing Token</h2>
+                    <p>The approval link is invalid or has expired.</p>
+                    <p>Please contact the editorial office if you believe this is an error.</p>
+                </body>
+                </html>
+            `);
+        }
+        
+        // Find approval record by approval_token
+        db.get(
+            `SELECT * FROM reviewer_approvals WHERE approval_token = ? AND status = 'pending'`,
+            [token],
+            (err, approval) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).send(`
+                        <html>
+                        <head><title>Server Error</title></head>
+                        <body style="font-family: Arial, sans-serif; padding: 40px; text-align: center;">
+                            <h2 style="color: #dc2626;">Server Error</h2>
+                            <p>An error occurred processing your request. Please try again later.</p>
+                        </body>
+                        </html>
+                    `);
+                }
+                
+                if (!approval) {
+                    return res.status(404).send(`
+                        <html>
+                        <head><title>Approval Not Found</title></head>
+                        <body style="font-family: Arial, sans-serif; padding: 40px; text-align: center;">
+                            <h2 style="color: #dc2626;">Approval Not Found</h2>
+                            <p>The approval link is invalid, has expired, or has already been used.</p>
+                            <p>Please contact the editorial office if you believe this is an error.</p>
+                        </body>
+                        </html>
+                    `);
+                }
+                
+                // Check if token has expired
+                const now = new Date();
+                const expiresAt = new Date(approval.expires_at);
+                
+                if (now > expiresAt) {
+                    return res.status(400).send(`
+                        <html>
+                        <head><title>Link Expired</title></head>
+                        <body style="font-family: Arial, sans-serif; padding: 40px; text-align: center;">
+                            <h2 style="color: #dc2626;">Link Expired</h2>
+                            <p>This approval link has expired. Please contact the editorial office to request a new invitation.</p>
+                        </body>
+                        </html>
+                    `);
+                }
+                
+                // Update user status to approved
+                db.run(
+                    'UPDATE users SET status = ? WHERE id = ?',
+                    ['approved', approval.reviewer_id],
+                    function(err) {
+                        if (err) {
+                            console.error('Error updating user status:', err);
+                            return res.status(500).send(`
+                                <html>
+                                <head><title>Server Error</title></head>
+                                <body style="font-family: Arial, sans-serif; padding: 40px; text-align: center;">
+                                    <h2 style="color: #dc2626;">Server Error</h2>
+                                    <p>An error occurred while activating your account. Please contact support.</p>
+                                </body>
+                                </html>
+                            `);
+                        }
+                        
+                        // Update approval record status
+                        db.run(
+                            'UPDATE reviewer_approvals SET status = ? WHERE id = ?',
+                            ['approved', approval.id],
+                            (err) => {
+                                if (err) {
+                                    console.error('Error updating approval status:', err);
+                                }
+                                
+                                // Success page
+                                res.send(`
+                                    <!DOCTYPE html>
+                                    <html>
+                                    <head>
+                                        <meta charset="UTF-8">
+                                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                        <title>Approval Successful - CSMR</title>
+                                    </head>
+                                    <body style="font-family: Arial, Helvetica, sans-serif; line-height: 1.6; color: #333333; max-width: 700px; margin: 0 auto; padding: 40px; background-color: #f5f5f5;">
+                                        <div style="background-color: #ffffff; padding: 40px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center;">
+                                            <div style="width: 80px; height: 80px; background-color: #10b981; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 30px;">
+                                                <span style="color: white; font-size: 40px;">✓</span>
+                                            </div>
+                                            <h1 style="color: #10b981; margin: 0 0 20px 0;">Approval Successful!</h1>
+                                            <p style="font-size: 18px; margin: 0 0 30px 0; color: #333333;">
+                                                Thank you, <strong>${approval.first_name} ${approval.last_name}</strong>!
+                                            </p>
+                                            <p style="margin: 0 0 20px 0; color: #666666;">
+                                                Your reviewer account has been successfully activated. You are now part of the CSMR peer review team.
+                                            </p>
+                                            <p style="margin: 0 0 30px 0; color: #666666;">
+                                                You will receive review invitations via email when manuscripts matching your expertise are submitted.
+                                            </p>
+                                            <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid #e0e0e0;">
+                                                <p style="margin: 0; font-size: 14px; color: #999999;">
+                                                    If you have any questions, please contact us at<br>
+                                                    <a href="mailto:${process.env.REPLY_TO_EMAIL || 'peerreview@csmr.org'}" style="color: #2563eb;">${process.env.REPLY_TO_EMAIL || 'peerreview@csmr.org'}</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </body>
+                                    </html>
+                                `);
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    } catch (error) {
+        console.error('Error processing approval:', error);
+        res.status(500).send(`
+            <html>
+            <head><title>Server Error</title></head>
+            <body style="font-family: Arial, sans-serif; padding: 40px; text-align: center;">
+                <h2 style="color: #dc2626;">Server Error</h2>
+                <p>An error occurred processing your approval. Please try again later or contact support.</p>
+            </body>
+            </html>
+        `);
+    }
+});
+
+// Reviewer decline invitation endpoint
+app.get('/api/reviewers/decline-invitation/:token', (req, res) => {
+    try {
+        const { token } = req.params;
+        
+        if (!token) {
+            return res.status(400).send(`
+                <html>
+                <head><title>Invalid Link</title></head>
+                <body style="font-family: Arial, sans-serif; padding: 40px; text-align: center;">
+                    <h2 style="color: #dc2626;">Invalid or Missing Token</h2>
+                    <p>The decline link is invalid or has expired.</p>
+                    <p>Please contact the editorial office if you believe this is an error.</p>
+                </body>
+                </html>
+            `);
+        }
+        
+        // Find approval record by decline_token
+        db.get(
+            `SELECT * FROM reviewer_approvals WHERE decline_token = ? AND status = 'pending'`,
+            [token],
+            (err, approval) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).send(`
+                        <html>
+                        <head><title>Server Error</title></head>
+                        <body style="font-family: Arial, sans-serif; padding: 40px; text-align: center;">
+                            <h2 style="color: #dc2626;">Server Error</h2>
+                            <p>An error occurred processing your request. Please try again later.</p>
+                        </body>
+                        </html>
+                    `);
+                }
+                
+                if (!approval) {
+                    return res.status(404).send(`
+                        <html>
+                        <head><title>Invitation Not Found</title></head>
+                        <body style="font-family: Arial, sans-serif; padding: 40px; text-align: center;">
+                            <h2 style="color: #dc2626;">Invitation Not Found</h2>
+                            <p>The decline link is invalid, has expired, or has already been used.</p>
+                            <p>Please contact the editorial office if you believe this is an error.</p>
+                        </body>
+                        </html>
+                    `);
+                }
+                
+                // Check if token has expired
+                const now = new Date();
+                const expiresAt = new Date(approval.expires_at);
+                
+                if (now > expiresAt) {
+                    return res.status(400).send(`
+                        <html>
+                        <head><title>Link Expired</title></head>
+                        <body style="font-family: Arial, sans-serif; padding: 40px; text-align: center;">
+                            <h2 style="color: #dc2626;">Link Expired</h2>
+                            <p>This invitation link has expired.</p>
+                        </body>
+                        </html>
+                    `);
+                }
+                
+                // Update approval record status to declined
+                db.run(
+                    'UPDATE reviewer_approvals SET status = ? WHERE id = ?',
+                    ['declined', approval.id],
+                    function(err) {
+                        if (err) {
+                            console.error('Error updating approval status:', err);
+                            return res.status(500).send(`
+                                <html>
+                                <head><title>Server Error</title></head>
+                                <body style="font-family: Arial, sans-serif; padding: 40px; text-align: center;">
+                                    <h2 style="color: #dc2626;">Server Error</h2>
+                                    <p>An error occurred while processing your decline. Please contact support.</p>
+                                </body>
+                                </html>
+                            `);
+                        }
+                        
+                        // Delete the pending user account
+                        db.run('DELETE FROM users WHERE id = ? AND status = ?', [approval.reviewer_id, 'pending'], (err) => {
+                            if (err) {
+                                console.error('Error deleting pending user:', err);
+                            }
+                        });
+                        
+                        // Success page
+                        res.send(`
+                            <!DOCTYPE html>
+                            <html>
+                            <head>
+                                <meta charset="UTF-8">
+                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                <title>Invitation Declined - CSMR</title>
+                            </head>
+                            <body style="font-family: Arial, Helvetica, sans-serif; line-height: 1.6; color: #333333; max-width: 700px; margin: 0 auto; padding: 40px; background-color: #f5f5f5;">
+                                <div style="background-color: #ffffff; padding: 40px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center;">
+                                    <div style="width: 80px; height: 80px; background-color: #fff3cd; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 30px;">
+                                        <span style="color: #856404; font-size: 40px;">ℹ</span>
+                                    </div>
+                                    <h1 style="color: #856404; margin: 0 0 20px 0;">Invitation Declined</h1>
+                                    <p style="font-size: 18px; margin: 0 0 30px 0; color: #333333;">
+                                        Thank you, <strong>${approval.first_name} ${approval.last_name}</strong>!
+                                    </p>
+                                    <p style="margin: 0 0 20px 0; color: #666666;">
+                                        You have declined the invitation to join CSMR as a reviewer. The editorial team has been notified.
+                                    </p>
+                                    <p style="margin: 0 0 30px 0; color: #666666;">
+                                        We appreciate your consideration and hope to work with you on future opportunities.
+                                    </p>
+                                    <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid #e0e0e0;">
+                                        <p style="margin: 0; font-size: 14px; color: #999999;">
+                                            If you have any questions, please contact us at<br>
+                                            <a href="mailto:${process.env.REPLY_TO_EMAIL || 'peerreview@csmr.org'}" style="color: #2563eb;">${process.env.REPLY_TO_EMAIL || 'peerreview@csmr.org'}</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </body>
+                            </html>
+                        `);
+                    }
+                );
+            }
+        );
+    } catch (error) {
+        console.error('Error processing decline:', error);
+        res.status(500).send(`
+            <html>
+            <head><title>Server Error</title></head>
+            <body style="font-family: Arial, sans-serif; padding: 40px; text-align: center;">
+                <h2 style="color: #dc2626;">Server Error</h2>
+                <p>An error occurred processing your decline. Please try again later or contact support.</p>
+            </body>
+            </html>
+        `);
     }
 });
 

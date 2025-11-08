@@ -1055,7 +1055,7 @@
                 const data = await response.json();
                 
                 if (data.success) {
-                    alert('Reviewer added successfully!');
+                    alert('Reviewer invitation sent successfully! The reviewer will receive an email to approve their account. They will appear in the list once they approve.');
                     hideAddReviewerModal();
                     loadReviewers(); // Refresh the list
                 } else {
