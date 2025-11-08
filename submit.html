@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submit Manuscript - CSMR</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
-            font-family: 'Inter', system-ui, sans-serif;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6, .hero-title {
+            font-family: 'Merriweather', serif;
         }
         .gradient-bg {
             background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
@@ -729,14 +732,67 @@
         }
 
         // Submit manuscript
-        function submitManuscript() {
+        async function submitManuscript() {
             if (!validateCurrentStep()) return;
             
-            // Simulate submission
-            setTimeout(() => {
-                document.getElementById('submissionModal').classList.remove('active');
-                document.getElementById('successModal').classList.add('active');
-            }, 1000);
+            // Get user ID from localStorage
+            const userId = localStorage.getItem('userId');
+            if (!userId) {
+                alert('Please login to submit a manuscript');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Collect form data
+            const title = document.getElementById('articleTitle').value;
+            const abstract = document.getElementById('articleAbstract').value;
+            const keywords = document.getElementById('keywords').value || '';
+            
+            // Collect authors
+            const authorRows = document.querySelectorAll('#authorsList .author-row');
+            const authors = Array.from(authorRows).map(row => {
+                const name = row.querySelector('input[type="text"]').value;
+                const email = row.querySelector('input[type="email"]').value;
+                return `${name} (${email})`;
+            }).join(', ');
+            
+            // Disable submit button
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Submitting...';
+            
+            try {
+                const response = await fetch('/api/submissions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title: title,
+                        authors: authors,
+                        abstract: abstract,
+                        keywords: keywords,
+                        authorId: userId
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('submissionModal').classList.remove('active');
+                    document.getElementById('successModal').classList.add('active');
+                    resetForm();
+                } else {
+                    alert('Failed to submit: ' + (data.message || 'Unknown error'));
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Submit';
+                }
+            } catch (error) {
+                console.error('Error submitting manuscript:', error);
+                alert('An error occurred while submitting. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Submit';
+            }
         }
 
         // Reset form

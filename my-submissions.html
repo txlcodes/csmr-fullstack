@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Submissions - CSMR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6, .hero-title {
+            font-family: 'Merriweather', serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
+        }
+        .status-submitted { background-color: #dbeafe; color: #1e40af; }
+        .status-under-review { background-color: #fef3c7; color: #d97706; }
+        .status-accepted { background-color: #d1fae5; color: #059669; }
+        .status-rejected { background-color: #fee2e2; color: #dc2626; }
+        .status-revision { background-color: #e0e7ff; color: #7c3aed; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <a href="index.html" class="text-2xl font-black text-blue-900">CSMR</a>
+                    <div class="w-0.5 h-6 bg-blue-400"></div>
+                    <div class="text-blue-600 font-medium text-sm">
+                        <div>Centre for Sustainability</div>
+                        <div>& Management Research</div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="dashboard.html" class="text-gray-600 hover:text-blue-600">Dashboard</a>
+                    <a href="submit.html" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                        <i class="fas fa-plus mr-2"></i>New Submission
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">My Submissions</h1>
+            <p class="text-gray-600">Track and manage all your manuscript submissions</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-xl shadow-lg border border-blue-100">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Total Submissions</p>
+                        <p id="totalSubmissions" class="text-3xl font-bold text-blue-600">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-file-alt text-2xl text-blue-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-lg border border-yellow-100">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Under Review</p>
+                        <p id="underReview" class="text-3xl font-bold text-yellow-600">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-search text-2xl text-yellow-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-lg border border-green-100">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Accepted</p>
+                        <p id="accepted" class="text-3xl font-bold text-green-600">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-check-circle text-2xl text-green-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-lg border border-red-100">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600">Rejected</p>
+                        <p id="rejected" class="text-3xl font-bold text-red-600">0</p>
+                    </div>
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-times-circle text-2xl text-red-600"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submissions List -->
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900">Your Submissions</h3>
+            </div>
+            
+            <div id="submissionsList" class="divide-y divide-gray-200">
+                <!-- Submissions will be loaded here -->
+            </div>
+
+            <div id="noSubmissions" class="text-center py-12 text-gray-500 hidden">
+                <i class="fas fa-file-alt text-4xl mb-4"></i>
+                <p class="text-lg font-medium mb-2">No submissions yet</p>
+                <p class="text-sm mb-4">Start by submitting your first manuscript</p>
+                <a href="submit.html" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                    <i class="fas fa-plus mr-2"></i>New Submission
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get user ID from localStorage (set after login)
+        const userId = localStorage.getItem('userId') || null;
+        
+        // Load submissions
+        async function loadSubmissions() {
+            if (!userId) {
+                document.getElementById('submissionsList').innerHTML = `
+                    <div class="p-8 text-center">
+                        <p class="text-gray-600 mb-4">Please log in to view your submissions</p>
+                        <a href="login.html" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                            Login
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/submissions/my?authorId=${userId}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displaySubmissions(data.submissions);
+                    updateStats(data.submissions);
+                } else {
+                    console.error('Failed to load submissions:', data.message);
+                }
+            } catch (error) {
+                console.error('Error loading submissions:', error);
+            }
+        }
+
+        function displaySubmissions(submissions) {
+            const list = document.getElementById('submissionsList');
+            const noSubmissions = document.getElementById('noSubmissions');
+            
+            if (submissions.length === 0) {
+                list.innerHTML = '';
+                noSubmissions.classList.remove('hidden');
+                return;
+            }
+            
+            noSubmissions.classList.add('hidden');
+            list.innerHTML = submissions.map(sub => {
+                const statusClass = getStatusClass(sub.status);
+                const statusText = getStatusText(sub.status);
+                const submittedDate = new Date(sub.submitted_date).toLocaleDateString();
+                
+                return `
+                    <div class="p-6 hover:bg-gray-50 transition-colors">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex-1">
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">${sub.title}</h4>
+                                <p class="text-sm text-gray-600 mb-2">Submitted on ${submittedDate} • ID: ${sub.manuscript_id}</p>
+                                <p class="text-sm text-gray-500">Authors: ${sub.authors}</p>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <span class="px-3 py-1 rounded-full text-xs font-semibold ${statusClass}">${statusText}</span>
+                            </div>
+                        </div>
+                        ${sub.abstract ? `
+                            <div class="mt-4 p-4 bg-gray-50 rounded-lg">
+                                <p class="text-sm font-medium text-gray-700 mb-2">Abstract:</p>
+                                <p class="text-sm text-gray-600">${sub.abstract.substring(0, 200)}${sub.abstract.length > 200 ? '...' : ''}</p>
+                            </div>
+                        ` : ''}
+                        ${sub.decision ? `
+                            <div class="mt-4 p-4 ${sub.decision === 'accepted' ? 'bg-green-50' : sub.decision === 'rejected' ? 'bg-red-50' : 'bg-yellow-50'} rounded-lg">
+                                <p class="text-sm font-medium mb-1">Decision: <strong>${sub.decision.toUpperCase()}</strong></p>
+                                ${sub.notes ? `<p class="text-sm mt-2">${sub.notes}</p>` : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getStatusClass(status) {
+            const statusMap = {
+                'submitted': 'status-submitted',
+                'under-review': 'status-under-review',
+                'in-review': 'status-under-review',
+                'accepted': 'status-accepted',
+                'rejected': 'status-rejected',
+                'revision': 'status-revision',
+                'revision-required': 'status-revision'
+            };
+            return statusMap[status] || 'status-submitted';
+        }
+
+        function getStatusText(status) {
+            const statusMap = {
+                'submitted': 'Submitted',
+                'under-review': 'Under Review',
+                'in-review': 'Under Review',
+                'accepted': 'Accepted',
+                'rejected': 'Rejected',
+                'revision': 'Revision Required',
+                'revision-required': 'Revision Required'
+            };
+            return statusMap[status] || 'Submitted';
+        }
+
+        function updateStats(submissions) {
+            document.getElementById('totalSubmissions').textContent = submissions.length;
+            document.getElementById('underReview').textContent = submissions.filter(s => s.status === 'under-review' || s.status === 'in-review').length;
+            document.getElementById('accepted').textContent = submissions.filter(s => s.status === 'accepted').length;
+            document.getElementById('rejected').textContent = submissions.filter(s => s.status === 'rejected').length;
+        }
+
+        // Load on page load
+        loadSubmissions();
+    </script>
+</body>
+</html>
+

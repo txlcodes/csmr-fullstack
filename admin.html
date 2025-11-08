@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - CSMR</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/recharts@2.8.0/dist/Recharts.js"></script>
     <style>
         body {
-            font-family: 'Inter', system-ui, sans-serif;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6, .hero-title {
+            font-family: 'Merriweather', serif;
         }
         .gradient-bg {
             background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
@@ -289,61 +292,8 @@
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">Sustainable Supply Chain Management in Indian Manufacturing</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">Dr. Rajesh Kumar, Dr. Priya Sharma</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">2025-01-15</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">New</span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <button class="text-blue-600 hover:text-blue-900 mr-3">Assign Editor</button>
-                                        <button class="text-red-600 hover:text-red-900">Desk Reject</button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">ESG Reporting Impact on Financial Performance</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">Dr. Vikram Singh, Dr. Anita Desai</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">2025-01-14</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Under Review</span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <button class="text-blue-600 hover:text-blue-900 mr-3">View Details</button>
-                                        <button class="text-green-600 hover:text-green-900">Track Progress</button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">Climate Change Adaptation Strategies for Business</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">Dr. Meena Patel, Dr. Rahul Verma</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">2025-01-13</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Accepted</span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <button class="text-blue-600 hover:text-blue-900 mr-3">View Details</button>
-                                        <button class="text-purple-600 hover:text-purple-900">Publish</button>
-                                    </td>
-                                </tr>
+                            <tbody id="submissionsTableBody" class="bg-white divide-y divide-gray-200">
+                                <!-- Submissions will be loaded here -->
                             </tbody>
                         </table>
                     </div>
@@ -353,44 +303,52 @@
             <!-- Assign Editors Page -->
             <div id="editors" class="page">
                 <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-6">Assign Editors</h3>
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900">Assign Editors</h3>
+                        <div class="flex space-x-4">
+                            <button onclick="showAddEditorModal()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                                <i class="fas fa-plus mr-2"></i>Add Editor
+                            </button>
+                            <div class="relative">
+                                <input type="text" id="editorSearch" placeholder="Search editors..." class="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            </div>
+                        </div>
+                    </div>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                            <div class="flex items-center justify-between mb-3">
-                                <h4 class="font-medium text-gray-900">Dr. Sarah Johnson</h4>
-                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">Available</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mb-2">Sustainability & Management</p>
-                            <p class="text-xs text-gray-500 mb-3">Workload: 3 papers</p>
-                            <button class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
-                                Assign Editor
-                            </button>
-                        </div>
+                    <!-- Manuscript Selection -->
+                    <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Select Manuscript to Assign Editor:</label>
+                        <select id="editorManuscriptSelect" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Select a manuscript...</option>
+                            <option value="MS-2024-001" 
+                                    data-title="Sustainable Supply Chain Management in Indian Manufacturing"
+                                    data-authors="Dr. Rajesh Kumar, Dr. Priya Sharma"
+                                    data-abstract="This study examines sustainable supply chain practices in Indian manufacturing industries, analyzing the impact of green initiatives on operational efficiency and environmental performance. The research employs a mixed-methods approach, combining quantitative data from 150 manufacturing firms with qualitative insights from industry experts.">
+                                Sustainable Supply Chain Management in Indian Manufacturing
+                            </option>
+                            <option value="MS-2024-002" 
+                                    data-title="ESG Reporting Impact on Financial Performance"
+                                    data-authors="Dr. Vikram Singh, Dr. Anita Desai"
+                                    data-abstract="An analysis of how ESG reporting affects financial performance in publicly traded companies. This comprehensive study examines the correlation between environmental, social, and governance disclosures and stock market returns, using data from 500 companies over a 10-year period.">
+                                ESG Reporting Impact on Financial Performance
+                            </option>
+                            <option value="MS-2024-003" 
+                                    data-title="Climate Change Adaptation Strategies for Business"
+                                    data-authors="Dr. Meena Patel, Dr. Rahul Verma"
+                                    data-abstract="A comprehensive study on business adaptation strategies for climate change impacts. This research explores how organizations across different sectors are preparing for and responding to climate-related risks, with a focus on resilience planning and sustainable business models.">
+                                Climate Change Adaptation Strategies for Business
+                            </option>
+                        </select>
+                    </div>
 
-                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                            <div class="flex items-center justify-between mb-3">
-                                <h4 class="font-medium text-gray-900">Dr. Michael Chen</h4>
-                                <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full">Busy</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mb-2">Innovation & Technology</p>
-                            <p class="text-xs text-gray-500 mb-3">Workload: 7 papers</p>
-                            <button class="w-full bg-gray-300 text-gray-500 py-2 px-4 rounded-lg cursor-not-allowed" disabled>
-                                Assign Editor
-                            </button>
-                        </div>
+                    <div id="editorsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Editors will be loaded here -->
+                    </div>
 
-                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                            <div class="flex items-center justify-between mb-3">
-                                <h4 class="font-medium text-gray-900">Dr. Emily Rodriguez</h4>
-                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">Available</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mb-2">Environmental Studies</p>
-                            <p class="text-xs text-gray-500 mb-3">Workload: 2 papers</p>
-                            <button class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
-                                Assign Editor
-                            </button>
-                        </div>
+                    <div id="noEditors" class="text-center py-8 text-gray-500 hidden">
+                        <i class="fas fa-user-tie text-4xl mb-4"></i>
+                        <p>No editors found. Try adjusting your search or add a new editor.</p>
                     </div>
                 </div>
             </div>
@@ -416,9 +374,24 @@
                         <label class="block text-sm font-medium text-gray-700 mb-2">Select Manuscript to Review:</label>
                         <select id="manuscriptSelect" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">Select a manuscript...</option>
-                            <option value="1" data-title="Sustainable Supply Chain Management in Indian Manufacturing">Sustainable Supply Chain Management in Indian Manufacturing</option>
-                            <option value="2" data-title="ESG Reporting Impact on Financial Performance">ESG Reporting Impact on Financial Performance</option>
-                            <option value="3" data-title="Climate Change Adaptation Strategies for Business">Climate Change Adaptation Strategies for Business</option>
+                            <option value="MS-2024-001" 
+                                    data-title="Sustainable Supply Chain Management in Indian Manufacturing"
+                                    data-authors="Dr. Rajesh Kumar, Dr. Priya Sharma"
+                                    data-abstract="This study examines sustainable supply chain practices in Indian manufacturing industries, analyzing the impact of green initiatives on operational efficiency and environmental performance. The research employs a mixed-methods approach, combining quantitative data from 150 manufacturing firms with qualitative insights from industry experts.">
+                                Sustainable Supply Chain Management in Indian Manufacturing
+                            </option>
+                            <option value="MS-2024-002" 
+                                    data-title="ESG Reporting Impact on Financial Performance"
+                                    data-authors="Dr. Vikram Singh, Dr. Anita Desai"
+                                    data-abstract="An analysis of how ESG reporting affects financial performance in publicly traded companies. This comprehensive study examines the correlation between environmental, social, and governance disclosures and stock market returns, using data from 500 companies over a 10-year period.">
+                                ESG Reporting Impact on Financial Performance
+                            </option>
+                            <option value="MS-2024-003" 
+                                    data-title="Climate Change Adaptation Strategies for Business"
+                                    data-authors="Dr. Meena Patel, Dr. Rahul Verma"
+                                    data-abstract="A comprehensive study on business adaptation strategies for climate change impacts. This research explores how organizations across different sectors are preparing for and responding to climate-related risks, with a focus on resilience planning and sustainable business models.">
+                                Climate Change Adaptation Strategies for Business
+                            </option>
                         </select>
                         </div>
 
@@ -607,6 +580,50 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Editor Modal -->
+    <div id="addEditorModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900">Add New Editor</h3>
+                </div>
+                
+                <form id="addEditorForm" class="p-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                            <input type="text" id="editorFirstName" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                            <input type="text" id="editorLastName" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" id="editorEmail" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Expertise (comma-separated)</label>
+                            <input type="text" id="editorExpertise" placeholder="e.g., Sustainability, Management, ESG" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 mt-6">
+                        <button type="button" onclick="hideAddEditorModal()" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                            Add Editor
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -817,6 +834,11 @@
             };
             document.getElementById('pageTitle').textContent = titles[pageId];
             
+            // Load data for specific pages
+            if (pageId === 'submissions') {
+                loadSubmissions();
+            }
+            
             // Update active nav item
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('bg-blue-50', 'text-blue-600');
@@ -896,9 +918,14 @@
                                         </div>
                                     ` : ''}
                                 </div>
-                                <button onclick="inviteReviewer(${reviewer.id})" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
-                                    Invite
-                                </button>
+                                <div class="flex flex-col gap-2 ml-4">
+                                    <button onclick="inviteReviewer(${reviewer.id})" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                        Invite
+                                    </button>
+                                    <button onclick="removeReviewer(${reviewer.id}, '${reviewer.first_name} ${reviewer.last_name}')" class="bg-red-700 text-white py-2 px-4 rounded-lg hover:bg-red-800 transition-colors text-sm">
+                                        <i class="fas fa-trash mr-1"></i>Remove
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     `).join('');
@@ -928,8 +955,10 @@
             
             const manuscriptId = selectedOption.value;
             const manuscriptTitle = selectedOption.dataset.title;
+            const authors = selectedOption.dataset.authors || '';
+            const abstract = selectedOption.dataset.abstract || '';
             const dueDate = new Date();
-            dueDate.setDate(dueDate.getDate() + 30); // 30 days from now
+            dueDate.setDate(dueDate.getDate() + 14); // 14 days from now (matching academic journal standards)
             
             try {
                 const response = await fetch('/api/reviewers/invite', {
@@ -941,20 +970,50 @@
                         reviewerId,
                         manuscriptId,
                         manuscriptTitle,
-                        dueDate: dueDate.toISOString().split('T')[0]
+                        dueDate: dueDate.toISOString().split('T')[0],
+                        authors: authors,
+                        abstract: abstract
                     })
                 });
                 
                 const data = await response.json();
                 
                 if (data.success) {
-                    alert('Review invitation sent successfully!');
+                    alert('Review invitation sent successfully! The reviewer will receive a professional email invitation.');
                 } else {
                     alert('Failed to send invitation: ' + data.message);
                 }
             } catch (error) {
                 console.error('Error sending invitation:', error);
                 alert('Failed to send invitation');
+            }
+        }
+
+        // Remove reviewer
+        async function removeReviewer(reviewerId, reviewerName) {
+            if (!confirm(`Are you sure you want to remove ${reviewerName}?\n\nThis action cannot be undone.`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/reviewers/${reviewerId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Reviewer removed successfully!');
+                    loadReviewers(); // Refresh the list
+                } else {
+                    alert('Failed to remove reviewer: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error removing reviewer:', error);
+                alert('Failed to remove reviewer');
             }
         }
 
@@ -1011,19 +1070,171 @@
         // Setup add reviewer form
         function setupAddReviewerForm() {
             const form = document.getElementById('addReviewerForm');
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const reviewerData = {
+                        firstName: document.getElementById('reviewerFirstName').value,
+                        lastName: document.getElementById('reviewerLastName').value,
+                        email: document.getElementById('reviewerEmail').value,
+                        expertise: document.getElementById('reviewerExpertise').value,
+                        password: 'temp_password_123' // Temporary password, reviewer can reset
+                    };
+                    
+                    await addReviewer(reviewerData);
+                });
+            }
+        }
+
+        // Load submissions
+        async function loadSubmissions() {
+            try {
+                const response = await fetch('/api/submissions');
+                const data = await response.json();
                 
-                const reviewerData = {
-                    firstName: document.getElementById('reviewerFirstName').value,
-                    lastName: document.getElementById('reviewerLastName').value,
-                    email: document.getElementById('reviewerEmail').value,
-                    expertise: document.getElementById('reviewerExpertise').value,
-                    password: 'temp_password_123' // Temporary password, reviewer can reset
-                };
+                const tbody = document.getElementById('submissionsTableBody');
+                const badgeCount = document.querySelector('a[onclick="showPage(\'submissions\')"] .bg-red-500');
                 
-                await addReviewer(reviewerData);
-            });
+                if (data.success && data.submissions.length > 0) {
+                    // Update badge count
+                    const newSubmissions = data.submissions.filter(s => s.status === 'submitted').length;
+                    if (badgeCount) {
+                        badgeCount.textContent = newSubmissions;
+                        if (newSubmissions === 0) {
+                            badgeCount.style.display = 'none';
+                        } else {
+                            badgeCount.style.display = 'inline-block';
+                        }
+                    }
+                    
+                    tbody.innerHTML = data.submissions.map(sub => {
+                        const submittedDate = new Date(sub.submitted_date).toLocaleDateString();
+                        const statusClass = getSubmissionStatusClass(sub.status);
+                        const statusText = getSubmissionStatusText(sub.status);
+                        
+                        return `
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4">
+                                    <div class="text-sm font-medium text-gray-900">${sub.title}</div>
+                                    <div class="text-xs text-gray-500 mt-1">ID: ${sub.manuscript_id}</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-sm text-gray-900">${sub.authors}</div>
+                                    ${sub.author_email ? `<div class="text-xs text-gray-500">${sub.author_email}</div>` : ''}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">${submittedDate}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 py-1 text-xs font-semibold rounded-full ${statusClass}">${statusText}</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    ${sub.status === 'submitted' ? `
+                                        <button onclick="assignEditorToSubmission(${sub.id})" class="text-blue-600 hover:text-blue-900 mr-3">Assign Editor</button>
+                                        <button onclick="deskRejectSubmission(${sub.id})" class="text-red-600 hover:text-red-900">Desk Reject</button>
+                                    ` : `
+                                        <button onclick="viewSubmissionDetails(${sub.id})" class="text-blue-600 hover:text-blue-900 mr-3">View Details</button>
+                                        ${sub.status === 'accepted' ? `
+                                            <button onclick="publishSubmission(${sub.id})" class="text-purple-600 hover:text-purple-900">Publish</button>
+                                        ` : ''}
+                                    `}
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                } else {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="5" class="px-6 py-8 text-center text-gray-500">
+                                <i class="fas fa-file-alt text-4xl mb-4"></i>
+                                <p>No submissions found</p>
+                            </td>
+                        </tr>
+                    `;
+                    if (badgeCount) {
+                        badgeCount.style.display = 'none';
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading submissions:', error);
+                document.getElementById('submissionsTableBody').innerHTML = `
+                    <tr>
+                        <td colspan="5" class="px-6 py-8 text-center text-red-500">
+                            Error loading submissions. Please try again.
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        function getSubmissionStatusClass(status) {
+            const statusMap = {
+                'submitted': 'bg-blue-100 text-blue-800',
+                'under-review': 'bg-yellow-100 text-yellow-800',
+                'in-review': 'bg-yellow-100 text-yellow-800',
+                'accepted': 'bg-green-100 text-green-800',
+                'rejected': 'bg-red-100 text-red-800',
+                'revision': 'bg-purple-100 text-purple-800',
+                'revision-required': 'bg-purple-100 text-purple-800'
+            };
+            return statusMap[status] || 'bg-gray-100 text-gray-800';
+        }
+
+        function getSubmissionStatusText(status) {
+            const statusMap = {
+                'submitted': 'New',
+                'under-review': 'Under Review',
+                'in-review': 'Under Review',
+                'accepted': 'Accepted',
+                'rejected': 'Rejected',
+                'revision': 'Revision Required',
+                'revision-required': 'Revision Required'
+            };
+            return statusMap[status] || 'Submitted';
+        }
+
+        // Placeholder functions for submission actions
+        function assignEditorToSubmission(submissionId) {
+            alert('Assign Editor functionality - Coming soon!');
+        }
+
+        function deskRejectSubmission(submissionId) {
+            if (confirm('Are you sure you want to desk reject this submission?')) {
+                // Update submission status to rejected
+                fetch(`/api/submissions/${submissionId}/status`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        status: 'rejected',
+                        decision: 'rejected',
+                        notes: 'Desk rejected by admin'
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Submission rejected successfully');
+                        loadSubmissions();
+                    } else {
+                        alert('Failed to reject submission: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error rejecting submission');
+                });
+            }
+        }
+
+        function viewSubmissionDetails(submissionId) {
+            alert('View Details functionality - Coming soon!');
+        }
+
+        function publishSubmission(submissionId) {
+            alert('Publish functionality - Coming soon!');
         }
 
         // Reviewer Desk Functions
@@ -1264,14 +1475,224 @@
             });
         }
 
+        // ==================== EDITOR FUNCTIONS ====================
+        
+        // Load editors
+        async function loadEditors(searchTerm = '') {
+            try {
+                const response = await fetch(`/api/editors?search=${encodeURIComponent(searchTerm)}`);
+                const data = await response.json();
+                
+                const editorsList = document.getElementById('editorsList');
+                const noEditors = document.getElementById('noEditors');
+                
+                if (data.success && data.editors.length > 0) {
+                    editorsList.innerHTML = data.editors.map(editor => `
+                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="flex items-center justify-between mb-3">
+                                <h4 class="font-medium text-gray-900">Dr. ${editor.first_name} ${editor.last_name}</h4>
+                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">Available</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">${editor.email}</p>
+                            ${editor.expertise ? `
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    ${editor.expertise.split(',').map(skill => 
+                                        `<span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">${skill.trim()}</span>`
+                                    ).join('')}
+                                </div>
+                            ` : ''}
+                            <div class="flex gap-2">
+                                <button onclick="assignEditor(${editor.id})" class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                                    Assign Editor
+                                </button>
+                                <button onclick="removeEditor(${editor.id}, '${editor.first_name} ${editor.last_name}')" class="bg-red-700 text-white py-2 px-3 rounded-lg hover:bg-red-800 transition-colors" title="Remove Editor">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+                    noEditors.classList.add('hidden');
+                } else {
+                    editorsList.innerHTML = '';
+                    noEditors.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Error loading editors:', error);
+                alert('Failed to load editors');
+            }
+        }
+
+        // Assign editor
+        async function assignEditor(editorId) {
+            const manuscriptSelect = document.getElementById('editorManuscriptSelect');
+            const selectedOption = manuscriptSelect.options[manuscriptSelect.selectedIndex];
+            
+            if (!selectedOption.value) {
+                alert('Please select a manuscript first');
+                return;
+            }
+            
+            const manuscriptId = selectedOption.value;
+            const manuscriptTitle = selectedOption.dataset.title;
+            const authors = selectedOption.dataset.authors || '';
+            const abstract = selectedOption.dataset.abstract || '';
+            
+            // Optional: Ask for notes
+            const notes = prompt('Add any additional notes for the editor (optional):') || '';
+            
+            try {
+                const response = await fetch('/api/editors/assign', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        editorId,
+                        manuscriptId,
+                        manuscriptTitle,
+                        authors: authors,
+                        abstract: abstract,
+                        notes: notes
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Editor assigned successfully! The editor will receive a professional email notification.');
+                } else {
+                    alert('Failed to assign editor: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error assigning editor:', error);
+                alert('Failed to assign editor');
+            }
+        }
+
+        // Remove editor
+        async function removeEditor(editorId, editorName) {
+            if (!confirm(`Are you sure you want to remove ${editorName}?\n\nThis action cannot be undone.`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/editors/${editorId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Editor removed successfully!');
+                    loadEditors(); // Refresh the list
+                } else {
+                    alert('Failed to remove editor: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error removing editor:', error);
+                alert('Failed to remove editor');
+            }
+        }
+
+        // Search editors
+        function setupEditorSearch() {
+            const searchInput = document.getElementById('editorSearch');
+            let searchTimeout;
+            
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    loadEditors(e.target.value);
+                }, 300);
+            });
+        }
+
+        // Show add editor modal
+        function showAddEditorModal() {
+            document.getElementById('addEditorModal').classList.remove('hidden');
+        }
+
+        // Hide add editor modal
+        function hideAddEditorModal() {
+            document.getElementById('addEditorModal').classList.add('hidden');
+            document.getElementById('addEditorForm').reset();
+        }
+
+        // Add editor function
+        async function addEditor(editorData) {
+            try {
+                const response = await fetch('/api/editors/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(editorData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Editor added successfully!');
+                    hideAddEditorModal();
+                    loadEditors(); // Refresh the list
+                } else {
+                    alert('Failed to add editor: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error adding editor:', error);
+                alert('Failed to add editor');
+            }
+        }
+
+        // Setup add editor form
+        function setupAddEditorForm() {
+            const form = document.getElementById('addEditorForm');
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const editorData = {
+                        firstName: document.getElementById('editorFirstName').value,
+                        lastName: document.getElementById('editorLastName').value,
+                        email: document.getElementById('editorEmail').value,
+                        expertise: document.getElementById('editorExpertise').value,
+                        password: 'temp_password_123' // Temporary password, editor can reset
+                    };
+                    
+                    await addEditor(editorData);
+                });
+            }
+        }
+
         // Initialize
         checkAdminAuth();
         initCharts();
         loadReviewers();
         setupReviewerSearch();
-        setupAddReviewerForm();
         loadReviews();
         setupReviewSearch();
+        loadEditors();
+        setupEditorSearch();
+        
+        // Setup forms after DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            setupAddReviewerForm();
+            setupAddEditorForm();
+        });
+        
+        // Also setup immediately in case DOM is already loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                setupAddReviewerForm();
+                setupAddEditorForm();
+            });
+        } else {
+            setupAddReviewerForm();
+            setupAddEditorForm();
+        }
     </script>
 </body>
 </html>

@@ -5,11 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSMR - Centre for Sustainability & Management Research</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { 
-            font-family: 'Inter', system-ui, sans-serif; 
+            font-family: 'Source Sans Pro', sans-serif; 
+        }
+        h1, h2, h3, h4, h5, h6, .hero-title {
+            font-family: 'Merriweather', serif;
+        }
+        .hero-title.typing-animation {
+            font-size: 44.8px;
+            font-family: 'Merriweather', serif;
+        }
+        .csmr-logo {
+            font-size: 44.8px;
+            font-family: 'Merriweather', serif;
         }
         .gradient-bg {
             background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
@@ -89,7 +100,7 @@
             <div class="flex justify-between items-center py-4">
                 <div class="flex items-center space-x-4">
                     <div class="flex items-center space-x-3">
-                        <div class="text-3xl font-black text-blue-900">CSMR</div>
+                        <div class="csmr-logo font-black text-blue-900">CSMR</div>
                         <div class="w-0.5 h-8 bg-blue-400"></div>
                         <div class="text-blue-600 font-medium">
                             <div class="text-sm leading-tight">Centre for Sustainability</div>
@@ -139,7 +150,7 @@
     <!-- Hero Section -->
     <section id="home" class="gradient-bg py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-5xl md:text-6xl font-black text-white mb-6">
+            <h1 class="hero-title typing-animation font-black text-white mb-6" style="border-right: none;">
                 Centre for Sustainability and Management Research
             </h1>
             <p class="text-xl text-white text-opacity-90 mb-12 max-w-4xl mx-auto">
@@ -175,13 +186,13 @@
 
                 <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center">
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-upload text-2xl text-blue-600"></i>
+                        <i class="fas fa-list-alt text-2xl text-blue-600"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Submit Paper</h3>
-                    <p class="text-gray-600 mb-6">Start the submission process for your research manuscript</p>
-                    <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
-                        Submit Now
-                    </button>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">View My Submissions</h3>
+                    <p class="text-gray-600 mb-6">Track and manage all your manuscript submissions and their status</p>
+                    <a href="my-submissions.html" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                        View Submissions
+                    </a>
                 </div>
 
                 <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center">
@@ -519,7 +530,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div class="col-span-1 md:col-span-2">
                     <div class="flex items-center space-x-3 mb-4">
-                        <div class="text-3xl font-black text-white">CSMR</div>
+                        <div class="csmr-logo font-black text-white">CSMR</div>
                         <div class="w-0.5 h-8 bg-blue-200"></div>
                         <div class="text-blue-100 font-medium">
                             <div class="text-sm leading-tight">Centre for Sustainability</div>
