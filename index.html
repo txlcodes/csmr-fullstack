@@ -33,6 +33,67 @@
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
         
+        /* Page Transition Animation */
+        .page-transition-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        
+        .page-transition-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .transition-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .transition-text {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+        
+        .card-click-animation {
+            animation: cardClick 0.4s ease-out;
+        }
+        
+        @keyframes cardClick {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+        
         .fade-in-up {
             opacity: 0;
             transform: translateY(50px);
@@ -124,8 +185,23 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-center space-x-8 py-4">
                 <a href="#home" class="text-blue-600 border-b-2 border-blue-600 pb-2 font-medium">Home</a>
-                <a href="journals.html" class="text-gray-600 hover:text-blue-600 font-medium">Journals</a>
-                <a href="articles.html" class="text-gray-600 hover:text-blue-600 font-medium">Articles</a>
+                <div class="relative group">
+                    <a href="journals.html" class="text-gray-600 hover:text-blue-600 font-medium flex items-center">
+                        Journals
+                        <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </a>
+                    <!-- Dropdown Menu -->
+                    <div class="absolute top-full left-0 mt-2 w-72 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                        <div class="py-2">
+                            <a href="journals.html?journal=sustainability" class="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors border-b border-gray-100">
+                                <div class="font-semibold">Journal of Sustainability and Management Research</div>
+                            </a>
+                            <a href="journals.html?journal=sustainability-research" class="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                <div class="font-semibold">Journal for Sustainability and Research</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 <a href="submit.html" class="text-gray-600 hover:text-blue-600 font-medium">Submit</a>
                 <a href="about.html" class="text-gray-600 hover:text-blue-600 font-medium">About</a>
                 <a href="admin-login.html" class="text-gray-600 hover:text-blue-600 font-medium">Admin Panel</a>
@@ -215,6 +291,63 @@
                     <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
                         Explore Tools
                     </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources & Services Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Resources & Services</h2>
+                <div class="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
+                <p class="text-gray-600 mt-4">Explore our comprehensive sustainability resources and services</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div onclick="navigateWithAnimation('articles.html', 'Articles', event)" class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center cursor-pointer">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-newspaper text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Articles</h3>
+                    <p class="text-gray-600 mb-6">Browse our collection of published research articles and papers</p>
+                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                        View Articles
+                    </span>
+                </div>
+
+                <div onclick="navigateWithAnimation('conferences.html', 'Conferences', event)" class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center cursor-pointer">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-users text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Conferences</h3>
+                    <p class="text-gray-600 mb-6">Discover upcoming sustainability conferences, workshops, and events</p>
+                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                        Explore Conferences
+                    </span>
+                </div>
+
+                <div onclick="navigateWithAnimation('certification.html', 'Certification Programs', event)" class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center cursor-pointer">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-certificate text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Certification</h3>
+                    <p class="text-gray-600 mb-6">Professional certification programs in sustainability and ESG</p>
+                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                        View Programs
+                    </span>
+                </div>
+
+                <div onclick="navigateWithAnimation('sustainable-reporting.html', 'Sustainable Reporting', event)" class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center cursor-pointer">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-chart-bar text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Reporting</h3>
+                    <p class="text-gray-600 mb-6">Tools, frameworks, and guides for sustainability reporting</p>
+                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                        Learn More
+                    </span>
                 </div>
             </div>
         </div>
@@ -579,6 +712,12 @@
         </div>
     </footer>
 
+    <!-- Page Transition Overlay -->
+    <div id="pageTransitionOverlay" class="page-transition-overlay">
+        <div class="transition-spinner"></div>
+        <div class="transition-text" id="transitionText">Loading...</div>
+    </div>
+
     <script>
         // Check if user is logged in and update navbar
         function updateNavbar() {
@@ -614,6 +753,42 @@
 
         // Update navbar on page load
         updateNavbar();
+
+        // Smooth page transition animation for resource cards
+        function navigateWithAnimation(url, pageName, event) {
+            // Get the clicked card element
+            const clickedCard = event ? event.currentTarget : event.target.closest('.card-hover');
+            
+            // Add click animation to the card
+            if (clickedCard) {
+                clickedCard.classList.add('card-click-animation');
+            }
+            
+            // Show transition overlay
+            const overlay = document.getElementById('pageTransitionOverlay');
+            const transitionText = document.getElementById('transitionText');
+            transitionText.textContent = `Loading ${pageName}...`;
+            overlay.classList.add('active');
+            
+            // Fade out the page content
+            document.body.style.transition = 'opacity 0.3s ease';
+            document.body.style.opacity = '0';
+            
+            // Navigate after a short delay for smooth animation
+            setTimeout(() => {
+                window.location.href = url;
+            }, 500);
+        }
+
+        // Remove click animation class after animation completes
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card-hover');
+            cards.forEach(card => {
+                card.addEventListener('animationend', function() {
+                    this.classList.remove('card-click-animation');
+                });
+            });
+        });
 
         // Counter animation for impact numbers
         function animateCounters() {

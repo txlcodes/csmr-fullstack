@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conferences - CSMR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6, .hero-title {
+            font-family: 'Merriweather', serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Top Header Bar -->
+    <div class="bg-gray-100 text-gray-600 text-sm py-2">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-blue-600"><i class="fas fa-lock mr-1"></i>Institutional Access</a>
+                <a href="#" class="hover:text-blue-600">Learn More</a>
+            </div>
+            <div class="flex space-x-4 items-center">
+                <div id="authSectionTop" class="flex items-center space-x-4">
+                    <a href="login.html" class="hover:text-blue-600">Login / Register</a>
+                </div>
+                <div class="relative">
+                    <select class="bg-transparent border-none text-gray-600 text-sm focus:outline-none">
+                        <option>English</option>
+                        <option>Hindi</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="bg-white shadow-sm py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="text-3xl font-black text-blue-900">CSMR</div>
+                <div class="w-0.5 h-8 bg-blue-400"></div>
+                <div class="text-blue-600 font-medium">
+                    <div class="text-sm leading-tight">Centre for Sustainability</div>
+                    <div class="text-sm leading-tight">& Management Research</div>
+                </div>
+            </div>
+            <div class="relative w-full max-w-md hidden md:block">
+                <input type="text" placeholder="Search conferences, events..." class="w-full pl-4 pr-10 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center space-x-8 py-4">
+                <a href="index.html" class="text-gray-600 hover:text-blue-600 font-medium">Home</a>
+                <a href="journals.html" class="text-gray-600 hover:text-blue-600 font-medium">Journals</a>
+                <a href="conferences.html" class="text-blue-600 border-b-2 border-blue-600 pb-2 font-medium">Conferences</a>
+                <a href="about.html" class="text-gray-600 hover:text-blue-600 font-medium">About</a>
+                <a href="admin-login.html" class="text-gray-600 hover:text-blue-600 font-medium">Admin Panel</a>
+                <a href="contact.html" class="text-gray-600 hover:text-blue-600 font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="bg-gray-50 py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex" aria-label="Breadcrumb">
+                <ol class="flex items-center space-x-2">
+                    <li>
+                        <a href="index.html" class="text-gray-500 hover:text-blue-600">
+                            <i class="fas fa-home"></i>
+                            <span class="sr-only">Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="flex items-center">
+                            <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                            <span class="text-gray-900 font-medium">Conferences</span>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg py-16 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-black mb-6">Sustainability Conferences</h1>
+            <p class="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+                A central hub for researchers and scientists to discover and participate in sustainability-related conferences, workshops, and webinars.
+            </p>
+        </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <section class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap gap-2 py-4">
+                <button onclick="showTab('upcoming')" id="upcoming-tab" class="tab-button active bg-white border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-t-lg font-semibold">
+                    Upcoming Conferences
+                </button>
+                <button onclick="showTab('proceedings')" id="proceedings-tab" class="tab-button text-blue-900 px-6 py-3 font-semibold hover:text-blue-600">
+                    Conference Proceedings
+                </button>
+                <button onclick="showTab('cfp')" id="cfp-tab" class="tab-button text-blue-900 px-6 py-3 font-semibold hover:text-blue-600">
+                    Call for Papers
+                </button>
+                <button onclick="showTab('workshops')" id="workshops-tab" class="tab-button text-blue-900 px-6 py-3 font-semibold hover:text-blue-600">
+                    Workshops & Webinars
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tab Content -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Upcoming Conferences Content -->
+            <div id="upcoming-content" class="tab-content">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-blue-900 mb-6">Upcoming Sustainability Conferences</h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6 border-l-4 border-blue-600">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">2025</span>
+                                <span class="text-gray-500 text-sm">March 15-17</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">International Conference on Climate Change & Sustainability</h3>
+                            <p class="text-gray-600 text-sm mb-4">New Delhi, India</p>
+                            <p class="text-gray-700 mb-4">Exploring innovative solutions for climate adaptation and sustainable development practices.</p>
+                            <div class="flex items-center justify-between">
+                                <a href="#" class="text-blue-600 hover:text-blue-800 font-semibold text-sm">Learn More →</a>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700">Register</button>
+                            </div>
+                        </div>
+
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6 border-l-4 border-green-600">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">2025</span>
+                                <span class="text-gray-500 text-sm">May 20-22</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Renewable Energy & Green Technology Summit</h3>
+                            <p class="text-gray-600 text-sm mb-4">Bangalore, India</p>
+                            <p class="text-gray-700 mb-4">Advancing renewable energy solutions and green technology innovations.</p>
+                            <div class="flex items-center justify-between">
+                                <a href="#" class="text-blue-600 hover:text-blue-800 font-semibold text-sm">Learn More →</a>
+                                <button class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700">Register</button>
+                            </div>
+                        </div>
+
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6 border-l-4 border-purple-600">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-3 py-1 rounded-full">2025</span>
+                                <span class="text-gray-500 text-sm">July 10-12</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">ESG & Sustainable Finance Conference</h3>
+                            <p class="text-gray-600 text-sm mb-4">Mumbai, India</p>
+                            <p class="text-gray-700 mb-4">Integrating ESG principles into corporate strategy and financial decision-making.</p>
+                            <div class="flex items-center justify-between">
+                                <a href="#" class="text-blue-600 hover:text-blue-800 font-semibold text-sm">Learn More →</a>
+                                <button class="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-purple-700">Register</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conference Proceedings Content -->
+            <div id="proceedings-content" class="tab-content hidden">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-blue-900 mb-6">Previous Conference Proceedings</h2>
+                    <div class="space-y-6">
+                        <div class="bg-white rounded-lg shadow-lg p-6">
+                            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-900 mb-2">International Conference on Sustainability 2024</h3>
+                                    <p class="text-gray-600 text-sm mb-2">October 15-17, 2024 | New Delhi, India</p>
+                                </div>
+                                <a href="#" class="text-blue-600 hover:text-blue-800 font-semibold mt-2 md:mt-0">View Proceedings →</a>
+                            </div>
+                            <p class="text-gray-700 mb-4">Proceedings include 45 peer-reviewed papers covering climate change, renewable energy, sustainable management, and environmental policy.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Climate Change</span>
+                                <span class="bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full">Renewable Energy</span>
+                                <span class="bg-purple-100 text-purple-800 text-xs px-3 py-1 rounded-full">ESG</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-lg p-6">
+                            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-900 mb-2">Green Technology Innovation Summit 2024</h3>
+                                    <p class="text-gray-600 text-sm mb-2">June 20-22, 2024 | Bangalore, India</p>
+                                </div>
+                                <a href="#" class="text-blue-600 hover:text-blue-800 font-semibold mt-2 md:mt-0">View Proceedings →</a>
+                            </div>
+                            <p class="text-gray-700 mb-4">Featured 38 research papers on green technology, sustainable infrastructure, and innovation in environmental solutions.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full">Green Tech</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Innovation</span>
+                                <span class="bg-orange-100 text-orange-800 text-xs px-3 py-1 rounded-full">Infrastructure</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-lg p-6">
+                            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                                <div>
+                                    <h3 class="text-xl font-bold text-gray-900 mb-2">Marine Sustainability & Ocean Conservation 2024</h3>
+                                    <p class="text-gray-600 text-sm mb-2">March 10-12, 2024 | Chennai, India</p>
+                                </div>
+                                <a href="#" class="text-blue-600 hover:text-blue-800 font-semibold mt-2 md:mt-0">View Proceedings →</a>
+                            </div>
+                            <p class="text-gray-700 mb-4">Proceedings featuring 32 papers on marine sustainability, ocean conservation, and coastal management strategies.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-cyan-100 text-cyan-800 text-xs px-3 py-1 rounded-full">Marine Science</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Conservation</span>
+                                <span class="bg-teal-100 text-teal-800 text-xs px-3 py-1 rounded-full">Coastal Management</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call for Papers Content -->
+            <div id="cfp-content" class="tab-content hidden">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-blue-900 mb-6">Call for Papers (CFP)</h2>
+                    <div class="space-y-6">
+                        <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-red-600">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-bold text-gray-900">Special Issue: Climate Adaptation Strategies</h3>
+                                <span class="bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full">Deadline: April 30, 2025</span>
+                            </div>
+                            <p class="text-gray-700 mb-4">
+                                We invite researchers to submit papers on innovative climate adaptation strategies, urban resilience, and sustainable infrastructure development. Topics include but are not limited to:
+                            </p>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
+                                <li>Urban planning for climate resilience</li>
+                                <li>Adaptive infrastructure systems</li>
+                                <li>Community-based adaptation strategies</li>
+                                <li>Climate risk assessment methodologies</li>
+                            </ul>
+                            <div class="flex items-center gap-4">
+                                <a href="#" class="text-blue-600 hover:text-blue-800 font-semibold">Submit Paper →</a>
+                                <a href="#" class="text-gray-600 hover:text-gray-800 text-sm">View Guidelines</a>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-blue-600">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-bold text-gray-900">Renewable Energy Integration in Developing Economies</h3>
+                                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Deadline: May 15, 2025</span>
+                            </div>
+                            <p class="text-gray-700 mb-4">
+                                Call for papers examining renewable energy adoption, policy frameworks, and economic impacts in developing economies.
+                            </p>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
+                                <li>Solar and wind energy deployment</li>
+                                <li>Energy policy and regulation</li>
+                                <li>Economic modeling of renewable transitions</li>
+                                <li>Grid integration challenges</li>
+                            </ul>
+                            <div class="flex items-center gap-4">
+                                <a href="#" class="text-blue-600 hover:text-blue-800 font-semibold">Submit Paper →</a>
+                                <a href="#" class="text-gray-600 hover:text-gray-800 text-sm">View Guidelines</a>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-green-600">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-bold text-gray-900">ESG Performance and Corporate Strategy</h3>
+                                <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">Deadline: June 1, 2025</span>
+                            </div>
+                            <p class="text-gray-700 mb-4">
+                                Seeking research on ESG integration, corporate sustainability reporting, and the impact of ESG on financial performance.
+                            </p>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
+                                <li>ESG measurement and reporting</li>
+                                <li>Corporate governance and sustainability</li>
+                                <li>ESG impact on investor decisions</li>
+                                <li>Sustainable finance frameworks</li>
+                            </ul>
+                            <div class="flex items-center gap-4">
+                                <a href="#" class="text-blue-600 hover:text-blue-800 font-semibold">Submit Paper →</a>
+                                <a href="#" class="text-gray-600 hover:text-gray-800 text-sm">View Guidelines</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workshops & Webinars Content -->
+            <div id="workshops-content" class="tab-content hidden">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-blue-900 mb-6">Workshops & Webinars</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-chalkboard-teacher text-2xl text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-900">Carbon Accounting Workshop</h3>
+                                    <p class="text-gray-600 text-sm">March 25, 2025 | Online</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 mb-4">Learn practical carbon accounting methodologies, GHG inventory development, and reporting standards.</p>
+                            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 w-full">Register Now</button>
+                        </div>
+
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-video text-2xl text-green-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-900">ESG Reporting Webinar Series</h3>
+                                    <p class="text-gray-600 text-sm">April 5-12, 2025 | Online</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 mb-4">Comprehensive webinar series on GRI Standards, ESG frameworks, and sustainability reporting best practices.</p>
+                            <button class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 w-full">Register Now</button>
+                        </div>
+
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-users text-2xl text-purple-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-900">Life Cycle Assessment Training</h3>
+                                    <p class="text-gray-600 text-sm">May 10, 2025 | Hybrid</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 mb-4">Hands-on training on LCA methodologies, software tools, and application in sustainability assessment.</p>
+                            <button class="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-purple-700 w-full">Register Now</button>
+                        </div>
+
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-16 h-16 bg-orange-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-globe text-2xl text-orange-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-900">SDG Mapping Workshop</h3>
+                                    <p class="text-gray-600 text-sm">June 15, 2025 | Online</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-700 mb-4">Learn how to map organizational activities to UN Sustainable Development Goals and measure impact.</p>
+                            <button class="bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-orange-700 w-full">Register Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Keynote Speakers Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Keynote Speakers</h2>
+                <div class="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="w-24 h-24 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <i class="fas fa-user text-3xl text-blue-600"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Dr. Rajesh Kumar</h3>
+                    <p class="text-blue-600 text-sm mb-2">IIT Delhi</p>
+                    <p class="text-gray-600 text-sm">Climate Science Expert</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-24 h-24 bg-green-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <i class="fas fa-user text-3xl text-green-600"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Prof. Priya Sharma</h3>
+                    <p class="text-green-600 text-sm mb-2">IISc Bangalore</p>
+                    <p class="text-gray-600 text-sm">Environmental Policy</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-24 h-24 bg-purple-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <i class="fas fa-user text-3xl text-purple-600"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Dr. Michael Chen</h3>
+                    <p class="text-purple-600 text-sm mb-2">International Expert</p>
+                    <p class="text-gray-600 text-sm">Sustainability Leader</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-24 h-24 bg-orange-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <i class="fas fa-user text-3xl text-orange-600"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Prof. Sarah Johnson</h3>
+                    <p class="text-orange-600 text-sm mb-2">Harvard University</p>
+                    <p class="text-gray-600 text-sm">ESG & Finance</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="text-3xl font-black text-white">CSMR</div>
+                        <div class="w-0.5 h-8 bg-blue-200"></div>
+                        <div class="text-blue-100 font-medium">
+                            <div class="text-sm leading-tight">Centre for Sustainability</div>
+                            <div class="text-sm leading-tight">& Management Research</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Publishing cutting-edge research in sustainability, innovation, and responsible management practices across India and beyond.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="journals.html" class="text-gray-300 hover:text-blue-400 transition-colors">Journals</a></li>
+                        <li><a href="conferences.html" class="text-gray-300 hover:text-blue-400 transition-colors">Conferences</a></li>
+                        <li><a href="certification.html" class="text-gray-300 hover:text-blue-400 transition-colors">Certification</a></li>
+                        <li><a href="about.html" class="text-gray-300 hover:text-blue-400 transition-colors">About</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Contact Us</h3>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-map-marker-alt mr-2 text-blue-400"></i>123 Research Lane, New Delhi, India
+                    </p>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-envelope mr-2 text-blue-400"></i>info@csmr.org
+                    </p>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-phone mr-2 text-blue-400"></i>+91 98765 43210
+                    </p>
+                </div>
+            </div>
+            <div class="border-t border-blue-800 mt-12 pt-8 text-center text-blue-300 text-sm">
+                &copy; 2025 CSMR. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active', 'bg-white', 'border-2', 'border-blue-600', 'text-blue-600');
+                button.classList.add('text-blue-900');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + '-content').classList.remove('hidden');
+            
+            // Add active class to selected tab button
+            const activeButton = document.getElementById(tabName + '-tab');
+            activeButton.classList.add('active', 'bg-white', 'border-2', 'border-blue-600', 'text-blue-600');
+            activeButton.classList.remove('text-blue-900');
+        }
+
+        // Check if user is logged in
+        function updateNavbar() {
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const authSection = document.getElementById('authSectionTop');
+            
+            if (token && user.firstName) {
+                authSection.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <span class="text-gray-600 text-sm">Welcome, ${user.firstName}!</span>
+                        <button onclick="logout()" class="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold hover:bg-blue-700">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            updateNavbar();
+            window.location.href = 'index.html';
+        }
+
+        updateNavbar();
+    </script>
+</body>
+</html>
+

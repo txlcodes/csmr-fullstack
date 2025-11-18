@@ -115,8 +115,23 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-center space-x-8 py-4">
                 <a href="index.html" class="text-gray-600 hover:text-blue-600 font-medium">Home</a>
-                <a href="journals.html" class="text-blue-600 border-b-2 border-blue-600 pb-2 font-medium">Journals</a>
-                <a href="articles.html" class="text-gray-600 hover:text-blue-600 font-medium">Articles</a>
+                <div class="relative group">
+                    <a href="journals.html" class="text-blue-600 border-b-2 border-blue-600 pb-2 font-medium flex items-center">
+                        Journals
+                        <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </a>
+                    <!-- Dropdown Menu -->
+                    <div class="absolute top-full left-0 mt-2 w-72 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                        <div class="py-2">
+                            <a href="journals.html?journal=sustainability" class="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors border-b border-gray-100">
+                                <div class="font-semibold">Journal of Sustainability and Management Research</div>
+                            </a>
+                            <a href="journals.html?journal=sustainability-research" class="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                                <div class="font-semibold">Journal for Sustainability and Research</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 <a href="about.html" class="text-gray-600 hover:text-blue-600 font-medium">About</a>
                 <a href="admin-login.html" class="text-gray-600 hover:text-blue-600 font-medium">Admin Panel</a>
                 <a href="contact.html" class="text-gray-600 hover:text-blue-600 font-medium">Contact</a>
@@ -146,6 +161,8 @@
         </div>
     </div>
 
+    <!-- Journal of Sustainability and Management Research -->
+    <div id="journal-sustainability" class="journal-content">
     <!-- Journal Header Section -->
     <section class="bg-blue-900 py-16 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -215,6 +232,15 @@
                 </button>
                 <button onclick="showTab('instructions')" id="instructions-tab" class="tab-button text-blue-900 px-6 py-3 font-semibold hover:text-blue-600">
                     Instructions for Authors
+                </button>
+                <button onclick="showTab('current-issue')" id="current-issue-tab" class="tab-button text-blue-900 px-6 py-3 font-semibold hover:text-blue-600">
+                    Current Issue
+                </button>
+                <button onclick="showTab('past-issues')" id="past-issues-tab" class="tab-button text-blue-900 px-6 py-3 font-semibold hover:text-blue-600">
+                    Past Issues
+                </button>
+                <button onclick="showTab('review-guidelines')" id="review-guidelines-tab" class="tab-button text-blue-900 px-6 py-3 font-semibold hover:text-blue-600">
+                    Review Guidelines
                 </button>
             </div>
         </div>
@@ -380,8 +406,466 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Current Issue Content -->
+            <div id="current-issue-content" class="tab-content hidden">
+                <div class="bg-white rounded-lg shadow-lg p-8">
+                    <h2 class="text-3xl font-bold text-blue-900 mb-6">Current Issue</h2>
+                    <div class="space-y-6">
+                        <div class="border-l-4 border-blue-600 pl-6">
+                            <h3 class="text-xl font-bold text-blue-900 mb-2">Volume 5, Issue 1 (2025)</h3>
+                            <p class="text-gray-600 mb-4">Published: January 2025</p>
+                            <div class="space-y-4">
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h4 class="font-semibold text-gray-900 mb-2">Climate Change Adaptation Strategies in Urban Planning</h4>
+                                    <p class="text-sm text-gray-600 mb-2">Authors: Dr. Sarah Johnson, Prof. Michael Chen</p>
+                                    <p class="text-gray-700 text-sm">This study explores innovative urban planning strategies for climate resilience...</p>
+                                    <a href="#" class="text-blue-600 hover:text-blue-800 text-sm">Read Full Article →</a>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h4 class="font-semibold text-gray-900 mb-2">Renewable Energy Integration in Developing Economies</h4>
+                                    <p class="text-sm text-gray-600 mb-2">Authors: Dr. Priya Sharma, Dr. David Lee</p>
+                                    <p class="text-gray-700 text-sm">An analysis of renewable energy adoption patterns and policy frameworks...</p>
+                                    <a href="#" class="text-blue-600 hover:text-blue-800 text-sm">Read Full Article →</a>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h4 class="font-semibold text-gray-900 mb-2">ESG Performance and Corporate Financial Outcomes</h4>
+                                    <p class="text-sm text-gray-600 mb-2">Authors: Prof. Robert Martinez, Dr. Emily Rodriguez</p>
+                                    <p class="text-gray-700 text-sm">Examining the correlation between ESG metrics and financial performance...</p>
+                                    <a href="#" class="text-blue-600 hover:text-blue-800 text-sm">Read Full Article →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Past Issues Content -->
+            <div id="past-issues-content" class="tab-content hidden">
+                <div class="bg-white rounded-lg shadow-lg p-8">
+                    <h2 class="text-3xl font-bold text-blue-900 mb-6">Past Issues</h2>
+                    <div class="space-y-4">
+                        <div class="border-b border-gray-200 pb-4">
+                            <h3 class="text-lg font-semibold text-blue-900 mb-2">Volume 4, Issue 4 (2024)</h3>
+                            <p class="text-gray-600 mb-2">Published: October 2024</p>
+                            <p class="text-gray-700 text-sm mb-2">Featured articles on sustainable finance, green technology innovation, and marine sustainability.</p>
+                            <a href="#" class="text-blue-600 hover:text-blue-800 text-sm">View Issue →</a>
+                        </div>
+                        <div class="border-b border-gray-200 pb-4">
+                            <h3 class="text-lg font-semibold text-blue-900 mb-2">Volume 4, Issue 3 (2024)</h3>
+                            <p class="text-gray-600 mb-2">Published: July 2024</p>
+                            <p class="text-gray-700 text-sm mb-2">Special issue on environmental policy and sustainable infrastructure development.</p>
+                            <a href="#" class="text-blue-600 hover:text-blue-800 text-sm">View Issue →</a>
+                        </div>
+                        <div class="border-b border-gray-200 pb-4">
+                            <h3 class="text-lg font-semibold text-blue-900 mb-2">Volume 4, Issue 2 (2024)</h3>
+                            <p class="text-gray-600 mb-2">Published: April 2024</p>
+                            <p class="text-gray-700 text-sm mb-2">Focus on carbon accounting methodologies and sustainable management practices.</p>
+                            <a href="#" class="text-blue-600 hover:text-blue-800 text-sm">View Issue →</a>
+                        </div>
+                        <div class="border-b border-gray-200 pb-4">
+                            <h3 class="text-lg font-semibold text-blue-900 mb-2">Volume 4, Issue 1 (2024)</h3>
+                            <p class="text-gray-600 mb-2">Published: January 2024</p>
+                            <p class="text-gray-700 text-sm mb-2">Inaugural issue covering climate change research and green technology innovation.</p>
+                            <a href="#" class="text-blue-600 hover:text-blue-800 text-sm">View Issue →</a>
+                        </div>
+                        <div class="pt-4">
+                            <a href="#" class="text-blue-600 hover:text-blue-800 font-semibold">View All Past Issues →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review Guidelines Content -->
+            <div id="review-guidelines-content" class="tab-content hidden">
+                <div class="bg-white rounded-lg shadow-lg p-8">
+                    <h2 class="text-3xl font-bold text-blue-900 mb-6">Review Guidelines</h2>
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-xl font-bold text-blue-900 mb-3">Review Process Overview</h3>
+                            <p class="text-gray-700 mb-4">
+                                The Journal of Sustainability and Management Research follows a rigorous double-blind peer review process. All submissions are evaluated by at least two independent reviewers with expertise in the relevant field.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-blue-900 mb-3">Review Criteria</h3>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
+                                <li><strong>Originality:</strong> The manuscript presents novel research or a unique perspective on existing knowledge</li>
+                                <li><strong>Significance:</strong> The research contributes meaningfully to the field of sustainability and management</li>
+                                <li><strong>Methodology:</strong> Research methods are appropriate, well-designed, and properly executed</li>
+                                <li><strong>Clarity:</strong> The manuscript is well-written, clear, and logically structured</li>
+                                <li><strong>Relevance:</strong> The content aligns with the journal's scope and focus areas</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-blue-900 mb-3">Review Timeline</h3>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
+                                <li>Initial editorial review: 1-2 weeks</li>
+                                <li>Peer review assignment: 1 week</li>
+                                <li>Review period: 4-6 weeks</li>
+                                <li>Editorial decision: 1-2 weeks after reviews received</li>
+                                <li>Total timeline: 7-11 weeks from submission</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-blue-900 mb-3">Reviewer Responsibilities</h3>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
+                                <li>Provide constructive, objective, and timely feedback</li>
+                                <li>Evaluate manuscripts based on scientific merit and quality</li>
+                                <li>Maintain confidentiality throughout the review process</li>
+                                <li>Declare any conflicts of interest</li>
+                                <li>Submit reviews within the specified timeframe</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-blue-900 mb-3">Review Recommendations</h3>
+                            <p class="text-gray-700 mb-2">Reviewers may recommend:</p>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                <li><strong>Accept:</strong> Manuscript is suitable for publication with minor or no revisions</li>
+                                <li><strong>Minor Revision:</strong> Manuscript requires minor corrections before acceptance</li>
+                                <li><strong>Major Revision:</strong> Manuscript requires substantial revisions before reconsideration</li>
+                                <li><strong>Reject:</strong> Manuscript does not meet publication standards</li>
+                            </ul>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <p class="text-gray-700">
+                                <strong>Note:</strong> Reviewers are expected to provide detailed comments supporting their recommendations. All reviews are conducted confidentially, and reviewer identities are not disclosed to authors.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
+    </div>
+    <!-- End Journal of Sustainability and Management Research -->
+
+    <!-- Journal for Sustainability and Research -->
+    <div id="journal-sustainability-research" class="journal-content hidden">
+    <!-- Journal Header Section -->
+    <section class="bg-blue-900 py-16 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-start gap-8">
+                <!-- Logo Section -->
+                <div class="lg:w-1/4 flex justify-center lg:justify-start">
+                    <div class="w-32 h-32 bg-white rounded-lg flex items-center justify-center shadow-lg">
+                        <i class="fas fa-leaf text-4xl text-blue-600"></i>
+                    </div>
+                </div>
+                
+                <!-- Journal Info Section -->
+                <div class="lg:w-3/4">
+                    <h1 class="text-4xl md:text-5xl font-black mb-6">Journal for Sustainability and Research</h1>
+                    <p class="text-xl text-blue-100 mb-8 max-w-4xl">
+                        A peer-reviewed journal dedicated to advancing research at the intersection of sustainability science and interdisciplinary research methodologies.
+                    </p>
+                    
+                    <!-- Info Boxes -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                        <div class="bg-blue-800 rounded-lg p-4 flex items-center space-x-3">
+                            <i class="fas fa-barcode text-2xl text-blue-200"></i>
+                            <div>
+                                <div class="text-sm text-blue-200">ISSN</div>
+                                <div class="font-semibold">2456-7893</div>
+                            </div>
+                        </div>
+                        <div class="bg-blue-800 rounded-lg p-4 flex items-center space-x-3">
+                            <i class="fas fa-calendar text-2xl text-blue-200"></i>
+                            <div>
+                                <div class="text-sm text-blue-200">Frequency</div>
+                                <div class="font-semibold">Quarterly</div>
+                            </div>
+                        </div>
+                        <div class="bg-blue-800 rounded-lg p-4 flex items-center space-x-3">
+                            <i class="fas fa-database text-2xl text-blue-200"></i>
+                            <div>
+                                <div class="text-sm text-blue-200">Indexed in</div>
+                                <div class="font-semibold">Scopus, DOAJ, Web of Science</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submission Button -->
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 shadow-lg">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        Go to Submission Site
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <section class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap gap-2 py-4">
+                <button onclick="showTab2('aims-scope')" id="tab2-aims-scope" class="tab-button-2 active bg-white border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-t-lg font-semibold">
+                    Aims & Scope
+                </button>
+                <button onclick="showTab2('journal-metrics')" id="tab2-journal-metrics" class="tab-button-2 text-blue-900 px-6 py-3 font-semibold hover:text-blue-600">
+                    Journal Metrics
+                </button>
+                <button onclick="showTab2('editorial-board')" id="tab2-editorial-board" class="tab-button-2 text-blue-900 px-6 py-3 font-semibold hover:text-blue-600">
+                    Editorial Board
+                </button>
+                <button onclick="showTab2('instructions')" id="tab2-instructions" class="tab-button-2 text-blue-900 px-6 py-3 font-semibold hover:text-blue-600">
+                    Instructions for Authors
+                </button>
+                <button onclick="showTab2('current-issue')" id="tab2-current-issue" class="tab-button-2 text-blue-900 px-6 py-3 font-semibold hover:text-blue-600">
+                    Current Issue
+                </button>
+                <button onclick="showTab2('past-issues')" id="tab2-past-issues" class="tab-button-2 text-blue-900 px-6 py-3 font-semibold hover:text-blue-600">
+                    Past Issues
+                </button>
+                <button onclick="showTab2('review-guidelines')" id="tab2-review-guidelines" class="tab-button-2 text-blue-900 px-6 py-3 font-semibold hover:text-blue-600">
+                    Review Guidelines
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tab Content -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Aims & Scope Content -->
+            <div id="content2-aims-scope" class="tab-content-2">
+                <div class="bg-white rounded-lg shadow-lg p-8">
+                    <h2 class="text-3xl font-bold text-blue-900 mb-6">Aims & Scope</h2>
+                    
+                    <div class="prose max-w-none">
+                        <p class="text-lg text-gray-700 mb-6">
+                            <strong>Journal for Sustainability and Research</strong> is a peer-reviewed platform that publishes high-quality research focusing on sustainability science, environmental research, and interdisciplinary approaches to sustainability challenges.
+                        </p>
+                        
+                        <p class="text-lg text-gray-700 mb-6">
+                            The journal welcomes submissions that bridge sustainability science with innovative research methodologies, addressing critical environmental, social, and economic challenges.
+                        </p>
+                        
+                        <div class="mb-8">
+                            <h3 class="text-xl font-bold text-blue-900 mb-4">Mission</h3>
+                            <p class="text-gray-700">To advance knowledge in sustainability science and promote interdisciplinary research that addresses global sustainability challenges.</p>
+                        </div>
+                        
+                        <h3 class="text-xl font-bold text-blue-900 mb-4">Scope</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 mb-8">
+                            <li>Sustainability science and environmental research</li>
+                            <li>Interdisciplinary approaches to sustainability</li>
+                            <li>Research methodologies in sustainability studies</li>
+                            <li>Climate change and environmental impact research</li>
+                            <li>Sustainable development and policy research</li>
+                            <li>Innovation in sustainability practices</li>
+                        </ul>
+                        
+                        <h3 class="text-xl font-bold text-blue-900 mb-4">Review Process</h3>
+                        <p class="text-gray-700 mb-4">
+                            The Journal for Sustainability and Research follows a rigorous double-blind peer review process to ensure impartiality and high academic standards.
+                        </p>
+                        
+                        <h3 class="text-xl font-bold text-blue-900 mb-4">Vision</h3>
+                        <p class="text-gray-700">
+                            To be a leading platform for high-quality sustainability research publication and knowledge dissemination.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Journal Metrics Content -->
+            <div id="content2-journal-metrics" class="tab-content-2 hidden">
+                <div class="bg-white rounded-lg shadow-lg p-8">
+                    <h2 class="text-3xl font-bold text-blue-900 mb-6">Journal Metrics</h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="text-center p-6 bg-blue-50 rounded-lg">
+                            <div class="text-3xl font-bold text-blue-600 mb-2">2.2</div>
+                            <div class="text-gray-600">Impact Factor</div>
+                        </div>
+                        <div class="text-center p-6 bg-blue-50 rounded-lg">
+                            <div class="text-3xl font-bold text-blue-600 mb-2">17</div>
+                            <div class="text-gray-600">Days Average Review Time</div>
+                        </div>
+                        <div class="text-center p-6 bg-blue-50 rounded-lg">
+                            <div class="text-3xl font-bold text-blue-600 mb-2">83%</div>
+                            <div class="text-gray-600">Acceptance Rate</div>
+                        </div>
+                        <div class="text-center p-6 bg-blue-50 rounded-lg">
+                            <div class="text-3xl font-bold text-blue-600 mb-2">4</div>
+                            <div class="text-gray-600">Issues per Year</div>
+                        </div>
+                        <div class="text-center p-6 bg-blue-50 rounded-lg">
+                            <div class="text-3xl font-bold text-blue-600 mb-2">110+</div>
+                            <div class="text-gray-600">Published Articles</div>
+                        </div>
+                        <div class="text-center p-6 bg-blue-50 rounded-lg">
+                            <div class="text-3xl font-bold text-blue-600 mb-2">22+</div>
+                            <div class="text-gray-600">Countries Represented</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Editorial Board Content -->
+            <div id="content2-editorial-board" class="tab-content-2 hidden">
+                <div class="bg-white rounded-lg shadow-lg p-8">
+                    <h2 class="text-3xl font-bold text-blue-900 mb-6">Editorial Board</h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="text-center p-6 border border-gray-200 rounded-lg">
+                            <div class="w-20 h-20 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                                <i class="fas fa-user text-2xl text-blue-600"></i>
+                            </div>
+                            <h3 class="font-bold text-lg">Dr. Emma Thompson</h3>
+                            <p class="text-blue-600 mb-2">Editor-in-Chief</p>
+                            <p class="text-sm text-gray-600">University of Cambridge</p>
+                        </div>
+                        <div class="text-center p-6 border border-gray-200 rounded-lg">
+                            <div class="w-20 h-20 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                                <i class="fas fa-user text-2xl text-blue-600"></i>
+                            </div>
+                            <h3 class="font-bold text-lg">Prof. Robert Martinez</h3>
+                            <p class="text-blue-600 mb-2">Associate Editor</p>
+                            <p class="text-sm text-gray-600">MIT</p>
+                        </div>
+                        <div class="text-center p-6 border border-gray-200 rounded-lg">
+                            <div class="w-20 h-20 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                                <i class="fas fa-user text-2xl text-blue-600"></i>
+                            </div>
+                            <h3 class="font-bold text-lg">Dr. Anna Kumar</h3>
+                            <p class="text-blue-600 mb-2">Managing Editor</p>
+                            <p class="text-sm text-gray-600">Stanford University</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instructions for Authors Content -->
+            <div id="content2-instructions" class="tab-content-2 hidden">
+                <div class="bg-white rounded-lg shadow-lg p-8">
+                    <h2 class="text-3xl font-bold text-blue-900 mb-6">Instructions for Authors</h2>
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-xl font-bold text-blue-900 mb-3">Manuscript Preparation</h3>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                <li>Manuscripts should be 6,000-8,000 words in length</li>
+                                <li>Use double-spaced, 12-point Times New Roman font</li>
+                                <li>Include an abstract of 200-250 words</li>
+                                <li>Provide 5-6 keywords</li>
+                                <li>Follow APA citation style</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-blue-900 mb-3">Submission Process</h3>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                <li>Submit through our online submission system</li>
+                                <li>Ensure all authors have read and agreed to the submission terms</li>
+                                <li>Include a cover letter explaining the manuscript's contribution</li>
+                                <li>Provide contact information for all authors</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-blue-900 mb-3">Review Timeline</h3>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                <li>Initial review: 2-3 weeks</li>
+                                <li>Peer review: 4-6 weeks</li>
+                                <li>Revision period: 4-6 weeks</li>
+                                <li>Final decision: 2-3 weeks</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current Issue Content for Journal 2 -->
+            <div id="content2-current-issue" class="tab-content-2 hidden">
+                <div class="bg-white rounded-lg shadow-lg p-8">
+                    <h2 class="text-3xl font-bold text-blue-900 mb-6">Current Issue</h2>
+                    <div class="space-y-6">
+                        <div class="border-l-4 border-blue-600 pl-6">
+                            <h3 class="text-xl font-bold text-blue-900 mb-2">Volume 3, Issue 1 (2025)</h3>
+                            <p class="text-gray-600 mb-4">Published: January 2025</p>
+                            <div class="space-y-4">
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h4 class="font-semibold text-gray-900 mb-2">Sustainability Science Methodologies: A Comprehensive Review</h4>
+                                    <p class="text-sm text-gray-600 mb-2">Authors: Dr. Emma Thompson, Prof. Robert Martinez</p>
+                                    <p class="text-gray-700 text-sm">This comprehensive review examines emerging methodologies in sustainability science research...</p>
+                                    <a href="#" class="text-blue-600 hover:text-blue-800 text-sm">Read Full Article →</a>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h4 class="font-semibold text-gray-900 mb-2">Interdisciplinary Approaches to Climate Impact Assessment</h4>
+                                    <p class="text-sm text-gray-600 mb-2">Authors: Dr. Anna Kumar, Dr. James Wilson</p>
+                                    <p class="text-gray-700 text-sm">Exploring integrated frameworks for assessing climate change impacts across multiple sectors...</p>
+                                    <a href="#" class="text-blue-600 hover:text-blue-800 text-sm">Read Full Article →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Past Issues Content for Journal 2 -->
+            <div id="content2-past-issues" class="tab-content-2 hidden">
+                <div class="bg-white rounded-lg shadow-lg p-8">
+                    <h2 class="text-3xl font-bold text-blue-900 mb-6">Past Issues</h2>
+                    <div class="space-y-4">
+                        <div class="border-b border-gray-200 pb-4">
+                            <h3 class="text-lg font-semibold text-blue-900 mb-2">Volume 2, Issue 4 (2024)</h3>
+                            <p class="text-gray-600 mb-2">Published: October 2024</p>
+                            <p class="text-gray-700 text-sm mb-2">Focus on sustainability research methodologies and environmental impact studies.</p>
+                            <a href="#" class="text-blue-600 hover:text-blue-800 text-sm">View Issue →</a>
+                        </div>
+                        <div class="border-b border-gray-200 pb-4">
+                            <h3 class="text-lg font-semibold text-blue-900 mb-2">Volume 2, Issue 3 (2024)</h3>
+                            <p class="text-gray-600 mb-2">Published: July 2024</p>
+                            <p class="text-gray-700 text-sm mb-2">Special issue on sustainable development and policy research.</p>
+                            <a href="#" class="text-blue-600 hover:text-blue-800 text-sm">View Issue →</a>
+                        </div>
+                        <div class="pt-4">
+                            <a href="#" class="text-blue-600 hover:text-blue-800 font-semibold">View All Past Issues →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review Guidelines Content for Journal 2 -->
+            <div id="content2-review-guidelines" class="tab-content-2 hidden">
+                <div class="bg-white rounded-lg shadow-lg p-8">
+                    <h2 class="text-3xl font-bold text-blue-900 mb-6">Review Guidelines</h2>
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-xl font-bold text-blue-900 mb-3">Review Process Overview</h3>
+                            <p class="text-gray-700 mb-4">
+                                The Journal for Sustainability and Research follows a rigorous double-blind peer review process. All submissions are evaluated by at least two independent reviewers with expertise in sustainability science and interdisciplinary research.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-blue-900 mb-3">Review Criteria</h3>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
+                                <li><strong>Originality:</strong> Novel contributions to sustainability science and research</li>
+                                <li><strong>Significance:</strong> Meaningful impact on sustainability research and practice</li>
+                                <li><strong>Methodology:</strong> Rigorous and appropriate research methods</li>
+                                <li><strong>Interdisciplinary Value:</strong> Integration across multiple disciplines</li>
+                                <li><strong>Clarity:</strong> Well-written and logically structured</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-blue-900 mb-3">Review Timeline</h3>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
+                                <li>Initial editorial review: 1-2 weeks</li>
+                                <li>Peer review assignment: 1 week</li>
+                                <li>Review period: 4-6 weeks</li>
+                                <li>Editorial decision: 1-2 weeks after reviews received</li>
+                                <li>Total timeline: 7-11 weeks from submission</li>
+                            </ul>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <p class="text-gray-700">
+                                <strong>Note:</strong> Reviewers should provide constructive feedback that helps authors improve their work. All reviews are conducted confidentially.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </div>
+    <!-- End Journal for Sustainability and Research -->
 
     <!-- Footer -->
     <footer class="bg-blue-900 text-white py-8">
@@ -511,7 +995,28 @@
             scrollObserver.observe(element);
         });
 
-        // Tab switching functionality
+        // Check URL parameter and show correct journal on page load
+        function loadJournalFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const journal = urlParams.get('journal');
+            
+            // Hide all journals
+            document.querySelectorAll('.journal-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Show selected journal or default to first one
+            if (journal === 'sustainability-research') {
+                document.getElementById('journal-sustainability-research').classList.remove('hidden');
+            } else {
+                document.getElementById('journal-sustainability').classList.remove('hidden');
+            }
+        }
+
+        // Call on page load
+        loadJournalFromURL();
+
+        // Tab switching functionality for Journal of Sustainability and Management Research
         function showTab(tabName) {
             // Hide all tab contents
             document.querySelectorAll('.tab-content').forEach(content => {
@@ -529,6 +1034,28 @@
             
             // Add active class to selected tab button
             const activeButton = document.getElementById(tabName + '-tab');
+            activeButton.classList.add('active', 'bg-white', 'border-2', 'border-blue-600', 'text-blue-600');
+            activeButton.classList.remove('text-blue-900');
+        }
+
+        // Tab switching functionality for Journal for Sustainability and Research
+        function showTab2(tabName) {
+            // Hide all tab contents for journal 2
+            document.querySelectorAll('.tab-content-2').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Remove active class from all tab buttons for journal 2
+            document.querySelectorAll('.tab-button-2').forEach(button => {
+                button.classList.remove('active', 'bg-white', 'border-2', 'border-blue-600', 'text-blue-600');
+                button.classList.add('text-blue-900');
+            });
+            
+            // Show selected tab content
+            document.getElementById('content2-' + tabName).classList.remove('hidden');
+            
+            // Add active class to selected tab button
+            const activeButton = document.getElementById('tab2-' + tabName);
             activeButton.classList.add('active', 'bg-white', 'border-2', 'border-blue-600', 'text-blue-600');
             activeButton.classList.remove('text-blue-900');
         }

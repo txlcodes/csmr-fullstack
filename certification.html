@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certification Programs - CSMR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6, .hero-title {
+            font-family: 'Merriweather', serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Top Header Bar -->
+    <div class="bg-gray-100 text-gray-600 text-sm py-2">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-blue-600"><i class="fas fa-lock mr-1"></i>Institutional Access</a>
+                <a href="#" class="hover:text-blue-600">Learn More</a>
+            </div>
+            <div class="flex space-x-4 items-center">
+                <div id="authSectionTop" class="flex items-center space-x-4">
+                    <a href="login.html" class="hover:text-blue-600">Login / Register</a>
+                </div>
+                <div class="relative">
+                    <select class="bg-transparent border-none text-gray-600 text-sm focus:outline-none">
+                        <option>English</option>
+                        <option>Hindi</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="bg-white shadow-sm py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="text-3xl font-black text-blue-900">CSMR</div>
+                <div class="w-0.5 h-8 bg-blue-400"></div>
+                <div class="text-blue-600 font-medium">
+                    <div class="text-sm leading-tight">Centre for Sustainability</div>
+                    <div class="text-sm leading-tight">& Management Research</div>
+                </div>
+            </div>
+            <div class="relative w-full max-w-md hidden md:block">
+                <input type="text" placeholder="Search certification programs..." class="w-full pl-4 pr-10 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center space-x-8 py-4">
+                <a href="index.html" class="text-gray-600 hover:text-blue-600 font-medium">Home</a>
+                <a href="journals.html" class="text-gray-600 hover:text-blue-600 font-medium">Journals</a>
+                <a href="certification.html" class="text-blue-600 border-b-2 border-blue-600 pb-2 font-medium">Certification</a>
+                <a href="about.html" class="text-gray-600 hover:text-blue-600 font-medium">About</a>
+                <a href="admin-login.html" class="text-gray-600 hover:text-blue-600 font-medium">Admin Panel</a>
+                <a href="contact.html" class="text-gray-600 hover:text-blue-600 font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="bg-gray-50 py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex" aria-label="Breadcrumb">
+                <ol class="flex items-center space-x-2">
+                    <li>
+                        <a href="index.html" class="text-gray-500 hover:text-blue-600">
+                            <i class="fas fa-home"></i>
+                            <span class="sr-only">Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="flex items-center">
+                            <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                            <span class="text-gray-900 font-medium">Certification Programs</span>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg py-16 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-black mb-6">Professional Certification Programs</h1>
+            <p class="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+                Professional development programs for sustainability skill development, ESG reporting, carbon accounting, and environmental impact assessment.
+            </p>
+        </div>
+    </section>
+
+    <!-- Certification Programs Grid -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- ESG Reporting -->
+                <div class="card-hover bg-white rounded-lg shadow-lg p-6 border-t-4 border-blue-600">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-chart-line text-2xl text-blue-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">ESG Reporting</h3>
+                    </div>
+                    <p class="text-gray-700 mb-4">Master Global Reporting Initiative (GRI) standards, ESG frameworks, and sustainability reporting best practices.</p>
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-600 mb-2"><strong>Duration:</strong> 6 weeks</p>
+                        <p class="text-sm text-gray-600 mb-2"><strong>Format:</strong> Online + Live Sessions</p>
+                        <p class="text-sm text-gray-600"><strong>Certification:</strong> CSMR Certified ESG Reporter</p>
+                    </div>
+                    <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 w-full">Enroll Now</button>
+                </div>
+
+                <!-- Sustainable Finance -->
+                <div class="card-hover bg-white rounded-lg shadow-lg p-6 border-t-4 border-green-600">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-dollar-sign text-2xl text-green-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Sustainable Finance</h3>
+                    </div>
+                    <p class="text-gray-700 mb-4">Learn sustainable finance principles, green bonds, impact investing, and ESG integration in financial decision-making.</p>
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-600 mb-2"><strong>Duration:</strong> 8 weeks</p>
+                        <p class="text-sm text-gray-600 mb-2"><strong>Format:</strong> Online + Case Studies</p>
+                        <p class="text-sm text-gray-600"><strong>Certification:</strong> CSMR Sustainable Finance Professional</p>
+                    </div>
+                    <button class="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 w-full">Enroll Now</button>
+                </div>
+
+                <!-- Environmental Impact Assessment -->
+                <div class="card-hover bg-white rounded-lg shadow-lg p-6 border-t-4 border-purple-600">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-clipboard-check text-2xl text-purple-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Environmental Impact Assessment (EIA)</h3>
+                    </div>
+                    <p class="text-gray-700 mb-4">Comprehensive training on EIA methodologies, environmental risk assessment, and regulatory compliance.</p>
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-600 mb-2"><strong>Duration:</strong> 10 weeks</p>
+                        <p class="text-sm text-gray-600 mb-2"><strong>Format:</strong> Hybrid (Online + Field Work)</p>
+                        <p class="text-sm text-gray-600"><strong>Certification:</strong> CSMR EIA Specialist</p>
+                    </div>
+                    <button class="bg-purple-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-purple-700 w-full">Enroll Now</button>
+                </div>
+
+                <!-- Carbon Accounting -->
+                <div class="card-hover bg-white rounded-lg shadow-lg p-6 border-t-4 border-orange-600">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 bg-orange-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-calculator text-2xl text-orange-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Carbon Accounting</h3>
+                    </div>
+                    <p class="text-gray-700 mb-4">Master GHG inventory development, carbon footprint calculation, and carbon offset strategies.</p>
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-600 mb-2"><strong>Duration:</strong> 6 weeks</p>
+                        <p class="text-sm text-gray-600 mb-2"><strong>Format:</strong> Online + Practical Exercises</p>
+                        <p class="text-sm text-gray-600"><strong>Certification:</strong> CSMR Carbon Accountant</p>
+                    </div>
+                    <button class="bg-orange-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-orange-700 w-full">Enroll Now</button>
+                </div>
+
+                <!-- Life Cycle Assessment -->
+                <div class="card-hover bg-white rounded-lg shadow-lg p-6 border-t-4 border-teal-600">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 bg-teal-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-recycle text-2xl text-teal-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Life Cycle Assessment (LCA)</h3>
+                    </div>
+                    <p class="text-gray-700 mb-4">Learn LCA methodologies, software tools, and application in product and process sustainability assessment.</p>
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-600 mb-2"><strong>Duration:</strong> 8 weeks</p>
+                        <p class="text-sm text-gray-600 mb-2"><strong>Format:</strong> Online + Software Training</p>
+                        <p class="text-sm text-gray-600"><strong>Certification:</strong> CSMR LCA Practitioner</p>
+                    </div>
+                    <button class="bg-teal-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-teal-700 w-full">Enroll Now</button>
+                </div>
+
+                <!-- Disaster Management -->
+                <div class="card-hover bg-white rounded-lg shadow-lg p-6 border-t-4 border-red-600">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 bg-red-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-shield-alt text-2xl text-red-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Disaster Management Training</h3>
+                    </div>
+                    <p class="text-gray-700 mb-4">Comprehensive training on disaster risk reduction, climate resilience, and emergency response planning.</p>
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-600 mb-2"><strong>Duration:</strong> 4 weeks</p>
+                        <p class="text-sm text-gray-600 mb-2"><strong>Format:</strong> Online + Simulation Exercises</p>
+                        <p class="text-sm text-gray-600"><strong>Certification:</strong> CSMR Disaster Management Specialist</p>
+                    </div>
+                    <button class="bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700 w-full">Enroll Now</button>
+                </div>
+
+                <!-- Green Entrepreneurship -->
+                <div class="card-hover bg-white rounded-lg shadow-lg p-6 border-t-4 border-emerald-600">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 bg-emerald-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="fas fa-seedling text-2xl text-emerald-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Green Entrepreneurship</h3>
+                    </div>
+                    <p class="text-gray-700 mb-4">Build sustainable business models, access green financing, and develop eco-innovative solutions.</p>
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-600 mb-2"><strong>Duration:</strong> 12 weeks</p>
+                        <p class="text-sm text-gray-600 mb-2"><strong>Format:</strong> Online + Mentorship</p>
+                        <p class="text-sm text-gray-600"><strong>Certification:</strong> CSMR Green Entrepreneur</p>
+                    </div>
+                    <button class="bg-emerald-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-emerald-700 w-full">Enroll Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Program Features Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Program Features</h2>
+                <div class="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <i class="fas fa-certificate text-2xl text-blue-600"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Industry-Recognized Certification</h3>
+                    <p class="text-gray-600 text-sm">Earn certificates recognized by leading sustainability organizations</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-green-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <i class="fas fa-user-tie text-2xl text-green-600"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Expert Faculty</h3>
+                    <p class="text-gray-600 text-sm">Learn from industry experts and academic leaders</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <i class="fas fa-laptop text-2xl text-purple-600"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Flexible Learning</h3>
+                    <p class="text-gray-600 text-sm">Online and hybrid formats to fit your schedule</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="w-16 h-16 bg-orange-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <i class="fas fa-handshake text-2xl text-orange-600"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">Career Support</h3>
+                    <p class="text-gray-600 text-sm">Networking opportunities and career guidance</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="text-3xl font-black text-white">CSMR</div>
+                        <div class="w-0.5 h-8 bg-blue-200"></div>
+                        <div class="text-blue-100 font-medium">
+                            <div class="text-sm leading-tight">Centre for Sustainability</div>
+                            <div class="text-sm leading-tight">& Management Research</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Publishing cutting-edge research in sustainability, innovation, and responsible management practices across India and beyond.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="journals.html" class="text-gray-300 hover:text-blue-400 transition-colors">Journals</a></li>
+                        <li><a href="conferences.html" class="text-gray-300 hover:text-blue-400 transition-colors">Conferences</a></li>
+                        <li><a href="certification.html" class="text-gray-300 hover:text-blue-400 transition-colors">Certification</a></li>
+                        <li><a href="about.html" class="text-gray-300 hover:text-blue-400 transition-colors">About</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Contact Us</h3>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-map-marker-alt mr-2 text-blue-400"></i>123 Research Lane, New Delhi, India
+                    </p>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-envelope mr-2 text-blue-400"></i>info@csmr.org
+                    </p>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-phone mr-2 text-blue-400"></i>+91 98765 43210
+                    </p>
+                </div>
+            </div>
+            <div class="border-t border-blue-800 mt-12 pt-8 text-center text-blue-300 text-sm">
+                &copy; 2025 CSMR. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function updateNavbar() {
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const authSection = document.getElementById('authSectionTop');
+            
+            if (token && user.firstName) {
+                authSection.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <span class="text-gray-600 text-sm">Welcome, ${user.firstName}!</span>
+                        <button onclick="logout()" class="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold hover:bg-blue-700">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            updateNavbar();
+            window.location.href = 'index.html';
+        }
+
+        updateNavbar();
+    </script>
+</body>
+</html>
+

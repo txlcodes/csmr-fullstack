@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sustainable Reporting - CSMR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6, .hero-title {
+            font-family: 'Merriweather', serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Top Header Bar -->
+    <div class="bg-gray-100 text-gray-600 text-sm py-2">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-blue-600"><i class="fas fa-lock mr-1"></i>Institutional Access</a>
+                <a href="#" class="hover:text-blue-600">Learn More</a>
+            </div>
+            <div class="flex space-x-4 items-center">
+                <div id="authSectionTop" class="flex items-center space-x-4">
+                    <a href="login.html" class="hover:text-blue-600">Login / Register</a>
+                </div>
+                <div class="relative">
+                    <select class="bg-transparent border-none text-gray-600 text-sm focus:outline-none">
+                        <option>English</option>
+                        <option>Hindi</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="bg-white shadow-sm py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="text-3xl font-black text-blue-900">CSMR</div>
+                <div class="w-0.5 h-8 bg-blue-400"></div>
+                <div class="text-blue-600 font-medium">
+                    <div class="text-sm leading-tight">Centre for Sustainability</div>
+                    <div class="text-sm leading-tight">& Management Research</div>
+                </div>
+            </div>
+            <div class="relative w-full max-w-md hidden md:block">
+                <input type="text" placeholder="Search reporting resources..." class="w-full pl-4 pr-10 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center space-x-8 py-4">
+                <a href="index.html" class="text-gray-600 hover:text-blue-600 font-medium">Home</a>
+                <a href="journals.html" class="text-gray-600 hover:text-blue-600 font-medium">Journals</a>
+                <a href="sustainable-reporting.html" class="text-blue-600 border-b-2 border-blue-600 pb-2 font-medium">Reporting</a>
+                <a href="about.html" class="text-gray-600 hover:text-blue-600 font-medium">About</a>
+                <a href="admin-login.html" class="text-gray-600 hover:text-blue-600 font-medium">Admin Panel</a>
+                <a href="contact.html" class="text-gray-600 hover:text-blue-600 font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="bg-gray-50 py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex" aria-label="Breadcrumb">
+                <ol class="flex items-center space-x-2">
+                    <li>
+                        <a href="index.html" class="text-gray-500 hover:text-blue-600">
+                            <i class="fas fa-home"></i>
+                            <span class="sr-only">Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="flex items-center">
+                            <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                            <span class="text-gray-900 font-medium">Sustainable Reporting</span>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg py-16 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-black mb-6">Sustainable Reporting</h1>
+            <p class="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+                A premium section dedicated to global sustainability reporting practices, frameworks, and tools.
+            </p>
+        </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <section class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap gap-2 py-4">
+                <button onclick="showTab('gri')" id="gri-tab" class="tab-button active bg-white border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-t-lg font-semibold">
+                    GRI Standards
+                </button>
+                <button onclick="showTab('esg')" id="esg-tab" class="tab-button text-blue-900 px-6 py-3 font-semibold hover:text-blue-600">
+                    ESG Frameworks
+                </button>
+                <button onclick="showTab('sdg')" id="sdg-tab" class="tab-button text-blue-900 px-6 py-3 font-semibold hover:text-blue-600">
+                    SDG Mapping Tools
+                </button>
+                <button onclick="showTab('dashboards')" id="dashboards-tab" class="tab-button text-blue-900 px-6 py-3 font-semibold hover:text-blue-600">
+                    Performance Dashboards
+                </button>
+                <button onclick="showTab('tutorials')" id="tutorials-tab" class="tab-button text-blue-900 px-6 py-3 font-semibold hover:text-blue-600">
+                    Tutorials & Templates
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tab Content -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- GRI Standards Content -->
+            <div id="gri-content" class="tab-content">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-blue-900 mb-6">GRI Standards (Global Reporting Initiative)</h2>
+                    <div class="bg-white rounded-lg shadow-lg p-8 mb-6">
+                        <p class="text-lg text-gray-700 mb-6">
+                            The GRI Standards are the most widely used sustainability reporting framework globally. They provide a comprehensive set of standards for organizations to report on their economic, environmental, and social impacts.
+                        </p>
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div class="border-l-4 border-blue-600 pl-4">
+                                <h3 class="font-bold text-lg mb-2">Universal Standards</h3>
+                                <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm">
+                                    <li>GRI 1: Foundation</li>
+                                    <li>GRI 2: General Disclosures</li>
+                                    <li>GRI 3: Material Topics</li>
+                                </ul>
+                            </div>
+                            <div class="border-l-4 border-green-600 pl-4">
+                                <h3 class="font-bold text-lg mb-2">Topic Standards</h3>
+                                <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm">
+                                    <li>Economic Topics (200 series)</li>
+                                    <li>Environmental Topics (300 series)</li>
+                                    <li>Social Topics (400 series)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Key Features:</h4>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm">
+                                <li>Materiality assessment guidance</li>
+                                <li>Stakeholder engagement requirements</li>
+                                <li>Comprehensive disclosure requirements</li>
+                                <li>Third-party assurance support</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6">
+                            <i class="fas fa-download text-3xl text-blue-600 mb-4"></i>
+                            <h3 class="font-bold text-lg mb-2">GRI Standards PDF</h3>
+                            <p class="text-gray-600 text-sm mb-4">Download the complete GRI Standards documentation</p>
+                            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 w-full">Download</button>
+                        </div>
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6">
+                            <i class="fas fa-book text-3xl text-green-600 mb-4"></i>
+                            <h3 class="font-bold text-lg mb-2">Implementation Guide</h3>
+                            <p class="text-gray-600 text-sm mb-4">Step-by-step guide to implementing GRI Standards</p>
+                            <button class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 w-full">View Guide</button>
+                        </div>
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6">
+                            <i class="fas fa-check-circle text-3xl text-purple-600 mb-4"></i>
+                            <h3 class="font-bold text-lg mb-2">Compliance Checklist</h3>
+                            <p class="text-gray-600 text-sm mb-4">Ensure your reporting meets all GRI requirements</p>
+                            <button class="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-purple-700 w-full">View Checklist</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ESG Frameworks Content -->
+            <div id="esg-content" class="tab-content hidden">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-blue-900 mb-6">ESG Frameworks</h2>
+                    <div class="space-y-6">
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6 border-l-4 border-blue-600">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">SASB Standards</h3>
+                            <p class="text-gray-700 mb-4">Industry-specific sustainability accounting standards that help businesses identify, manage, and communicate financially material sustainability information.</p>
+                            <a href="#" class="text-blue-600 hover:text-blue-800 font-semibold">Learn More →</a>
+                        </div>
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6 border-l-4 border-green-600">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">TCFD Recommendations</h3>
+                            <p class="text-gray-700 mb-4">Task Force on Climate-related Financial Disclosures framework for climate risk reporting and scenario analysis.</p>
+                            <a href="#" class="text-green-600 hover:text-green-800 font-semibold">Learn More →</a>
+                        </div>
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6 border-l-4 border-purple-600">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">CDP Framework</h3>
+                            <p class="text-gray-700 mb-4">Carbon Disclosure Project framework for environmental disclosure, focusing on climate change, water security, and forests.</p>
+                            <a href="#" class="text-purple-600 hover:text-purple-800 font-semibold">Learn More →</a>
+                        </div>
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6 border-l-4 border-orange-600">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">IIRC Integrated Reporting</h3>
+                            <p class="text-gray-700 mb-4">International Integrated Reporting Council framework for integrated thinking and value creation reporting.</p>
+                            <a href="#" class="text-orange-600 hover:text-orange-800 font-semibold">Learn More →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SDG Mapping Tools Content -->
+            <div id="sdg-content" class="tab-content hidden">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-blue-900 mb-6">SDG Mapping Tools</h2>
+                    <div class="bg-white rounded-lg shadow-lg p-8 mb-6">
+                        <p class="text-lg text-gray-700 mb-6">
+                            Map your organizational activities and impacts to the UN Sustainable Development Goals (SDGs). Our tools help you identify which SDGs your work contributes to and measure your impact.
+                        </p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="border border-gray-200 rounded-lg p-6">
+                                <h3 class="font-bold text-lg mb-4">SDG Impact Assessment Tool</h3>
+                                <p class="text-gray-700 text-sm mb-4">Assess how your organization's activities align with the 17 SDGs and identify opportunities for greater impact.</p>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 w-full">Access Tool</button>
+                            </div>
+                            <div class="border border-gray-200 rounded-lg p-6">
+                                <h3 class="font-bold text-lg mb-4">SDG Reporting Template</h3>
+                                <p class="text-gray-700 text-sm mb-4">Use our template to structure your SDG contributions in your sustainability report.</p>
+                                <button class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 w-full">Download Template</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-white rounded-lg shadow p-4 text-center">
+                            <div class="text-2xl font-bold text-blue-600 mb-2">17</div>
+                            <div class="text-gray-600 text-sm">Sustainable Development Goals</div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-4 text-center">
+                            <div class="text-2xl font-bold text-green-600 mb-2">169</div>
+                            <div class="text-gray-600 text-sm">Targets</div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-4 text-center">
+                            <div class="text-2xl font-bold text-purple-600 mb-2">232</div>
+                            <div class="text-gray-600 text-sm">Indicators</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Dashboards Content -->
+            <div id="dashboards-content" class="tab-content hidden">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-blue-900 mb-6">Sustainability Performance Dashboards</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Carbon Footprint Dashboard</h3>
+                            <p class="text-gray-700 mb-4">Track and visualize your organization's carbon emissions across scopes 1, 2, and 3.</p>
+                            <div class="bg-gray-50 rounded-lg p-4 mb-4 h-32 flex items-center justify-center">
+                                <i class="fas fa-chart-line text-4xl text-gray-400"></i>
+                            </div>
+                            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 w-full">Access Dashboard</button>
+                        </div>
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">ESG Performance Tracker</h3>
+                            <p class="text-gray-700 mb-4">Monitor your ESG metrics and compare against industry benchmarks.</p>
+                            <div class="bg-gray-50 rounded-lg p-4 mb-4 h-32 flex items-center justify-center">
+                                <i class="fas fa-chart-bar text-4xl text-gray-400"></i>
+                            </div>
+                            <button class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 w-full">Access Dashboard</button>
+                        </div>
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Water & Waste Management</h3>
+                            <p class="text-gray-700 mb-4">Track water consumption, waste generation, and recycling rates.</p>
+                            <div class="bg-gray-50 rounded-lg p-4 mb-4 h-32 flex items-center justify-center">
+                                <i class="fas fa-tint text-4xl text-gray-400"></i>
+                            </div>
+                            <button class="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-purple-700 w-full">Access Dashboard</button>
+                        </div>
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">SDG Impact Visualization</h3>
+                            <p class="text-gray-700 mb-4">Visualize your contributions to the UN Sustainable Development Goals.</p>
+                            <div class="bg-gray-50 rounded-lg p-4 mb-4 h-32 flex items-center justify-center">
+                                <i class="fas fa-globe text-4xl text-gray-400"></i>
+                            </div>
+                            <button class="bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-orange-700 w-full">Access Dashboard</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tutorials & Templates Content -->
+            <div id="tutorials-content" class="tab-content hidden">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-blue-900 mb-6">Tutorials & Templates</h2>
+                    <div class="grid md:grid-cols-2 gap-6 mb-8">
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Building Your First Sustainability Report</h3>
+                            <p class="text-gray-700 mb-4">A comprehensive guide for beginners on creating your organization's first sustainability report.</p>
+                            <a href="#" class="text-blue-600 hover:text-blue-800 font-semibold">View Tutorial →</a>
+                        </div>
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">GRI Standards Implementation</h3>
+                            <p class="text-gray-700 mb-4">Step-by-step tutorial on implementing GRI Standards in your reporting process.</p>
+                            <a href="#" class="text-green-600 hover:text-green-800 font-semibold">View Tutorial →</a>
+                        </div>
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Sustainability Report Template</h3>
+                            <p class="text-gray-700 mb-4">Download our professionally designed sustainability report template.</p>
+                            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700">Download Template</button>
+                        </div>
+                        <div class="card-hover bg-white rounded-lg shadow-lg p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Materiality Assessment Guide</h3>
+                            <p class="text-gray-700 mb-4">Learn how to conduct a materiality assessment for your sustainability reporting.</p>
+                            <a href="#" class="text-purple-600 hover:text-purple-800 font-semibold">View Guide →</a>
+                        </div>
+                    </div>
+                    <div class="bg-blue-50 rounded-lg p-6">
+                        <h3 class="text-xl font-bold text-blue-900 mb-4">Quick Start Resources</h3>
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <a href="#" class="text-blue-700 hover:text-blue-900">Sustainability Reporting Checklist</a>
+                            <a href="#" class="text-blue-700 hover:text-blue-900">Key Performance Indicators Guide</a>
+                            <a href="#" class="text-blue-700 hover:text-blue-900">Stakeholder Engagement Template</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Corporate Sustainability Reports Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Corporate Sustainability Reports (CSR)</h2>
+                <div class="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
+                <p class="text-gray-600 mt-4">Explore exemplary sustainability reports from leading organizations</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="card-hover bg-white rounded-lg shadow-lg p-6 border border-gray-200">
+                    <h3 class="font-bold text-lg mb-2">Tech Industry Leaders</h3>
+                    <p class="text-gray-600 text-sm mb-4">Sustainability reports from leading technology companies</p>
+                    <a href="#" class="text-blue-600 hover:text-blue-800 font-semibold text-sm">View Reports →</a>
+                </div>
+                <div class="card-hover bg-white rounded-lg shadow-lg p-6 border border-gray-200">
+                    <h3 class="font-bold text-lg mb-2">Financial Services</h3>
+                    <p class="text-gray-600 text-sm mb-4">ESG and sustainability reporting from financial institutions</p>
+                    <a href="#" class="text-green-600 hover:text-green-800 font-semibold text-sm">View Reports →</a>
+                </div>
+                <div class="card-hover bg-white rounded-lg shadow-lg p-6 border border-gray-200">
+                    <h3 class="font-bold text-lg mb-2">Manufacturing Sector</h3>
+                    <p class="text-gray-600 text-sm mb-4">Environmental and social impact reports from manufacturers</p>
+                    <a href="#" class="text-purple-600 hover:text-purple-800 font-semibold text-sm">View Reports →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="text-3xl font-black text-white">CSMR</div>
+                        <div class="w-0.5 h-8 bg-blue-200"></div>
+                        <div class="text-blue-100 font-medium">
+                            <div class="text-sm leading-tight">Centre for Sustainability</div>
+                            <div class="text-sm leading-tight">& Management Research</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Publishing cutting-edge research in sustainability, innovation, and responsible management practices across India and beyond.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="journals.html" class="text-gray-300 hover:text-blue-400 transition-colors">Journals</a></li>
+                        <li><a href="conferences.html" class="text-gray-300 hover:text-blue-400 transition-colors">Conferences</a></li>
+                        <li><a href="certification.html" class="text-gray-300 hover:text-blue-400 transition-colors">Certification</a></li>
+                        <li><a href="about.html" class="text-gray-300 hover:text-blue-400 transition-colors">About</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Contact Us</h3>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-map-marker-alt mr-2 text-blue-400"></i>123 Research Lane, New Delhi, India
+                    </p>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-envelope mr-2 text-blue-400"></i>info@csmr.org
+                    </p>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-phone mr-2 text-blue-400"></i>+91 98765 43210
+                    </p>
+                </div>
+            </div>
+            <div class="border-t border-blue-800 mt-12 pt-8 text-center text-blue-300 text-sm">
+                &copy; 2025 CSMR. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active', 'bg-white', 'border-2', 'border-blue-600', 'text-blue-600');
+                button.classList.add('text-blue-900');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + '-content').classList.remove('hidden');
+            
+            // Add active class to selected tab button
+            const activeButton = document.getElementById(tabName + '-tab');
+            activeButton.classList.add('active', 'bg-white', 'border-2', 'border-blue-600', 'text-blue-600');
+            activeButton.classList.remove('text-blue-900');
+        }
+
+        function updateNavbar() {
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const authSection = document.getElementById('authSectionTop');
+            
+            if (token && user.firstName) {
+                authSection.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <span class="text-gray-600 text-sm">Welcome, ${user.firstName}!</span>
+                        <button onclick="logout()" class="bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold hover:bg-blue-700">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            updateNavbar();
+            window.location.href = 'index.html';
+        }
+
+        updateNavbar();
+    </script>
+</body>
+</html>
+

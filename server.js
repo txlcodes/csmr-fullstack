@@ -2147,6 +2147,53 @@ app.put('/api/submissions/:id/status', (req, res) => {
 });
 
 // Serve the main page
+// Test email endpoint
+app.post('/api/test-email', async (req, res) => {
+    try {
+        const { to } = req.body;
+        const testEmail = to || process.env.EMAIL_USER || 'test@example.com';
+        
+        console.log('📧 Testing email to:', testEmail);
+        
+        const mailOptions = {
+            from: `"CSMR - Centre for Sustainability & Management Research" <${process.env.EMAIL_USER || 'peerreview@csmr.org'}>`,
+            to: testEmail,
+            replyTo: process.env.REPLY_TO_EMAIL || 'peerreview@csmr.org',
+            subject: 'Test Email from CSMR Platform',
+            html: `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                    <h2 style="color: #002377;">✅ Email Test Successful!</h2>
+                    <p>This is a test email from your CSMR Platform.</p>
+                    <p>If you received this, your email configuration is working correctly!</p>
+                    <p style="margin-top: 20px; color: #666; font-size: 12px;">
+                        Sent at: ${new Date().toLocaleString()}
+                    </p>
+                </div>
+            `
+        };
+        
+        const info = await transporter.sendMail(mailOptions);
+        console.log('✅ Test email sent successfully!', {
+            messageId: info.messageId,
+            to: testEmail
+        });
+        
+        res.json({
+            success: true,
+            message: 'Test email sent successfully!',
+            messageId: info.messageId,
+            to: testEmail
+        });
+    } catch (error) {
+        console.error('❌ Test email failed:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to send test email: ' + error.message,
+            error: error.code || error.response || error.message
+        });
+    }
+});
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
