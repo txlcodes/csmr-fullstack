@@ -11,7 +11,7 @@ const crypto = require('crypto');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const JWT_SECRET = 'your-secret-key-change-in-production';
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
 // Middleware
 app.use(cors());
@@ -2200,7 +2200,17 @@ app.get('/', (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
+    console.log(`🚀 Server running on port ${PORT}`);
     console.log(`📊 Database: users.db`);
     console.log(`🔐 Authentication endpoints ready!`);
+    if (process.env.JWT_SECRET && process.env.JWT_SECRET !== 'your-secret-key-change-in-production') {
+        console.log(`✅ JWT_SECRET: Configured`);
+    } else {
+        console.warn(`⚠️  WARNING: JWT_SECRET not set or using default! Set JWT_SECRET environment variable in production.`);
+    }
+    if (process.env.BASE_URL) {
+        console.log(`✅ BASE_URL: ${process.env.BASE_URL}`);
+    } else {
+        console.warn(`⚠️  WARNING: BASE_URL not set! Email links may not work. Set BASE_URL environment variable.`);
+    }
 });

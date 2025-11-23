@@ -24,6 +24,49 @@
             transform: translateY(-5px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
+        
+        /* Side Panel Styles */
+        .side-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 600px;
+            height: 100vh;
+            background: white;
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+        }
+        
+        .side-panel.active {
+            right: 0;
+        }
+        
+        .side-panel-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        
+        .side-panel-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        @media (max-width: 768px) {
+            .side-panel {
+                max-width: 100%;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -130,7 +173,7 @@
                         <p class="text-sm text-gray-600 mb-2"><strong>Format:</strong> Online + Live Sessions</p>
                         <p class="text-sm text-gray-600"><strong>Certification:</strong> CSMR Certified ESG Reporter</p>
                     </div>
-                    <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 w-full">Enroll Now</button>
+                    <button onclick="openProgramPanel('esg')" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 w-full">View Details</button>
                 </div>
 
                 <!-- Sustainable Finance -->
@@ -147,7 +190,7 @@
                         <p class="text-sm text-gray-600 mb-2"><strong>Format:</strong> Online + Case Studies</p>
                         <p class="text-sm text-gray-600"><strong>Certification:</strong> CSMR Sustainable Finance Professional</p>
                     </div>
-                    <button class="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 w-full">Enroll Now</button>
+                    <button onclick="openProgramPanel('finance')" class="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 w-full">View Details</button>
                 </div>
 
                 <!-- Environmental Impact Assessment -->
@@ -164,7 +207,7 @@
                         <p class="text-sm text-gray-600 mb-2"><strong>Format:</strong> Hybrid (Online + Field Work)</p>
                         <p class="text-sm text-gray-600"><strong>Certification:</strong> CSMR EIA Specialist</p>
                     </div>
-                    <button class="bg-purple-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-purple-700 w-full">Enroll Now</button>
+                    <button onclick="openProgramPanel('eia')" class="bg-purple-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-purple-700 w-full">View Details</button>
                 </div>
 
                 <!-- Carbon Accounting -->
@@ -181,7 +224,7 @@
                         <p class="text-sm text-gray-600 mb-2"><strong>Format:</strong> Online + Practical Exercises</p>
                         <p class="text-sm text-gray-600"><strong>Certification:</strong> CSMR Carbon Accountant</p>
                     </div>
-                    <button class="bg-orange-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-orange-700 w-full">Enroll Now</button>
+                    <button onclick="openProgramPanel('carbon')" class="bg-orange-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-orange-700 w-full">View Details</button>
                 </div>
 
                 <!-- Life Cycle Assessment -->
@@ -198,7 +241,7 @@
                         <p class="text-sm text-gray-600 mb-2"><strong>Format:</strong> Online + Software Training</p>
                         <p class="text-sm text-gray-600"><strong>Certification:</strong> CSMR LCA Practitioner</p>
                     </div>
-                    <button class="bg-teal-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-teal-700 w-full">Enroll Now</button>
+                    <button onclick="openProgramPanel('lca')" class="bg-teal-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-teal-700 w-full">View Details</button>
                 </div>
 
                 <!-- Disaster Management -->
@@ -215,7 +258,7 @@
                         <p class="text-sm text-gray-600 mb-2"><strong>Format:</strong> Online + Simulation Exercises</p>
                         <p class="text-sm text-gray-600"><strong>Certification:</strong> CSMR Disaster Management Specialist</p>
                     </div>
-                    <button class="bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700 w-full">Enroll Now</button>
+                    <button onclick="openProgramPanel('disaster')" class="bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700 w-full">View Details</button>
                 </div>
 
                 <!-- Green Entrepreneurship -->
@@ -232,7 +275,7 @@
                         <p class="text-sm text-gray-600 mb-2"><strong>Format:</strong> Online + Mentorship</p>
                         <p class="text-sm text-gray-600"><strong>Certification:</strong> CSMR Green Entrepreneur</p>
                     </div>
-                    <button class="bg-emerald-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-emerald-700 w-full">Enroll Now</button>
+                    <button onclick="openProgramPanel('entrepreneurship')" class="bg-emerald-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-emerald-700 w-full">View Details</button>
                 </div>
             </div>
         </div>
@@ -323,7 +366,615 @@
         </div>
     </footer>
 
+    <!-- Side Panel Overlay -->
+    <div id="sidePanelOverlay" class="side-panel-overlay" onclick="closeProgramPanel()"></div>
+
+    <!-- Side Panel -->
+    <div id="sidePanel" class="side-panel">
+        <div class="sticky top-0 bg-white border-b border-gray-200 p-6 z-10">
+            <div class="flex items-center justify-between mb-4">
+                <h2 id="panelTitle" class="text-2xl font-bold text-gray-900"></h2>
+                <button onclick="closeProgramPanel()" class="text-gray-500 hover:text-gray-700 text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="p-6">
+            <!-- Course Structure Section -->
+            <div class="mb-8">
+                <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                    <i class="fas fa-book-open text-blue-600 mr-2"></i>
+                    Course Structure
+                </h3>
+                <div id="courseStructure" class="space-y-4"></div>
+            </div>
+
+            <!-- Teachers Section -->
+            <div class="mb-8">
+                <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                    <i class="fas fa-chalkboard-teacher text-blue-600 mr-2"></i>
+                    Instructors
+                </h3>
+                <div id="teachers" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            </div>
+
+            <!-- Timeline Section -->
+            <div class="mb-8">
+                <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                    <i class="fas fa-calendar-alt text-blue-600 mr-2"></i>
+                    Timeline & Schedule
+                </h3>
+                <div id="timeline" class="space-y-4"></div>
+            </div>
+
+            <!-- Certification Section -->
+            <div class="mb-8">
+                <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                    <i class="fas fa-certificate text-blue-600 mr-2"></i>
+                    Certification Details
+                </h3>
+                <div id="certification" class="bg-blue-50 rounded-lg p-6"></div>
+            </div>
+
+            <!-- Enroll Button -->
+            <button id="enrollButton" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors text-lg">
+                Enroll Now
+            </button>
+        </div>
+    </div>
+
     <script>
+        // Program data with detailed information
+        const programData = {
+            esg: {
+                title: "ESG Reporting Certification",
+                courseStructure: [
+                    {
+                        module: "Module 1: Introduction to ESG Reporting",
+                        topics: ["ESG Fundamentals", "Global Reporting Standards", "Stakeholder Engagement", "Materiality Assessment"]
+                    },
+                    {
+                        module: "Module 2: GRI Standards",
+                        topics: ["GRI Universal Standards", "GRI Topic Standards", "GRI Sector Standards", "Reporting Principles"]
+                    },
+                    {
+                        module: "Module 3: SASB & TCFD Frameworks",
+                        topics: ["SASB Standards", "TCFD Recommendations", "Climate Risk Disclosure", "Industry-Specific Metrics"]
+                    },
+                    {
+                        module: "Module 4: ESG Data Collection & Management",
+                        topics: ["Data Collection Methods", "ESG Metrics Calculation", "Data Quality Assurance", "ESG Software Tools"]
+                    },
+                    {
+                        module: "Module 5: Report Writing & Communication",
+                        topics: ["Report Structure", "Narrative Writing", "Data Visualization", "Digital Reporting"]
+                    },
+                    {
+                        module: "Module 6: Case Studies & Capstone Project",
+                        topics: ["Real-world ESG Reports Analysis", "Capstone Project", "Peer Review", "Final Presentation"]
+                    }
+                ],
+                teachers: [
+                    {
+                        name: "Dr. Priya Sharma",
+                        role: "Lead Instructor",
+                        expertise: "ESG Reporting & Sustainability",
+                        experience: "15+ years in corporate sustainability",
+                        image: "👩‍🏫"
+                    },
+                    {
+                        name: "Prof. Rajesh Kumar",
+                        role: "Senior Faculty",
+                        expertise: "GRI Standards & Reporting",
+                        experience: "Former GRI Certified Trainer",
+                        image: "👨‍🏫"
+                    },
+                    {
+                        name: "Dr. Anjali Mehta",
+                        role: "Guest Lecturer",
+                        expertise: "TCFD & Climate Reporting",
+                        experience: "Climate Finance Expert",
+                        image: "👩‍💼"
+                    }
+                ],
+                timeline: [
+                    { week: "Week 1-2", activity: "Foundation & GRI Standards", deliverables: "Assignment 1: Materiality Assessment" },
+                    { week: "Week 3-4", activity: "SASB & TCFD Frameworks", deliverables: "Assignment 2: Framework Comparison" },
+                    { week: "Week 5", activity: "Data Collection & Management", deliverables: "Assignment 3: ESG Metrics Calculation" },
+                    { week: "Week 6", activity: "Report Writing & Capstone", deliverables: "Final Capstone Project & Presentation" }
+                ],
+                certification: {
+                    name: "CSMR Certified ESG Reporter",
+                    requirements: "Complete all 6 modules, pass assessments (80% minimum), submit capstone project",
+                    validity: "3 years (renewable with continuing education)",
+                    recognition: "Recognized by GRI, SASB, and leading sustainability organizations",
+                    benefits: "Industry recognition, career advancement, networking opportunities"
+                }
+            },
+            finance: {
+                title: "Sustainable Finance Professional",
+                courseStructure: [
+                    {
+                        module: "Module 1: Sustainable Finance Fundamentals",
+                        topics: ["Principles of Sustainable Finance", "ESG Integration in Finance", "Risk & Return Analysis", "Regulatory Landscape"]
+                    },
+                    {
+                        module: "Module 2: Green Bonds & Sustainable Debt",
+                        topics: ["Green Bond Principles", "Sustainability-Linked Bonds", "Green Loan Framework", "Market Analysis"]
+                    },
+                    {
+                        module: "Module 3: Impact Investing",
+                        topics: ["Impact Measurement", "Social Impact Bonds", "Blended Finance", "Impact Portfolio Management"]
+                    },
+                    {
+                        module: "Module 4: ESG in Investment Analysis",
+                        topics: ["ESG Integration Methods", "ESG Ratings & Data", "Portfolio Construction", "Performance Attribution"]
+                    },
+                    {
+                        module: "Module 5: Climate Finance",
+                        topics: ["Climate Risk Assessment", "Transition Finance", "Adaptation Finance", "Carbon Markets"]
+                    },
+                    {
+                        module: "Module 6: Case Studies & Portfolio Project",
+                        topics: ["Real-world Case Studies", "Portfolio Construction Project", "Risk Analysis", "Final Presentation"]
+                    }
+                ],
+                teachers: [
+                    {
+                        name: "Dr. Vikram Singh",
+                        role: "Lead Instructor",
+                        expertise: "Sustainable Finance & ESG Investing",
+                        experience: "20+ years in financial services",
+                        image: "👨‍💼"
+                    },
+                    {
+                        name: "Prof. Meera Patel",
+                        role: "Senior Faculty",
+                        expertise: "Green Bonds & Climate Finance",
+                        experience: "Former Investment Banker",
+                        image: "👩‍💼"
+                    },
+                    {
+                        name: "Dr. Arjun Reddy",
+                        role: "Guest Lecturer",
+                        expertise: "Impact Investing",
+                        experience: "Impact Fund Manager",
+                        image: "👨‍🏫"
+                    }
+                ],
+                timeline: [
+                    { week: "Week 1-2", activity: "Fundamentals & Green Bonds", deliverables: "Assignment 1: Green Bond Analysis" },
+                    { week: "Week 3-4", activity: "Impact Investing & ESG Integration", deliverables: "Assignment 2: ESG Portfolio Analysis" },
+                    { week: "Week 5-6", activity: "Climate Finance & Advanced Topics", deliverables: "Assignment 3: Climate Risk Assessment" },
+                    { week: "Week 7-8", activity: "Portfolio Project & Case Studies", deliverables: "Final Portfolio Construction Project" }
+                ],
+                certification: {
+                    name: "CSMR Sustainable Finance Professional",
+                    requirements: "Complete all 8 modules, pass assessments (75% minimum), submit portfolio project",
+                    validity: "3 years (renewable with continuing education)",
+                    recognition: "Recognized by CFA Institute, PRI, and financial institutions",
+                    benefits: "Career advancement in finance, ESG expertise, industry network"
+                }
+            },
+            eia: {
+                title: "Environmental Impact Assessment (EIA) Specialist",
+                courseStructure: [
+                    {
+                        module: "Module 1: EIA Fundamentals",
+                        topics: ["EIA Concepts & Principles", "Legal & Regulatory Framework", "EIA Process Overview", "Stakeholder Engagement"]
+                    },
+                    {
+                        module: "Module 2: Baseline Studies",
+                        topics: ["Environmental Baseline Surveys", "Air Quality Assessment", "Water Quality Analysis", "Biodiversity Studies"]
+                    },
+                    {
+                        module: "Module 3: Impact Prediction & Assessment",
+                        topics: ["Impact Identification Methods", "Impact Prediction Techniques", "Impact Evaluation", "Cumulative Impact Assessment"]
+                    },
+                    {
+                        module: "Module 4: Mitigation & Management Plans",
+                        topics: ["Mitigation Measures", "Environmental Management Plans", "Monitoring Plans", "Emergency Response"]
+                    },
+                    {
+                        module: "Module 5: EIA Report Writing",
+                        topics: ["Report Structure & Format", "Technical Writing", "Data Presentation", "Public Consultation"]
+                    },
+                    {
+                        module: "Module 6: Field Work & Case Studies",
+                        topics: ["Field Site Visits", "Real EIA Projects", "Regulatory Compliance", "Final EIA Report"]
+                    }
+                ],
+                teachers: [
+                    {
+                        name: "Dr. Sanjay Verma",
+                        role: "Lead Instructor",
+                        expertise: "EIA & Environmental Assessment",
+                        experience: "25+ years in environmental consulting",
+                        image: "👨‍🔬"
+                    },
+                    {
+                        name: "Prof. Kavita Nair",
+                        role: "Senior Faculty",
+                        expertise: "Environmental Law & Regulations",
+                        experience: "Former Environmental Regulator",
+                        image: "👩‍⚖️"
+                    },
+                    {
+                        name: "Dr. Ravi Menon",
+                        role: "Field Expert",
+                        expertise: "Field Assessment & Biodiversity",
+                        experience: "Wildlife & Ecology Specialist",
+                        image: "👨‍🌾"
+                    }
+                ],
+                timeline: [
+                    { week: "Week 1-2", activity: "Fundamentals & Legal Framework", deliverables: "Assignment 1: Regulatory Analysis" },
+                    { week: "Week 3-4", activity: "Baseline Studies & Impact Assessment", deliverables: "Assignment 2: Baseline Report" },
+                    { week: "Week 5-6", activity: "Mitigation Plans & Report Writing", deliverables: "Assignment 3: Mitigation Plan" },
+                    { week: "Week 7-8", activity: "Field Work & Site Visits", deliverables: "Field Assessment Report" },
+                    { week: "Week 9-10", activity: "Case Studies & Final EIA Report", deliverables: "Complete EIA Report & Presentation" }
+                ],
+                certification: {
+                    name: "CSMR EIA Specialist",
+                    requirements: "Complete all modules, pass assessments (80% minimum), submit complete EIA report, attend field work",
+                    validity: "3 years (renewable with continuing education)",
+                    recognition: "Recognized by MoEFCC, state pollution control boards, and consulting firms",
+                    benefits: "EIA consultant certification, regulatory compliance expertise, career opportunities"
+                }
+            },
+            carbon: {
+                title: "Carbon Accounting Certification",
+                courseStructure: [
+                    {
+                        module: "Module 1: Carbon Accounting Fundamentals",
+                        topics: ["GHG Protocol Overview", "Scope 1, 2, 3 Emissions", "Carbon Footprint Concepts", "Standards & Frameworks"]
+                    },
+                    {
+                        module: "Module 2: GHG Inventory Development",
+                        topics: ["Organizational Boundaries", "Operational Boundaries", "Emission Sources Identification", "Data Collection Methods"]
+                    },
+                    {
+                        module: "Module 3: Emission Factor Databases",
+                        topics: ["Emission Factors", "IPCC Guidelines", "National Inventories", "Industry-Specific Factors"]
+                    },
+                    {
+                        module: "Module 4: Calculation Methods",
+                        topics: ["Activity Data Collection", "Emission Calculations", "Uncertainty Analysis", "Verification Methods"]
+                    },
+                    {
+                        module: "Module 5: Carbon Offsets & Credits",
+                        topics: ["Offset Mechanisms", "Carbon Markets", "Verification Standards", "Offset Project Development"]
+                    },
+                    {
+                        module: "Module 6: Reporting & Verification",
+                        topics: ["GHG Report Writing", "Third-Party Verification", "CDP Reporting", "Capstone Project"]
+                    }
+                ],
+                teachers: [
+                    {
+                        name: "Dr. Anil Kapoor",
+                        role: "Lead Instructor",
+                        expertise: "Carbon Accounting & GHG Management",
+                        experience: "15+ years in climate consulting",
+                        image: "👨‍🔬"
+                    },
+                    {
+                        name: "Prof. Deepa Iyer",
+                        role: "Senior Faculty",
+                        expertise: "GHG Protocol & Standards",
+                        experience: "GHG Protocol Certified Trainer",
+                        image: "👩‍🏫"
+                    },
+                    {
+                        name: "Dr. Mohan Das",
+                        role: "Guest Lecturer",
+                        expertise: "Carbon Markets & Offsets",
+                        experience: "Carbon Trading Expert",
+                        image: "👨‍💼"
+                    }
+                ],
+                timeline: [
+                    { week: "Week 1", activity: "Fundamentals & GHG Protocol", deliverables: "Assignment 1: Scope Identification" },
+                    { week: "Week 2", activity: "GHG Inventory Development", deliverables: "Assignment 2: Inventory Framework" },
+                    { week: "Week 3", activity: "Emission Factors & Calculations", deliverables: "Assignment 3: Calculation Exercise" },
+                    { week: "Week 4", activity: "Carbon Offsets & Markets", deliverables: "Assignment 4: Offset Analysis" },
+                    { week: "Week 5", activity: "Reporting & Verification", deliverables: "Assignment 5: GHG Report Draft" },
+                    { week: "Week 6", activity: "Capstone Project", deliverables: "Complete GHG Inventory & Report" }
+                ],
+                certification: {
+                    name: "CSMR Carbon Accountant",
+                    requirements: "Complete all 6 modules, pass assessments (80% minimum), submit complete GHG inventory",
+                    validity: "3 years (renewable with continuing education)",
+                    recognition: "Recognized by GHG Protocol, CDP, and carbon accounting organizations",
+                    benefits: "Carbon accounting expertise, verification readiness, career advancement"
+                }
+            },
+            lca: {
+                title: "Life Cycle Assessment (LCA) Practitioner",
+                courseStructure: [
+                    {
+                        module: "Module 1: LCA Fundamentals",
+                        topics: ["LCA Principles & Framework", "ISO 14040/14044 Standards", "Goal & Scope Definition", "System Boundaries"]
+                    },
+                    {
+                        module: "Module 2: Life Cycle Inventory (LCI)",
+                        topics: ["Data Collection", "LCI Databases", "Data Quality", "Allocation Methods"]
+                    },
+                    {
+                        module: "Module 3: Life Cycle Impact Assessment (LCIA)",
+                        topics: ["Impact Categories", "Characterization Methods", "Normalization & Weighting", "LCIA Methods (ReCiPe, CML)"]
+                    },
+                    {
+                        module: "Module 4: LCA Software Tools",
+                        topics: ["SimaPro Introduction", "GaBi Software", "OpenLCA", "Software Comparison"]
+                    },
+                    {
+                        module: "Module 5: Product & Process LCA",
+                        topics: ["Product LCA Methodology", "Process LCA", "Comparative LCA", "Hotspot Analysis"]
+                    },
+                    {
+                        module: "Module 6: LCA Applications & Case Studies",
+                        topics: ["Eco-design Applications", "Real-world Case Studies", "LCA Report Writing", "Capstone Project"]
+                    }
+                ],
+                teachers: [
+                    {
+                        name: "Dr. Suresh Rao",
+                        role: "Lead Instructor",
+                        expertise: "LCA & Environmental Assessment",
+                        experience: "20+ years in LCA consulting",
+                        image: "👨‍🔬"
+                    },
+                    {
+                        name: "Prof. Neha Joshi",
+                        role: "Senior Faculty",
+                        expertise: "LCA Software & Tools",
+                        experience: "SimaPro Certified Trainer",
+                        image: "👩‍💻"
+                    },
+                    {
+                        name: "Dr. Karthik Nair",
+                        role: "Guest Lecturer",
+                        expertise: "Product LCA & Eco-design",
+                        experience: "Product Sustainability Expert",
+                        image: "👨‍🏭"
+                    }
+                ],
+                timeline: [
+                    { week: "Week 1-2", activity: "Fundamentals & LCI", deliverables: "Assignment 1: Goal & Scope Definition" },
+                    { week: "Week 3-4", activity: "LCIA & Software Training", deliverables: "Assignment 2: LCA Software Exercise" },
+                    { week: "Week 5-6", activity: "Product & Process LCA", deliverables: "Assignment 3: Product LCA Study" },
+                    { week: "Week 7-8", activity: "Applications & Capstone", deliverables: "Complete LCA Report & Presentation" }
+                ],
+                certification: {
+                    name: "CSMR LCA Practitioner",
+                    requirements: "Complete all 8 modules, pass assessments (75% minimum), submit complete LCA study",
+                    validity: "3 years (renewable with continuing education)",
+                    recognition: "Recognized by SETAC, LCA community, and sustainability organizations",
+                    benefits: "LCA expertise, software proficiency, career in sustainability consulting"
+                }
+            },
+            disaster: {
+                title: "Disaster Management Specialist",
+                courseStructure: [
+                    {
+                        module: "Module 1: Disaster Risk Reduction Fundamentals",
+                        topics: ["Disaster Types & Hazards", "Risk Assessment", "Vulnerability Analysis", "Sendai Framework"]
+                    },
+                    {
+                        module: "Module 2: Climate Resilience",
+                        topics: ["Climate Change Impacts", "Adaptation Strategies", "Resilience Planning", "Early Warning Systems"]
+                    },
+                    {
+                        module: "Module 3: Emergency Response Planning",
+                        topics: ["Emergency Response Framework", "Evacuation Planning", "Resource Management", "Coordination Mechanisms"]
+                    },
+                    {
+                        module: "Module 4: Disaster Recovery & Reconstruction",
+                        topics: ["Recovery Planning", "Reconstruction Strategies", "Livelihood Restoration", "Community Resilience"]
+                    }
+                ],
+                teachers: [
+                    {
+                        name: "Dr. Ramesh Patel",
+                        role: "Lead Instructor",
+                        expertise: "Disaster Management & Risk Reduction",
+                        experience: "25+ years in disaster management",
+                        image: "👨‍🚒"
+                    },
+                    {
+                        name: "Prof. Sunita Reddy",
+                        role: "Senior Faculty",
+                        expertise: "Climate Resilience & Adaptation",
+                        experience: "Climate Adaptation Expert",
+                        image: "👩‍🌾"
+                    },
+                    {
+                        name: "Dr. Ajay Kumar",
+                        role: "Guest Lecturer",
+                        expertise: "Emergency Response",
+                        experience: "NDMA Consultant",
+                        image: "👨‍⚕️"
+                    }
+                ],
+                timeline: [
+                    { week: "Week 1", activity: "Disaster Risk Reduction", deliverables: "Assignment 1: Risk Assessment" },
+                    { week: "Week 2", activity: "Climate Resilience", deliverables: "Assignment 2: Resilience Plan" },
+                    { week: "Week 3", activity: "Emergency Response", deliverables: "Assignment 3: Response Plan" },
+                    { week: "Week 4", activity: "Recovery & Simulation", deliverables: "Final Disaster Management Plan & Simulation Exercise" }
+                ],
+                certification: {
+                    name: "CSMR Disaster Management Specialist",
+                    requirements: "Complete all 4 modules, pass assessments (75% minimum), participate in simulation exercises",
+                    validity: "3 years (renewable with continuing education)",
+                    recognition: "Recognized by NDMA, state disaster management authorities, and NGOs",
+                    benefits: "Disaster management expertise, emergency planning skills, career in public safety"
+                }
+            },
+            entrepreneurship: {
+                title: "Green Entrepreneurship Program",
+                courseStructure: [
+                    {
+                        module: "Module 1: Green Business Fundamentals",
+                        topics: ["Sustainable Business Models", "Circular Economy Principles", "Green Market Opportunities", "Sustainability Innovation"]
+                    },
+                    {
+                        module: "Module 2: Business Planning & Strategy",
+                        topics: ["Green Business Plan Development", "Market Analysis", "Competitive Strategy", "Value Proposition Design"]
+                    },
+                    {
+                        module: "Module 3: Green Financing & Funding",
+                        topics: ["Accessing Green Finance", "Impact Investment", "Grants & Subsidies", "Pitching to Investors"]
+                    },
+                    {
+                        module: "Module 4: Product Development & Innovation",
+                        topics: ["Eco-innovation", "Sustainable Product Design", "Life Cycle Thinking", "Prototyping"]
+                    },
+                    {
+                        module: "Module 5: Marketing & Branding",
+                        topics: ["Green Marketing Strategies", "Sustainability Branding", "Digital Marketing", "Stakeholder Engagement"]
+                    },
+                    {
+                        module: "Module 6: Scaling & Growth",
+                        topics: ["Scaling Strategies", "Partnership Development", "Supply Chain Management", "Impact Measurement"]
+                    }
+                ],
+                teachers: [
+                    {
+                        name: "Dr. Meera Shah",
+                        role: "Lead Instructor",
+                        expertise: "Green Entrepreneurship & Innovation",
+                        experience: "Serial Green Entrepreneur",
+                        image: "👩‍💼"
+                    },
+                    {
+                        name: "Prof. Rahul Mehta",
+                        role: "Senior Faculty",
+                        expertise: "Business Strategy & Planning",
+                        experience: "Business Consultant & Mentor",
+                        image: "👨‍💼"
+                    },
+                    {
+                        name: "Dr. Priya Nair",
+                        role: "Guest Mentor",
+                        expertise: "Green Finance & Investment",
+                        experience: "Impact Investor",
+                        image: "👩‍🏫"
+                    }
+                ],
+                timeline: [
+                    { week: "Week 1-2", activity: "Fundamentals & Business Planning", deliverables: "Business Model Canvas" },
+                    { week: "Week 3-4", activity: "Financing & Product Development", deliverables: "Funding Pitch Deck" },
+                    { week: "Week 5-6", activity: "Marketing & Branding", deliverables: "Marketing Strategy Plan" },
+                    { week: "Week 7-8", activity: "Mentorship & Refinement", deliverables: "Refined Business Plan" },
+                    { week: "Week 9-10", activity: "Scaling & Growth", deliverables: "Growth Strategy" },
+                    { week: "Week 11-12", activity: "Final Presentation & Demo Day", deliverables: "Complete Business Plan & Investor Pitch" }
+                ],
+                certification: {
+                    name: "CSMR Green Entrepreneur",
+                    requirements: "Complete all 12 modules, develop complete business plan, pitch to panel, attend mentorship sessions",
+                    validity: "Lifetime (with annual updates)",
+                    recognition: "Recognized by startup incubators, investors, and green business networks",
+                    benefits: "Entrepreneurship certification, investor network access, mentorship support, startup resources"
+                }
+            }
+        };
+
+        function openProgramPanel(programId) {
+            const program = programData[programId];
+            if (!program) return;
+
+            // Update panel title
+            document.getElementById('panelTitle').textContent = program.title;
+
+            // Populate course structure
+            const courseStructureDiv = document.getElementById('courseStructure');
+            courseStructureDiv.innerHTML = program.courseStructure.map((module, index) => `
+                <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-blue-600">
+                    <h4 class="font-bold text-gray-900 mb-2">${module.module}</h4>
+                    <ul class="list-disc list-inside space-y-1 text-gray-700 ml-4">
+                        ${module.topics.map(topic => `<li>${topic}</li>`).join('')}
+                    </ul>
+                </div>
+            `).join('');
+
+            // Populate teachers
+            const teachersDiv = document.getElementById('teachers');
+            teachersDiv.innerHTML = program.teachers.map(teacher => `
+                <div class="bg-white border border-gray-200 rounded-lg p-4">
+                    <div class="flex items-center mb-3">
+                        <div class="text-4xl mr-3">${teacher.image}</div>
+                        <div>
+                            <h4 class="font-bold text-gray-900">${teacher.name}</h4>
+                            <p class="text-sm text-blue-600">${teacher.role}</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-700 mb-2"><strong>Expertise:</strong> ${teacher.expertise}</p>
+                    <p class="text-sm text-gray-600">${teacher.experience}</p>
+                </div>
+            `).join('');
+
+            // Populate timeline
+            const timelineDiv = document.getElementById('timeline');
+            timelineDiv.innerHTML = program.timeline.map(item => `
+                <div class="flex items-start border-l-4 border-blue-500 pl-4 pb-4">
+                    <div class="flex-shrink-0 w-24">
+                        <span class="font-bold text-blue-600">${item.week}</span>
+                    </div>
+                    <div class="flex-1 ml-4">
+                        <p class="font-semibold text-gray-900 mb-1">${item.activity}</p>
+                        <p class="text-sm text-gray-600"><i class="fas fa-tasks mr-1"></i>${item.deliverables}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            // Populate certification
+            const certificationDiv = document.getElementById('certification');
+            certificationDiv.innerHTML = `
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="font-bold text-gray-900 mb-2">Certification Name</h4>
+                        <p class="text-blue-600 font-semibold">${program.certification.name}</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-900 mb-2">Requirements</h4>
+                        <p class="text-gray-700">${program.certification.requirements}</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-900 mb-2">Validity</h4>
+                        <p class="text-gray-700">${program.certification.validity}</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-900 mb-2">Recognition</h4>
+                        <p class="text-gray-700">${program.certification.recognition}</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-900 mb-2">Benefits</h4>
+                        <p class="text-gray-700">${program.certification.benefits}</p>
+                    </div>
+                </div>
+            `;
+
+            // Show panel and overlay
+            document.getElementById('sidePanel').classList.add('active');
+            document.getElementById('sidePanelOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProgramPanel() {
+            document.getElementById('sidePanel').classList.remove('active');
+            document.getElementById('sidePanelOverlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close panel on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeProgramPanel();
+            }
+        });
+
         function updateNavbar() {
             const token = localStorage.getItem('token');
             const user = JSON.parse(localStorage.getItem('user') || '{}');
