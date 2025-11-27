@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="translations.js"></script>
     <style>
         body { 
             font-family: 'Source Sans Pro', sans-serif; 
@@ -259,9 +260,11 @@
                         <span class="text-gray-300 mx-2">/</span>
                         <a href="register.html" class="text-gray-600 hover:text-blue-600">Register</a>
                     </div>
-                    <div class="flex items-center">
-                        <span class="text-gray-600 mr-1">English</span>
-                        <i class="fas fa-chevron-down text-xs"></i>
+                    <div class="relative">
+                        <select class="language-selector bg-transparent border-none text-gray-600 text-sm focus:outline-none cursor-pointer" onchange="LanguageManager.setLanguage(this.value); window.location.reload();">
+                            <option value="en">English</option>
+                            <option value="hi">हिंदी</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -297,7 +300,7 @@
     <nav class="bg-white border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-center space-x-8 py-4">
-                <a href="#home" class="text-blue-600 border-b-2 border-blue-600 pb-2 font-medium">Home</a>
+                <a href="#home" class="text-blue-600 border-b-2 border-blue-600 pb-2 font-medium" data-translate="home">Home</a>
                 <div class="relative group">
                     <a href="journals.html" class="text-gray-600 hover:text-blue-600 font-medium flex items-center">
                         Journals
@@ -315,9 +318,9 @@
                         </div>
                     </div>
                 </div>
-                <a href="submit.html" class="text-gray-600 hover:text-blue-600 font-medium">Submit</a>
-                <a href="about.html" class="text-gray-600 hover:text-blue-600 font-medium">About</a>
-                <a href="contact.html" class="text-gray-600 hover:text-blue-600 font-medium">Contact</a>
+                <a href="submit.html" class="text-gray-600 hover:text-blue-600 font-medium" data-translate="submit">Submit</a>
+                <a href="about.html" class="text-gray-600 hover:text-blue-600 font-medium" data-translate="about">About</a>
+                <a href="contact.html" class="text-gray-600 hover:text-blue-600 font-medium" data-translate="contact">Contact</a>
             </div>
         </div>
     </nav>
@@ -338,20 +341,20 @@
     <!-- Hero Section -->
     <section id="home" class="gradient-bg py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="hero-title typing-animation font-black text-white mb-6" style="border-right: none;">
+            <h1 class="hero-title typing-animation font-black text-white mb-6" style="border-right: none;" data-translate="heroTitle">
                 Centre for Sustainability and Management Research
             </h1>
-            <p class="text-xl text-white text-opacity-90 mb-12 max-w-4xl mx-auto">
+            <p class="text-xl text-white text-opacity-90 mb-12 max-w-4xl mx-auto" data-translate="heroSubtitle">
                 Publishing cutting-edge research in sustainability, innovation, and responsible management practices across India and beyond.
             </p>
             <div class="flex flex-col sm:flex-row gap-6 justify-center">
                 <a href="journals.html" class="bg-white text-blue-600 hover:bg-gray-50 font-bold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-3">
                     <i class="fas fa-book-open text-xl"></i>
-                    <span>Browse Journals</span>
+                    <span data-translate="browseJournals">Browse Journals</span>
                 </a>
                 <a href="submit.html" class="border-2 border-white text-white hover:bg-white hover:text-blue-600 font-bold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center space-x-3">
                     <i class="fas fa-paper-plane text-xl"></i>
-                    <span>Submit Your Manuscript</span>
+                    <span data-translate="submitManuscript">Submit Your Manuscript</span>
                 </a>
             </div>
         </div>
@@ -365,25 +368,25 @@
                     <img src="images/conference-room.jpg" alt="Our modern research workspace" class="w-full h-auto rounded-2xl shadow-2xl object-cover image-slide-left image-stagger-1" style="max-height: 500px;" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'500\'%3E%3Crect fill=\'%23f3f4f6\' width=\'800\' height=\'500\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%239ca3af\' font-family=\'sans-serif\' font-size=\'18\'%3EAdd conference-room.jpg%3C/text%3E%3C/svg%3E';">
                 </div>
                 <div class="fade-in-right">
-                    <h2 class="text-4xl font-bold text-blue-900 mb-6">Our Research Environment</h2>
-                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                    <h2 class="text-4xl font-bold text-blue-900 mb-6" data-translate="ourResearchEnvironment">Our Research Environment</h2>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed" data-translate="researchEnvDesc1">
                         At CSMR, we foster a collaborative and innovative research environment where scholars, researchers, and industry experts come together to advance sustainability and management research.
                     </p>
-                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed" data-translate="researchEnvDesc2">
                         Our modern workspace is designed to support cutting-edge research, peer collaboration, and knowledge exchange, enabling our team to deliver high-quality publications and impactful research outcomes.
                     </p>
                     <div class="flex flex-wrap gap-4">
                         <div class="bg-blue-50 px-6 py-3 rounded-lg">
                             <div class="text-2xl font-bold text-blue-600">150+</div>
-                            <div class="text-sm text-gray-600">Active Researchers</div>
+                            <div class="text-sm text-gray-600" data-translate="activeResearchers">Active Researchers</div>
                         </div>
                         <div class="bg-blue-50 px-6 py-3 rounded-lg">
                             <div class="text-2xl font-bold text-blue-600">24/7</div>
-                            <div class="text-sm text-gray-600">Research Support</div>
+                            <div class="text-sm text-gray-600" data-translate="researchSupport">Research Support</div>
                         </div>
                         <div class="bg-blue-50 px-6 py-3 rounded-lg">
                             <div class="text-2xl font-bold text-blue-600">Global</div>
-                            <div class="text-sm text-gray-600">Collaboration</div>
+                            <div class="text-sm text-gray-600" data-translate="globalCollaboration">Collaboration</div>
                         </div>
                     </div>
                 </div>
@@ -396,29 +399,29 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div class="fade-in-left order-2 lg:order-1">
-                    <h2 class="text-4xl font-bold text-blue-900 mb-6">Collaborative Research Excellence</h2>
-                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                    <h2 class="text-4xl font-bold text-blue-900 mb-6" data-translate="collaborativeResearchExcellence">Collaborative Research Excellence</h2>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed" data-translate="collaborativeDesc1">
                         Our research team works collaboratively across disciplines, leveraging modern technology and innovative methodologies to address critical sustainability challenges.
                     </p>
-                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed" data-translate="collaborativeDesc2">
                         Through rigorous peer review, interdisciplinary collaboration, and industry partnerships, we ensure that every publication meets the highest standards of academic excellence and real-world relevance.
                     </p>
                     <ul class="space-y-3 text-gray-600">
                         <li class="flex items-center">
                             <i class="fas fa-check-circle text-blue-600 mr-3"></i>
-                            <span>Interdisciplinary research approach</span>
+                            <span data-translate="interdisciplinaryApproach">Interdisciplinary research approach</span>
                         </li>
                         <li class="flex items-center">
                             <i class="fas fa-check-circle text-blue-600 mr-3"></i>
-                            <span>State-of-the-art research facilities</span>
+                            <span data-translate="stateOfArtFacilities">State-of-the-art research facilities</span>
                         </li>
                         <li class="flex items-center">
                             <i class="fas fa-check-circle text-blue-600 mr-3"></i>
-                            <span>Global expert network collaboration</span>
+                            <span data-translate="globalExpertNetwork">Global expert network collaboration</span>
                         </li>
                         <li class="flex items-center">
                             <i class="fas fa-check-circle text-blue-600 mr-3"></i>
-                            <span>Industry-academia partnerships</span>
+                            <span data-translate="industryAcademia">Industry-academia partnerships</span>
                         </li>
                     </ul>
                 </div>
@@ -437,44 +440,36 @@
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-book text-2xl text-blue-600"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Browse Journals</h3>
-                    <p class="text-gray-600 mb-6 flex-grow">Explore our comprehensive collection of peer-reviewed journals</p>
-                    <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
-                        View Journals
-                    </button>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-translate="browseJournalsCard">Browse Journals</h3>
+                    <p class="text-gray-600 mb-6 flex-grow" data-translate="browseJournalsDesc">Explore our comprehensive collection of peer-reviewed journals</p>
+                    <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto" data-translate="viewJournals">View Journals</button>
                 </div>
 
                 <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center flex flex-col">
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-list-alt text-2xl text-blue-600"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">View My Submissions</h3>
-                    <p class="text-gray-600 mb-6 flex-grow">Track and manage all your manuscript submissions and their status</p>
-                    <a href="my-submissions.html" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
-                        View Submissions
-                    </a>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-translate="viewMySubmissions">View My Submissions</h3>
+                    <p class="text-gray-600 mb-6 flex-grow" data-translate="viewSubmissionsDesc">Track and manage all your manuscript submissions and their status</p>
+                    <a href="my-submissions.html" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto" data-translate="viewSubmissions">View Submissions</a>
                 </div>
 
                 <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center flex flex-col">
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-user-edit text-2xl text-blue-600"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">For Authors</h3>
-                    <p class="text-gray-600 mb-6 flex-grow">Guidelines, policies and resources for contributing authors</p>
-                    <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
-                        Learn More
-                    </button>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-translate="forAuthors">For Authors</h3>
+                    <p class="text-gray-600 mb-6 flex-grow" data-translate="forAuthorsDesc">Guidelines, policies and resources for contributing authors</p>
+                    <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto" data-translate="learnMore">Learn More</button>
                 </div>
 
                 <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center flex flex-col">
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-graduation-cap text-2xl text-blue-600"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">For Researchers</h3>
-                    <p class="text-gray-600 mb-6 flex-grow">Access tools and resources to support your research</p>
-                    <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
-                        Explore Tools
-                    </button>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-translate="forResearchers">For Researchers</h3>
+                    <p class="text-gray-600 mb-6 flex-grow" data-translate="forResearchersDesc">Access tools and resources to support your research</p>
+                    <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto" data-translate="exploreTools">Explore Tools</button>
                 </div>
             </div>
         </div>
@@ -484,9 +479,9 @@
     <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">Resources & Services</h2>
+                <h2 class="text-4xl font-bold text-gray-900 mb-4" data-translate="resourcesServices">Resources & Services</h2>
                 <div class="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
-                <p class="text-gray-600 mt-4">Explore our comprehensive sustainability resources and services</p>
+                <p class="text-gray-600 mt-4" data-translate="exploreResources">Explore our comprehensive sustainability resources and services</p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -494,44 +489,36 @@
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-newspaper text-2xl text-blue-600"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Research</h3>
-                    <p class="text-gray-600 mb-6 flex-grow">Browse our collection of published research articles and papers</p>
-                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
-                        View Research
-                    </span>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-translate="research">Research</h3>
+                    <p class="text-gray-600 mb-6 flex-grow" data-translate="researchDesc">Browse our collection of published research articles and papers</p>
+                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto" data-translate="viewResearch">View Research</span>
                 </div>
 
                 <div onclick="navigateWithAnimation('conferences.html', 'Conferences', event)" class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center cursor-pointer flex flex-col">
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-users text-2xl text-blue-600"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Conferences</h3>
-                    <p class="text-gray-600 mb-6 flex-grow">Discover upcoming sustainability conferences, workshops, and events</p>
-                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
-                        Explore Conferences
-                    </span>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-translate="conferences">Conferences</h3>
+                    <p class="text-gray-600 mb-6 flex-grow" data-translate="conferencesDesc">Discover upcoming sustainability conferences, workshops, and events</p>
+                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto" data-translate="exploreConferences">Explore Conferences</span>
                 </div>
 
                 <div onclick="navigateWithAnimation('certification.html', 'Programs', event)" class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center cursor-pointer flex flex-col">
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-certificate text-2xl text-blue-600"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Program</h3>
-                    <p class="text-gray-600 mb-6 flex-grow">Professional certification programs in sustainability and ESG</p>
-                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
-                        View Programs
-                    </span>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-translate="program">Program</h3>
+                    <p class="text-gray-600 mb-6 flex-grow" data-translate="programDesc">Professional certification programs in sustainability and ESG</p>
+                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto" data-translate="viewPrograms">View Programs</span>
                 </div>
 
                 <div onclick="navigateWithAnimation('sustainable-reporting.html', 'Sustainable Reporting', event)" class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center cursor-pointer flex flex-col">
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-chart-bar text-2xl text-blue-600"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Reporting</h3>
-                    <p class="text-gray-600 mb-6 flex-grow">Tools, frameworks, and guides for sustainability reporting</p>
-                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
-                        Learn More
-                    </span>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-translate="reporting">Reporting</h3>
+                    <p class="text-gray-600 mb-6 flex-grow" data-translate="reportingDesc">Tools, frameworks, and guides for sustainability reporting</p>
+                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto" data-translate="learnMore">Learn More</span>
                 </div>
             </div>
         </div>
@@ -541,7 +528,7 @@
     <section id="journals" class="py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">Featured Journals</h2>
+                <h2 class="text-4xl font-bold text-gray-900 mb-4" data-translate="featuredJournals">Featured Journals</h2>
                 <div class="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
             </div>
             
@@ -551,12 +538,10 @@
                         <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-6">
                             <i class="fas fa-leaf text-2xl text-blue-600"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-blue-900 mb-2">Journal of Sustainable Management</h3>
+                        <h3 class="text-xl font-bold text-blue-900 mb-2" data-translate="journalSustainableManagement">Journal of Sustainable Management</h3>
                         <p class="text-gray-500 text-sm mb-4">ISSN: 2456-7890</p>
-                        <p class="text-gray-600 mb-6 flex-grow">Focused on sustainable business practices and environmental management policies.</p>
-                        <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
-                            View Journal
-                        </button>
+                        <p class="text-gray-600 mb-6 flex-grow" data-translate="journalSustainableDesc">Focused on sustainable business practices and environmental management policies.</p>
+                        <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto" data-translate="viewJournal">View Journal</button>
                     </div>
                 </div>
 
@@ -565,12 +550,10 @@
                         <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-6">
                             <i class="fas fa-lightbulb text-2xl text-blue-600"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-blue-900 mb-2">Innovation & Sustainability Review</h3>
+                        <h3 class="text-xl font-bold text-blue-900 mb-2" data-translate="innovationSustainabilityReview">Innovation & Sustainability Review</h3>
                         <p class="text-gray-500 text-sm mb-4">ISSN: 2345-6789</p>
-                        <p class="text-gray-600 mb-6 flex-grow">Examines the intersection of innovation and sustainable development.</p>
-                        <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
-                            View Journal
-                        </button>
+                        <p class="text-gray-600 mb-6 flex-grow" data-translate="innovationSustainabilityDesc">Examines the intersection of innovation and sustainable development.</p>
+                        <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto" data-translate="viewJournal">View Journal</button>
                     </div>
                 </div>
 
@@ -579,12 +562,10 @@
                         <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-6">
                             <i class="fas fa-chart-line text-2xl text-blue-600"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-blue-900 mb-2">Management Studies Quarterly</h3>
+                        <h3 class="text-xl font-bold text-blue-900 mb-2" data-translate="managementStudiesQuarterly">Management Studies Quarterly</h3>
                         <p class="text-gray-500 text-sm mb-4">ISSN: 3456-7891</p>
-                        <p class="text-gray-600 mb-6 flex-grow">Covers contemporary management theories and practices in global contexts.</p>
-                        <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
-                            View Journal
-                        </button>
+                        <p class="text-gray-600 mb-6 flex-grow" data-translate="managementStudiesDesc">Covers contemporary management theories and practices in global contexts.</p>
+                        <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto" data-translate="viewJournal">View Journal</button>
                     </div>
                 </div>
             </div>
@@ -595,7 +576,7 @@
     <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 fade-in-up">
-                <h2 class="text-4xl font-bold text-blue-900 mb-4">Our Impact & Reach</h2>
+                <h2 class="text-4xl font-bold text-blue-900 mb-4" data-translate="ourImpactReach">Our Impact & Reach</h2>
                 <div class="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
             </div>
             
@@ -603,28 +584,28 @@
                 <div class="impact-card fade-in-left bg-white rounded-xl p-8 shadow-lg border border-blue-100 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <div class="border-l-4 border-blue-600 pl-6">
                         <div class="text-5xl font-black text-blue-600 mb-2 counter" data-target="150">0</div>
-                        <div class="text-gray-600 font-medium">RESEARCHERS<br>PUBLISHED</div>
+                        <div class="text-gray-600 font-medium" data-translate="researchersPublished">RESEARCHERS<br>PUBLISHED</div>
                     </div>
                 </div>
                 
                 <div class="impact-card fade-in-up bg-white rounded-xl p-8 shadow-lg border border-blue-100 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <div class="border-l-4 border-blue-600 pl-6">
                         <div class="text-5xl font-black text-blue-600 mb-2 counter" data-target="85">0</div>
-                        <div class="text-gray-600 font-medium">COUNTRIES<br>REACHED</div>
+                        <div class="text-gray-600 font-medium" data-translate="countriesReached">COUNTRIES<br>REACHED</div>
                     </div>
                 </div>
                 
                 <div class="impact-card fade-in-up bg-white rounded-xl p-8 shadow-lg border border-blue-100 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <div class="border-l-4 border-blue-600 pl-6">
                         <div class="text-5xl font-black text-blue-600 mb-2 counter" data-target="450">0</div>
-                        <div class="text-gray-600 font-medium">PEER-REVIEWED<br>ARTICLES</div>
+                        <div class="text-gray-600 font-medium" data-translate="peerReviewedArticles">PEER-REVIEWED<br>ARTICLES</div>
                     </div>
                 </div>
                 
                 <div class="impact-card fade-in-right bg-white rounded-xl p-8 shadow-lg border border-blue-100 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <div class="border-l-4 border-blue-600 pl-6">
                         <div class="text-5xl font-black text-blue-600 mb-2 counter" data-target="25">0</div>
-                        <div class="text-gray-600 font-medium">INSTITUTIONAL<br>PARTNERSHIPS</div>
+                        <div class="text-gray-600 font-medium" data-translate="institutionalPartnerships">INSTITUTIONAL<br>PARTNERSHIPS</div>
                     </div>
                 </div>
             </div>
@@ -635,7 +616,7 @@
     <section class="py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 fade-in-up">
-                <h2 class="text-4xl font-bold text-blue-900 mb-4">Our Academic Partners</h2>
+                <h2 class="text-4xl font-bold text-blue-900 mb-4" data-translate="ourAcademicPartners">Our Academic Partners</h2>
                 <div class="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
             </div>
             
@@ -679,7 +660,7 @@
     <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-blue-900 mb-4">Journal Impact & Metrics</h2>
+                <h2 class="text-4xl font-bold text-blue-900 mb-4" data-translate="journalImpactMetrics">Journal Impact & Metrics</h2>
                 <div class="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
             </div>
             
@@ -689,8 +670,8 @@
                         <i class="fas fa-chart-line text-2xl text-blue-600"></i>
                     </div>
                     <div class="text-4xl font-black text-blue-600 mb-2 counter" data-target="3">0</div>
-                    <div class="text-gray-600 font-medium mb-2">IMPACT FACTOR</div>
-                    <div class="text-gray-500 text-sm">2024 Journal Citation Reports</div>
+                    <div class="text-gray-600 font-medium mb-2" data-translate="impactFactor">IMPACT FACTOR</div>
+                    <div class="text-gray-500 text-sm" data-translate="journalCitationReports">2024 Journal Citation Reports</div>
                 </div>
 
                 <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-blue-100 text-center">
@@ -698,8 +679,8 @@
                         <i class="fas fa-clock text-2xl text-blue-600"></i>
                     </div>
                     <div class="text-4xl font-black text-blue-600 mb-2 counter" data-target="45">0</div>
-                    <div class="text-gray-600 font-medium mb-2">DAYS TO FIRST DECISION</div>
-                    <div class="text-gray-500 text-sm">Average peer review time</div>
+                    <div class="text-gray-600 font-medium mb-2" data-translate="daysToFirstDecision">DAYS TO FIRST DECISION</div>
+                    <div class="text-gray-500 text-sm" data-translate="averageReviewTime">Average peer review time</div>
                 </div>
 
                 <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-blue-100 text-center">
@@ -707,8 +688,8 @@
                         <i class="fas fa-globe text-2xl text-blue-600"></i>
                     </div>
                     <div class="text-4xl font-black text-blue-600 mb-2 counter" data-target="85">0</div>
-                    <div class="text-gray-600 font-medium mb-2">COUNTRIES</div>
-                    <div class="text-gray-500 text-sm">International submissions</div>
+                    <div class="text-gray-600 font-medium mb-2" data-translate="countries">COUNTRIES</div>
+                    <div class="text-gray-500 text-sm" data-translate="internationalSubmissions">International submissions</div>
                 </div>
 
                 <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-blue-100 text-center">
@@ -716,8 +697,8 @@
                         <i class="fas fa-users text-2xl text-blue-600"></i>
                     </div>
                     <div class="text-4xl font-black text-blue-600 mb-2 counter" data-target="1200">0</div>
-                    <div class="text-gray-600 font-medium mb-2">REVIEWERS</div>
-                    <div class="text-gray-500 text-sm">Global expert network</div>
+                    <div class="text-gray-600 font-medium mb-2" data-translate="reviewers">REVIEWERS</div>
+                    <div class="text-gray-500 text-sm" data-translate="globalExpertNetworkText">Global expert network</div>
                 </div>
             </div>
         </div>
@@ -727,14 +708,14 @@
     <section class="py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-blue-900 mb-4">Latest Research Articles</h2>
+                <h2 class="text-4xl font-bold text-blue-900 mb-4" data-translate="latestResearchArticles">Latest Research Articles</h2>
                 <div class="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="article-card bg-white rounded-xl p-8 shadow-lg border border-blue-100 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <div class="flex justify-between items-start mb-4">
-                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">RESEARCH ARTICLE</span>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold" data-translate="researchArticle">RESEARCH ARTICLE</span>
                         <div class="flex items-center space-x-4 text-gray-500 text-sm">
                             <div class="flex items-center">
                                 <i class="fas fa-eye mr-1"></i>
@@ -777,17 +758,15 @@
                     <div class="flex space-x-4">
                         <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center">
                             <i class="fas fa-file-alt mr-2"></i>
-                            View Full Article
+                            <span data-translate="viewFullArticle">View Full Article</span>
                         </button>
-                        <button class="text-gray-600 hover:text-blue-600 font-medium">
-                            Read Abstract
-                        </button>
+                        <button class="text-gray-600 hover:text-blue-600 font-medium" data-translate="readAbstract">Read Abstract</button>
                     </div>
                 </div>
 
                 <div class="article-card bg-white rounded-xl p-8 shadow-lg border border-blue-100 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <div class="flex justify-between items-start mb-4">
-                        <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold">REVIEW ARTICLE</span>
+                        <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold" data-translate="reviewArticle">REVIEW ARTICLE</span>
                         <div class="flex items-center space-x-4 text-gray-500 text-sm">
                             <div class="flex items-center">
                                 <i class="fas fa-eye mr-1"></i>
@@ -830,11 +809,9 @@
                     <div class="flex space-x-4">
                         <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center">
                             <i class="fas fa-file-alt mr-2"></i>
-                            View Full Article
+                            <span data-translate="viewFullArticle">View Full Article</span>
                         </button>
-                        <button class="text-gray-600 hover:text-blue-600 font-medium">
-                            Read Abstract
-                        </button>
+                        <button class="text-gray-600 hover:text-blue-600 font-medium" data-translate="readAbstract">Read Abstract</button>
                     </div>
                 </div>
             </div>
@@ -854,7 +831,7 @@
                             <div class="text-sm leading-tight">& Management Research</div>
                         </div>
                     </div>
-                    <p class="text-gray-300 mb-6 leading-relaxed">
+                    <p class="text-gray-300 mb-6 leading-relaxed" data-translate="footerDesc">
                         Publishing cutting-edge research in sustainability, innovation, and responsible management practices across India and beyond.
                     </p>
                     <div class="flex space-x-4">
@@ -871,21 +848,21 @@
                 </div>
                 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <h3 class="text-lg font-semibold mb-4" data-translate="quickLinks">Quick Links</h3>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">About Us</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Editorial Board</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Author Guidelines</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Review Process</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors" data-translate="aboutUs">About Us</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors" data-translate="editorialBoard">Editorial Board</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors" data-translate="authorGuidelines">Author Guidelines</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors" data-translate="reviewProcess">Review Process</a></li>
                     </ul>
                 </div>
                 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Contact</h3>
+                    <h3 class="text-lg font-semibold mb-4" data-translate="contact">Contact</h3>
                     <ul class="space-y-2 text-gray-300">
-                        <li>Email: info@csmr.org</li>
-                        <li>Phone: +91 123 456 7890</li>
-                        <li>Address: New Delhi, India</li>
+                        <li><span data-translate="email">Email</span>: info@csmr.org</li>
+                        <li><span data-translate="phone">Phone</span>: +91 123 456 7890</li>
+                        <li><span data-translate="address">Address</span>: New Delhi, India</li>
                     </ul>
                 </div>
             </div>
