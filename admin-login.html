@@ -67,7 +67,7 @@
                     <div class="relative">
                         <input type="email" id="email" name="email" required
                                class="w-full px-4 py-3 pl-12 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent"
-                               placeholder="admin123@gmail.com">
+                               placeholder="centre2715@gmail.com">
                         <i class="fas fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-blue-200"></i>
                     </div>
                 </div>
@@ -97,11 +97,10 @@
                 </button>
             </form>
 
-            <!-- Demo Credentials -->
+            <!-- Admin Credentials Info -->
             <div class="mt-6 p-4 bg-blue-500 bg-opacity-20 rounded-lg">
-                <h3 class="text-sm font-semibold text-white mb-2">Demo Credentials:</h3>
-                <p class="text-xs text-blue-100">Email: admin123@gmail.com</p>
-                <p class="text-xs text-blue-100">Password: admin123</p>
+                <p class="text-xs text-blue-100 text-center">Email: centre2715@gmail.com</p>
+                <p class="text-xs text-blue-100 text-center">Password: asifcsmr123</p>
             </div>
 
             <!-- Back to Home -->
@@ -149,8 +148,8 @@
             const password = document.getElementById('password').value;
 
             // Hardcoded admin credentials
-            const adminEmail = 'admin123@gmail.com';
-            const adminPassword = 'admin123';
+            const adminEmail = 'centre2715@gmail.com';
+            const adminPassword = 'asifcsmr123';
 
             setLoading(true);
 
@@ -180,13 +179,13 @@
         // Auto-fill demo credentials on click
         document.getElementById('email').addEventListener('click', function() {
             if (this.value === '') {
-                this.value = 'admin123@gmail.com';
+                this.value = 'centre2715@gmail.com';
             }
         });
 
         document.getElementById('password').addEventListener('click', function() {
             if (this.value === '') {
-                this.value = 'admin123';
+                this.value = 'asifcsmr123';
             }
         });
     </script>

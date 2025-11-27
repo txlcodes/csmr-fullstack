@@ -47,6 +47,15 @@
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
         }
     </style>
+    <script>
+        // IMMEDIATE AUTHENTICATION CHECK - Run before page loads
+        (function() {
+            const adminToken = localStorage.getItem('adminToken');
+            if (!adminToken || adminToken !== 'admin-token-123') {
+                window.location.href = 'admin-login.html';
+            }
+        })();
+    </script>
 </head>
 <body class="bg-gray-50">
     <!-- Sidebar -->
@@ -805,11 +814,14 @@
         // Check admin authentication
         function checkAdminAuth() {
             const adminToken = localStorage.getItem('adminToken');
-            if (!adminToken) {
+            if (!adminToken || adminToken !== 'admin-token-123') {
                 window.location.href = 'admin-login.html';
                 return;
             }
         }
+        
+        // Check again on page load (redundant but safe)
+        checkAdminAuth();
 
         // Page navigation
         function showPage(pageId) {

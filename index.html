@@ -126,6 +126,119 @@
             opacity: 1;
             transform: translateX(0);
         }
+        
+        /* Image styling */
+        img {
+            transition: transform 0.3s ease;
+        }
+        
+        img:hover {
+            transform: scale(1.02);
+        }
+        
+        /* Image loading fallback */
+        img[src*="images/"] {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        img[src*="images/"]::after {
+            content: 'Image placeholder - Add your image file';
+            position: absolute;
+            color: #9ca3af;
+            font-size: 14px;
+        }
+        
+        /* Better placeholder for missing images */
+        .image-placeholder {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            font-size: 16px;
+            border: 2px dashed #d1d5db;
+        }
+        
+        /* Image scroll animations */
+        .image-zoom-in {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .image-zoom-in.animate {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .image-slide-up {
+            opacity: 0;
+            transform: translateY(60px) scale(0.95);
+            transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .image-slide-up.animate {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        
+        .image-slide-left {
+            opacity: 0;
+            transform: translateX(-60px) scale(0.95);
+            transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .image-slide-left.animate {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+        }
+        
+        .image-slide-right {
+            opacity: 0;
+            transform: translateX(60px) scale(0.95);
+            transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .image-slide-right.animate {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+        }
+        
+        .image-fade-rotate {
+            opacity: 0;
+            transform: rotate(-5deg) scale(0.9);
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .image-fade-rotate.animate {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+        
+        .image-blur-in {
+            opacity: 0;
+            filter: blur(10px);
+            transform: scale(1.1);
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .image-blur-in.animate {
+            opacity: 1;
+            filter: blur(0);
+            transform: scale(1);
+        }
+        
+        /* Stagger animation delay for multiple images */
+        .image-stagger-1 { transition-delay: 0.1s; }
+        .image-stagger-2 { transition-delay: 0.2s; }
+        .image-stagger-3 { transition-delay: 0.3s; }
+        .image-stagger-4 { transition-delay: 0.4s; }
+        
     </style>
 </head>
 <body class="bg-gray-50">
@@ -204,7 +317,6 @@
                 </div>
                 <a href="submit.html" class="text-gray-600 hover:text-blue-600 font-medium">Submit</a>
                 <a href="about.html" class="text-gray-600 hover:text-blue-600 font-medium">About</a>
-                <a href="admin-login.html" class="text-gray-600 hover:text-blue-600 font-medium">Admin Panel</a>
                 <a href="contact.html" class="text-gray-600 hover:text-blue-600 font-medium">Contact</a>
             </div>
         </div>
@@ -245,50 +357,122 @@
         </div>
     </section>
 
+    <!-- Our Work Environment Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="fade-in-left">
+                    <img src="images/conference-room.jpg" alt="Our modern research workspace" class="w-full h-auto rounded-2xl shadow-2xl object-cover image-slide-left image-stagger-1" style="max-height: 500px;" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'500\'%3E%3Crect fill=\'%23f3f4f6\' width=\'800\' height=\'500\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%239ca3af\' font-family=\'sans-serif\' font-size=\'18\'%3EAdd conference-room.jpg%3C/text%3E%3C/svg%3E';">
+                </div>
+                <div class="fade-in-right">
+                    <h2 class="text-4xl font-bold text-blue-900 mb-6">Our Research Environment</h2>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                        At CSMR, we foster a collaborative and innovative research environment where scholars, researchers, and industry experts come together to advance sustainability and management research.
+                    </p>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                        Our modern workspace is designed to support cutting-edge research, peer collaboration, and knowledge exchange, enabling our team to deliver high-quality publications and impactful research outcomes.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="bg-blue-50 px-6 py-3 rounded-lg">
+                            <div class="text-2xl font-bold text-blue-600">150+</div>
+                            <div class="text-sm text-gray-600">Active Researchers</div>
+                        </div>
+                        <div class="bg-blue-50 px-6 py-3 rounded-lg">
+                            <div class="text-2xl font-bold text-blue-600">24/7</div>
+                            <div class="text-sm text-gray-600">Research Support</div>
+                        </div>
+                        <div class="bg-blue-50 px-6 py-3 rounded-lg">
+                            <div class="text-2xl font-bold text-blue-600">Global</div>
+                            <div class="text-sm text-gray-600">Collaboration</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Collaborative Research Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="fade-in-left order-2 lg:order-1">
+                    <h2 class="text-4xl font-bold text-blue-900 mb-6">Collaborative Research Excellence</h2>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                        Our research team works collaboratively across disciplines, leveraging modern technology and innovative methodologies to address critical sustainability challenges.
+                    </p>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                        Through rigorous peer review, interdisciplinary collaboration, and industry partnerships, we ensure that every publication meets the highest standards of academic excellence and real-world relevance.
+                    </p>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle text-blue-600 mr-3"></i>
+                            <span>Interdisciplinary research approach</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle text-blue-600 mr-3"></i>
+                            <span>State-of-the-art research facilities</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle text-blue-600 mr-3"></i>
+                            <span>Global expert network collaboration</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check-circle text-blue-600 mr-3"></i>
+                            <span>Industry-academia partnerships</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="fade-in-right order-1 lg:order-2">
+                    <img src="images/collaborative-work.jpg" alt="Collaborative research work" class="w-full h-auto rounded-2xl shadow-2xl object-cover image-slide-right image-stagger-2" style="max-height: 500px;" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'500\'%3E%3Crect fill=\'%23f3f4f6\' width=\'800\' height=\'500\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%239ca3af\' font-family=\'sans-serif\' font-size=\'18\'%3EAdd collaborative-work.jpg%3C/text%3E%3C/svg%3E';">
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Action Cards Section -->
     <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center">
+                <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center flex flex-col">
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-book text-2xl text-blue-600"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-4">Browse Journals</h3>
-                    <p class="text-gray-600 mb-6">Explore our comprehensive collection of peer-reviewed journals</p>
-                    <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                    <p class="text-gray-600 mb-6 flex-grow">Explore our comprehensive collection of peer-reviewed journals</p>
+                    <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
                         View Journals
                     </button>
                 </div>
 
-                <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center">
+                <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center flex flex-col">
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-list-alt text-2xl text-blue-600"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-4">View My Submissions</h3>
-                    <p class="text-gray-600 mb-6">Track and manage all your manuscript submissions and their status</p>
-                    <a href="my-submissions.html" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                    <p class="text-gray-600 mb-6 flex-grow">Track and manage all your manuscript submissions and their status</p>
+                    <a href="my-submissions.html" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
                         View Submissions
                     </a>
                 </div>
 
-                <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center">
+                <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center flex flex-col">
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-user-edit text-2xl text-blue-600"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-4">For Authors</h3>
-                    <p class="text-gray-600 mb-6">Guidelines, policies and resources for contributing authors</p>
-                    <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                    <p class="text-gray-600 mb-6 flex-grow">Guidelines, policies and resources for contributing authors</p>
+                    <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
                         Learn More
                     </button>
                 </div>
 
-                <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center">
+                <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center flex flex-col">
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-graduation-cap text-2xl text-blue-600"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-4">For Researchers</h3>
-                    <p class="text-gray-600 mb-6">Access tools and resources to support your research</p>
-                    <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                    <p class="text-gray-600 mb-6 flex-grow">Access tools and resources to support your research</p>
+                    <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
                         Explore Tools
                     </button>
                 </div>
@@ -306,46 +490,46 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div onclick="navigateWithAnimation('articles.html', 'Research', event)" class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center cursor-pointer">
+                <div onclick="navigateWithAnimation('articles.html', 'Research', event)" class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center cursor-pointer flex flex-col">
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-newspaper text-2xl text-blue-600"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-4">Research</h3>
-                    <p class="text-gray-600 mb-6">Browse our collection of published research articles and papers</p>
-                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                    <p class="text-gray-600 mb-6 flex-grow">Browse our collection of published research articles and papers</p>
+                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
                         View Research
                     </span>
                 </div>
 
-                <div onclick="navigateWithAnimation('conferences.html', 'Conferences', event)" class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center cursor-pointer">
+                <div onclick="navigateWithAnimation('conferences.html', 'Conferences', event)" class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center cursor-pointer flex flex-col">
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-users text-2xl text-blue-600"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-4">Conferences</h3>
-                    <p class="text-gray-600 mb-6">Discover upcoming sustainability conferences, workshops, and events</p>
-                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                    <p class="text-gray-600 mb-6 flex-grow">Discover upcoming sustainability conferences, workshops, and events</p>
+                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
                         Explore Conferences
                     </span>
                 </div>
 
-                <div onclick="navigateWithAnimation('certification.html', 'Programs', event)" class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center cursor-pointer">
+                <div onclick="navigateWithAnimation('certification.html', 'Programs', event)" class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center cursor-pointer flex flex-col">
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-certificate text-2xl text-blue-600"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-4">Program</h3>
-                    <p class="text-gray-600 mb-6">Professional certification programs in sustainability and ESG</p>
-                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                    <p class="text-gray-600 mb-6 flex-grow">Professional certification programs in sustainability and ESG</p>
+                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
                         View Programs
                     </span>
                 </div>
 
-                <div onclick="navigateWithAnimation('sustainable-reporting.html', 'Sustainable Reporting', event)" class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center cursor-pointer">
+                <div onclick="navigateWithAnimation('sustainable-reporting.html', 'Sustainable Reporting', event)" class="card-hover bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center cursor-pointer flex flex-col">
                     <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-chart-bar text-2xl text-blue-600"></i>
                     </div>
                     <h3 class="text-xl font-bold text-gray-900 mb-4">Reporting</h3>
-                    <p class="text-gray-600 mb-6">Tools, frameworks, and guides for sustainability reporting</p>
-                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                    <p class="text-gray-600 mb-6 flex-grow">Tools, frameworks, and guides for sustainability reporting</p>
+                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
                         Learn More
                     </span>
                 </div>
@@ -362,43 +546,43 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-blue-100">
-                    <div class="text-center">
+                <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-blue-100 flex flex-col">
+                    <div class="text-center flex flex-col flex-grow">
                         <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-6">
                             <i class="fas fa-leaf text-2xl text-blue-600"></i>
                         </div>
                         <h3 class="text-xl font-bold text-blue-900 mb-2">Journal of Sustainable Management</h3>
                         <p class="text-gray-500 text-sm mb-4">ISSN: 2456-7890</p>
-                        <p class="text-gray-600 mb-6">Focused on sustainable business practices and environmental management policies.</p>
-                        <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                        <p class="text-gray-600 mb-6 flex-grow">Focused on sustainable business practices and environmental management policies.</p>
+                        <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
                             View Journal
                         </button>
                     </div>
                 </div>
 
-                <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-blue-100">
-                    <div class="text-center">
+                <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-blue-100 flex flex-col">
+                    <div class="text-center flex flex-col flex-grow">
                         <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-6">
                             <i class="fas fa-lightbulb text-2xl text-blue-600"></i>
                         </div>
                         <h3 class="text-xl font-bold text-blue-900 mb-2">Innovation & Sustainability Review</h3>
                         <p class="text-gray-500 text-sm mb-4">ISSN: 2345-6789</p>
-                        <p class="text-gray-600 mb-6">Examines the intersection of innovation and sustainable development.</p>
-                        <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                        <p class="text-gray-600 mb-6 flex-grow">Examines the intersection of innovation and sustainable development.</p>
+                        <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
                             View Journal
                         </button>
                     </div>
                 </div>
 
-                <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-blue-100">
-                    <div class="text-center">
+                <div class="card-hover bg-white rounded-xl p-8 shadow-lg border border-blue-100 flex flex-col">
+                    <div class="text-center flex flex-col flex-grow">
                         <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-6">
                             <i class="fas fa-chart-line text-2xl text-blue-600"></i>
                         </div>
                         <h3 class="text-xl font-bold text-blue-900 mb-2">Management Studies Quarterly</h3>
                         <p class="text-gray-500 text-sm mb-4">ISSN: 3456-7891</p>
-                        <p class="text-gray-600 mb-6">Covers contemporary management theories and practices in global contexts.</p>
-                        <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                        <p class="text-gray-600 mb-6 flex-grow">Covers contemporary management theories and practices in global contexts.</p>
+                        <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto">
                             View Journal
                         </button>
                     </div>
@@ -844,6 +1028,12 @@
         // Observe all animated elements
         const animatedElements = document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .impact-card, .card-hover, .article-card');
         animatedElements.forEach(element => {
+            scrollObserver.observe(element);
+        });
+        
+        // Observe all image animation elements
+        const imageElements = document.querySelectorAll('.image-zoom-in, .image-slide-up, .image-slide-left, .image-slide-right, .image-fade-rotate, .image-blur-in');
+        imageElements.forEach(element => {
             scrollObserver.observe(element);
         });
 

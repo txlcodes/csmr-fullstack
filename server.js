@@ -2198,6 +2198,11 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// Admin panel route - redirect to admin login
+app.get('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'admin-login.html'));
+});
+
 // Start server
 app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
