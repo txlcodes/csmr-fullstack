@@ -10,12 +10,31 @@
     <style>
         body {
             font-family: 'Source Sans Pro', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #1e3a8a;
+        }
+        html {
+            margin: 0;
+            padding: 0;
+            background-color: #1e3a8a;
+        }
+        .main-content {
+            flex: 1;
+            background-color: #f9fafb;
+        }
+        footer {
+            margin-top: auto;
+            background-color: #1e3a8a !important;
         }
         h1, h2, h3, h4, h5, h6, .hero-title {
             font-family: 'Merriweather', serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
+            background: rgb(0, 35, 119);
         }
         .step {
             display: none;
@@ -117,6 +136,8 @@
         </div>
     </nav>
 
+    <!-- Main Content Wrapper -->
+    <div class="main-content">
     <!-- Hero Section -->
     <section class="gradient-bg py-16 text-white">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -180,7 +201,7 @@
                                 I have read the <a href="#" class="text-blue-600 hover:underline">author guidelines</a> for this journal
                             </span>
                         </label>
-                    </div>
+                                </div>
 
                     <!-- Original material -->
                     <div class="mb-6">
@@ -191,7 +212,7 @@
                                 <span class="text-gray-600">I have only submitted this article to this journal and it has not been published anywhere else</span>
                             </span>
                         </label>
-                    </div>
+                            </div>
 
                     <!-- Author/Contributor Question -->
                     <div class="mb-6">
@@ -217,8 +238,8 @@
                                 You or any co-author have not previously assigned or licensed rights to any other third party for this article or content that would conflict with any rights to be granted in the publishing terms, and take precedence over any other terms that you assert during the submission or publication process to any version of this article or content;<br><br>
                                 You and all co-authors are willing and able to proceed with publication.
                             </p>
-                        </div>
                     </div>
+                </div>
 
                     <!-- Article Type -->
                     <div class="mb-6">
@@ -245,20 +266,20 @@
                             <textarea id="manuscriptTitle" rows="2" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter manuscript title" oninput="updateWordCount('manuscriptTitle', 'titleWordCount', 200)"></textarea>
                             <div class="absolute right-3 bottom-3 text-xs text-gray-500">
                                 <span id="titleWordCount">0</span> / 200 Words
-                            </div>
+                        </div>
                         </div>
                         <p class="text-xs text-gray-500 mt-1">You can enter characters not found on a standard keyboard.</p>
                     </div>
 
                     <!-- Abstract -->
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Abstract *</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Abstract *</label>
                         <div class="relative">
                             <textarea id="abstract" rows="6" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter abstract" oninput="updateWordCount('abstract', 'abstractWordCount', 250)"></textarea>
                             <div class="absolute right-3 bottom-3 text-xs text-gray-500">
                                 <span id="abstractWordCount">0</span> / 250 Words
-                            </div>
                         </div>
+                            </div>
                         <p class="text-xs text-gray-500 mt-1">This can be enhanced with a <a href="#" class="text-blue-600 hover:underline">video abstract</a> if your article is accepted</p>
                     </div>
 
@@ -267,16 +288,16 @@
                         <label class="block text-sm font-medium text-gray-700 mb-2">Section *</label>
                         <select id="section" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <option value="">Select a subject section</option>
-                            <option value="sustainability">Sustainability</option>
-                            <option value="management">Management</option>
-                            <option value="environment">Environment</option>
-                            <option value="innovation">Innovation</option>
+                                    <option value="sustainability">Sustainability</option>
+                                    <option value="management">Management</option>
+                                    <option value="environment">Environment</option>
+                                    <option value="innovation">Innovation</option>
                             <option value="esg">ESG</option>
                             <option value="case-studies">Case Studies</option>
-                        </select>
+                                </select>
                         <p class="text-xs text-gray-500 mt-1">This is the section in the journal where you would like your article to appear</p>
                         <p id="sectionError" class="text-xs text-red-600 mt-1 hidden">Section is a required field</p>
-                    </div>
+                            </div>
 
                     <!-- Special Issue -->
                     <div class="mb-6">
@@ -292,7 +313,7 @@
                             </label>
                         </div>
                         <p id="specialIssueError" class="text-xs text-red-600 mt-1 hidden">This is a required field</p>
-                    </div>
+                        </div>
 
                     <!-- Copyright -->
                     <div class="mb-6">
@@ -483,37 +504,8 @@
                     </div>
                 </div>
 
-                <!-- Step 3: Metadata -->
+                <!-- Step 3: Authors -->
                 <div id="step3" class="step">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Article Information</h3>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Title *</label>
-                            <input type="text" id="articleTitle" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter article title">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Abstract *</label>
-                            <textarea id="articleAbstract" rows="6" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter abstract (max 300 words)"></textarea>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Subject Area *</label>
-                                <select id="subjectArea" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    <option value="">Select subject area</option>
-                                    <option value="sustainability">Sustainability</option>
-                                    <option value="management">Management</option>
-                                    <option value="environment">Environment</option>
-                                    <option value="innovation">Innovation</option>
-                                </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Keywords</label>
-                            <input type="text" id="keywords" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter keywords separated by commas">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 4: Authors -->
-                <div id="step4" class="step">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Author Information</h3>
                     <div id="authorsList" class="space-y-4">
                         <div class="author-row border border-gray-200 rounded-lg p-4">
@@ -551,8 +543,8 @@
                     </button>
                 </div>
 
-                <!-- Step 5: Cover Letter -->
-                <div id="step5" class="step">
+                <!-- Step 4: Cover Letter -->
+                <div id="step4" class="step">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Cover Letter</h3>
                     <div class="space-y-4">
                         <div>
@@ -566,8 +558,8 @@
                     </div>
                 </div>
 
-                <!-- Step 6: Supplementary Files -->
-                <div id="step6" class="step">
+                <!-- Step 5: Supplementary Files -->
+                <div id="step5" class="step">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Supplementary Files</h3>
                     <div id="supplementaryUploadArea" class="file-upload-area rounded-lg p-6 text-center">
                         <i class="fas fa-folder-plus text-3xl text-blue-600 mb-3"></i>
@@ -581,8 +573,8 @@
                     <div id="supplementaryFilesList" class="mt-4 space-y-2"></div>
                 </div>
 
-                <!-- Step 7: Declarations -->
-                <div id="step7" class="step">
+                <!-- Step 6: Declarations -->
+                <div id="step6" class="step">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Declarations & Agreements</h3>
                     <div class="space-y-4">
                         <div class="border border-gray-200 rounded-lg p-4">
@@ -620,8 +612,8 @@
                     </div>
                 </div>
 
-                <!-- Step 8: Review & Submit -->
-                <div id="step8" class="step">
+                <!-- Step 7: Review & Submit -->
+                <div id="step7" class="step">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Review & Submit</h3>
                     <div class="space-y-6">
                         <div class="bg-gray-50 rounded-lg p-4">
@@ -729,6 +721,8 @@
             </div>
         </div>
     </div>
+    </div>
+    <!-- End Main Content Wrapper -->
 
     <!-- Footer -->
     <footer class="bg-blue-900 text-white py-8">
@@ -747,37 +741,36 @@
                         Publishing cutting-edge research in sustainability, innovation, and responsible management practices across India and beyond.
                     </p>
                 </div>
+                
                 <div>
-                    <h3 class="text-xl font-bold mb-6">Quick Links</h3>
-                    <ul class="space-y-3">
-                        <li><a href="journals.html" class="text-gray-300 hover:text-blue-400 transition-colors">Journals</a></li>
-                        <li><a href="articles.html" class="text-gray-300 hover:text-blue-400 transition-colors">Articles</a></li>
-                        <li><a href="about.html" class="text-gray-300 hover:text-blue-400 transition-colors">About</a></li>
-                        <li><a href="contact.html" class="text-gray-300 hover:text-blue-400 transition-colors">Contact</a></li>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="journals.html" class="text-gray-300 hover:text-white transition-colors">Journals</a></li>
+                        <li><a href="articles.html" class="text-gray-300 hover:text-white transition-colors">Articles</a></li>
+                        <li><a href="about.html" class="text-gray-300 hover:text-white transition-colors">About</a></li>
+                        <li><a href="contact.html" class="text-gray-300 hover:text-white transition-colors">Contact</a></li>
                     </ul>
                 </div>
+                
                 <div>
-                    <h3 class="text-xl font-bold mb-6">Contact Us</h3>
-                    <p class="text-gray-300 mb-3">
-                        <i class="fas fa-map-marker-alt mr-2 text-blue-400"></i>123 Research Lane, New Delhi, India
-                    </p>
-                    <p class="text-gray-300 mb-3">
-                        <i class="fas fa-envelope mr-2 text-blue-400"></i>info@csmr.org
-                    </p>
-                    <p class="text-gray-300 mb-3">
-                        <i class="fas fa-phone mr-2 text-blue-400"></i>+91 98765 43210
-                    </p>
+                    <h3 class="text-lg font-semibold mb-4">Contact</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><i class="fas fa-map-marker-alt mr-2 text-blue-400"></i>123 Research Lane, New Delhi, India</li>
+                        <li><i class="fas fa-envelope mr-2 text-blue-400"></i>info@csmr.org</li>
+                        <li><i class="fas fa-phone mr-2 text-blue-400"></i>+91 98765 43210</li>
+                    </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
-                &copy; 2025 CSMR. All rights reserved.
+            
+            <div class="border-t border-blue-800 mt-12 pt-8 text-center text-blue-300">
+                <p>&copy; 2025 CSMR. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
         let currentStep = 1;
-        const totalSteps = 8;
+        const totalSteps = 7;
         let submissionData = {};
 
         // Check if user is logged in
@@ -880,8 +873,7 @@
             
             const stepTitles = [
                 'Submission Creation',
-                'Upload Manuscript',
-                'Article Information',
+                'Manuscript Details',
                 'Author Information',
                 'Cover Letter',
                 'Supplementary Files',
@@ -1043,30 +1035,20 @@
                     }
                     break;
                 case 3:
-                    const title = document.getElementById('articleTitle').value;
-                    const articleAbstract = document.getElementById('articleAbstract').value;
-                    const subject = document.getElementById('subjectArea').value;
-                    
-                    if (!title || !articleAbstract || !subject) {
-                        alert('Please fill in all required fields');
-                        return false;
-                    }
-                    break;
-                case 4:
                     const authorRows = document.querySelectorAll('#authorsList .author-row');
                     if (authorRows.length === 0) {
                         alert('Please add at least one author');
                         return false;
                     }
                     break;
-                case 5:
+                case 4:
                     const coverLetter = document.getElementById('coverLetter').value;
                     if (!coverLetter.trim()) {
                         alert('Please provide a cover letter');
                         return false;
                     }
                     break;
-                case 7:
+                case 6:
                     const originality = document.getElementById('originality').checked;
                     const ethics = document.getElementById('ethics').checked;
                     const conflict = document.getElementById('conflict').checked;
@@ -1077,7 +1059,7 @@
                         return false;
                     }
                     break;
-                case 8:
+                case 7:
                     const finalAgreement = document.getElementById('finalAgreement').checked;
                     if (!finalAgreement) {
                         alert('Please confirm your submission');
@@ -1364,9 +1346,9 @@
 
         // Update review summary
         function updateReviewSummary() {
-            document.getElementById('reviewTitle').textContent = document.getElementById('articleTitle').value;
+            document.getElementById('reviewTitle').textContent = document.getElementById('manuscriptTitle').value || 'Not provided';
             document.getElementById('reviewType').textContent = `Type: ${document.getElementById('articleType').options[document.getElementById('articleType').selectedIndex].text}`;
-            document.getElementById('reviewSubject').textContent = `Subject: ${document.getElementById('subjectArea').options[document.getElementById('subjectArea').selectedIndex].text}`;
+            document.getElementById('reviewSubject').textContent = `Subject: ${document.getElementById('section').options[document.getElementById('section').selectedIndex].text}`;
             
             // Update authors
             const authorsList = document.getElementById('reviewAuthors');
@@ -1401,8 +1383,8 @@
             }
             
             // Collect form data
-            const title = document.getElementById('articleTitle').value;
-            const abstract = document.getElementById('articleAbstract').value;
+            const title = document.getElementById('manuscriptTitle').value;
+            const abstract = document.getElementById('abstract').value;
             const keywords = document.getElementById('keywords').value || '';
             
             // Collect authors
