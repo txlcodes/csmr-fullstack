@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.150.1/three.min.js"></script>
     <script src="translations.js"></script>
     <style>
         body { 
@@ -25,14 +26,28 @@
         }
         .gradient-bg {
             background: rgb(0, 35, 119);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 3D Particle Canvas */
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        .gradient-bg > div {
+            position: relative;
+            z-index: 1;
         }
         .card-hover {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
+        /* Individual card hover effects are now handled by group classes */
         
         /* Page Transition Animation */
         .page-transition-overlay {
@@ -352,6 +367,7 @@
 
     <!-- Hero Section -->
     <section id="home" class="gradient-bg py-20">
+        <canvas id="particle-canvas"></canvas>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 class="hero-title typing-animation font-black text-white mb-6" style="border-right: none;" data-translate="heroTitle">
                 Centre for Sustainability and Management Research
@@ -449,7 +465,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div class="fade-in-left order-1 lg:order-1">
-                    <img src="images/collaborative-work.jpg" alt="Collaborative research work" class="w-full h-auto rounded-2xl shadow-2xl object-cover image-slide-right image-stagger-2" style="max-height: 500px;" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'500\'%3E%3Crect fill=\'%23f3f4f6\' width=\'800\' height=\'500\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%239ca3af\' font-family=\'sans-serif\' font-size=\'18\'%3EAdd collaborative-work.jpg%3C/text%3E%3C/svg%3E';">
+                    <img src="images/collaborative-work.jpg" alt="Collaborative research work" class="w-full h-auto rounded-2xl shadow-2xl object-cover image-slide-left image-stagger-1" style="max-height: 500px;" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'500\'%3E%3Crect fill=\'%23f3f4f6\' width=\'800\' height=\'500\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%239ca3af\' font-family=\'sans-serif\' font-size=\'18\'%3EAdd collaborative-work.jpg%3C/text%3E%3C/svg%3E';">
                 </div>
                 <div class="fade-in-right order-2 lg:order-2">
                     <h2 class="text-4xl font-bold text-blue-900 mb-6" data-translate="collaborativeResearchExcellence">Collaborative Research Excellence</h2>
@@ -486,40 +502,40 @@
     <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="card-hover fade-in-left bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center flex flex-col">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-book text-2xl text-blue-600"></i>
+                <div class="group card-hover fade-in-left bg-white rounded-2xl p-8 shadow-lg border border-slate-100 text-center flex flex-col hover:-translate-y-2 transition-transform duration-300 h-full">
+                    <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-blue-600 transition-colors duration-300">
+                        <i class="fas fa-book text-2xl text-blue-600 group-hover:text-white transition-colors duration-300"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-translate="browseJournalsCard">Browse Journals</h3>
-                    <p class="text-gray-600 mb-6 flex-grow" data-translate="browseJournalsDesc">Explore our comprehensive collection of peer-reviewed journals</p>
-                    <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto" data-translate="viewJournals">View Journals</button>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4 font-serif" data-translate="browseJournalsCard">Browse Journals</h3>
+                    <p class="text-slate-600 mb-8 flex-grow" data-translate="browseJournalsDesc">Explore our comprehensive collection of peer-reviewed journals</p>
+                    <button class="block w-full bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-blue-200 shadow-lg mt-auto" data-translate="viewJournals">View Journals</button>
                 </div>
 
-                <div class="card-hover fade-in-up bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center flex flex-col">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-list-alt text-2xl text-blue-600"></i>
+                <div class="group card-hover fade-in-up bg-white rounded-2xl p-8 shadow-lg border border-slate-100 text-center flex flex-col hover:-translate-y-2 transition-transform duration-300 h-full">
+                    <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-blue-600 transition-colors duration-300">
+                        <i class="fas fa-list-alt text-2xl text-blue-600 group-hover:text-white transition-colors duration-300"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-translate="viewMySubmissions">View My Submissions</h3>
-                    <p class="text-gray-600 mb-6 flex-grow" data-translate="viewSubmissionsDesc">Track and manage all your manuscript submissions and their status</p>
-                    <a href="my-submissions.html" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto" data-translate="viewSubmissions">View Submissions</a>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4 font-serif" data-translate="viewMySubmissions">View My Submissions</h3>
+                    <p class="text-slate-600 mb-8 flex-grow" data-translate="viewSubmissionsDesc">Track and manage all your manuscript submissions and their status</p>
+                    <a href="my-submissions.html" class="block w-full bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-blue-200 shadow-lg mt-auto" data-translate="viewSubmissions">View Submissions</a>
                 </div>
 
-                <div class="card-hover fade-in-up bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center flex flex-col">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-user-edit text-2xl text-blue-600"></i>
+                <div class="group card-hover fade-in-up bg-white rounded-2xl p-8 shadow-lg border border-slate-100 text-center flex flex-col hover:-translate-y-2 transition-transform duration-300 h-full">
+                    <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-blue-600 transition-colors duration-300">
+                        <i class="fas fa-user-edit text-2xl text-blue-600 group-hover:text-white transition-colors duration-300"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-translate="forAuthors">For Authors</h3>
-                    <p class="text-gray-600 mb-6 flex-grow" data-translate="forAuthorsDesc">Guidelines, policies and resources for contributing authors</p>
-                    <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto" data-translate="learnMore">Learn More</button>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4 font-serif" data-translate="forAuthors">For Authors</h3>
+                    <p class="text-slate-600 mb-8 flex-grow" data-translate="forAuthorsDesc">Guidelines, policies and resources for contributing authors</p>
+                    <button class="block w-full bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-blue-200 shadow-lg mt-auto" data-translate="learnMore">Learn More</button>
                 </div>
 
-                <div class="card-hover fade-in-right bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center flex flex-col">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-graduation-cap text-2xl text-blue-600"></i>
+                <div class="group card-hover fade-in-right bg-white rounded-2xl p-8 shadow-lg border border-slate-100 text-center flex flex-col hover:-translate-y-2 transition-transform duration-300 h-full">
+                    <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-blue-600 transition-colors duration-300">
+                        <i class="fas fa-graduation-cap text-2xl text-blue-600 group-hover:text-white transition-colors duration-300"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-translate="forResearchers">For Researchers</h3>
-                    <p class="text-gray-600 mb-6 flex-grow" data-translate="forResearchersDesc">Access tools and resources to support your research</p>
-                    <button class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto" data-translate="exploreTools">Explore Tools</button>
+                    <h3 class="text-xl font-bold text-slate-900 mb-4 font-serif" data-translate="forResearchers">For Researchers</h3>
+                    <p class="text-slate-600 mb-8 flex-grow" data-translate="forResearchersDesc">Access tools and resources to support your research</p>
+                    <button class="block w-full bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-blue-200 shadow-lg mt-auto" data-translate="exploreTools">Explore Tools</button>
                 </div>
             </div>
         </div>
@@ -535,40 +551,52 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div onclick="navigateWithAnimation('articles.html', 'Research', event)" class="card-hover fade-in-left bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center cursor-pointer flex flex-col">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-newspaper text-2xl text-blue-600"></i>
+                <div onclick="navigateWithAnimation('articles.html', 'Research', event)" class="group card-hover fade-in-left bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 cursor-pointer h-full flex flex-col">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center transition-colors duration-300 group-hover:bg-blue-100">
+                            <i class="fas fa-newspaper text-xl text-blue-600"></i>
+                        </div>
+                        <i class="fas fa-arrow-right w-5 h-5 text-slate-300 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-300"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-translate="research">Research</h3>
-                    <p class="text-gray-600 mb-6 flex-grow" data-translate="researchDesc">Browse our collection of published research articles and papers</p>
-                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto" data-translate="viewResearch">View Research</span>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3" data-translate="research">Research</h3>
+                    <p class="text-slate-600 mb-6 text-sm leading-relaxed flex-grow" data-translate="researchDesc">Browse our collection of published research articles and papers</p>
+                    <span class="text-blue-600 font-semibold text-sm group-hover:underline inline-flex items-center mt-auto" data-translate="viewResearch">View Research</span>
                 </div>
 
-                <div onclick="navigateWithAnimation('conferences.html', 'Conferences', event)" class="card-hover fade-in-up bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center cursor-pointer flex flex-col">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-users text-2xl text-blue-600"></i>
+                <div onclick="navigateWithAnimation('conferences.html', 'Conferences', event)" class="group card-hover fade-in-up bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 cursor-pointer h-full flex flex-col">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center transition-colors duration-300 group-hover:bg-blue-100">
+                            <i class="fas fa-users text-xl text-blue-600"></i>
+                        </div>
+                        <i class="fas fa-arrow-right w-5 h-5 text-slate-300 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-300"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-translate="conferences">Conferences</h3>
-                    <p class="text-gray-600 mb-6 flex-grow" data-translate="conferencesDesc">Discover upcoming sustainability conferences, workshops, and events</p>
-                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto" data-translate="exploreConferences">Explore Conferences</span>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3" data-translate="conferences">Conferences</h3>
+                    <p class="text-slate-600 mb-6 text-sm leading-relaxed flex-grow" data-translate="conferencesDesc">Discover upcoming sustainability conferences, workshops, and events</p>
+                    <span class="text-blue-600 font-semibold text-sm group-hover:underline inline-flex items-center mt-auto" data-translate="exploreConferences">Explore Conferences</span>
                 </div>
 
-                <div onclick="navigateWithAnimation('certification.html', 'Programs', event)" class="card-hover fade-in-up bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center cursor-pointer flex flex-col">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-certificate text-2xl text-blue-600"></i>
+                <div onclick="navigateWithAnimation('certification.html', 'Programs', event)" class="group card-hover fade-in-up bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 cursor-pointer h-full flex flex-col">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center transition-colors duration-300 group-hover:bg-blue-100">
+                            <i class="fas fa-certificate text-xl text-blue-600"></i>
+                        </div>
+                        <i class="fas fa-arrow-right w-5 h-5 text-slate-300 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-300"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-translate="program">Program</h3>
-                    <p class="text-gray-600 mb-6 flex-grow" data-translate="programDesc">Professional certification programs in sustainability and ESG</p>
-                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto" data-translate="viewPrograms">View Programs</span>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3" data-translate="program">Program</h3>
+                    <p class="text-slate-600 mb-6 text-sm leading-relaxed flex-grow" data-translate="programDesc">Professional certification programs in sustainability and ESG</p>
+                    <span class="text-blue-600 font-semibold text-sm group-hover:underline inline-flex items-center mt-auto" data-translate="viewPrograms">View Programs</span>
                 </div>
 
-                <div onclick="navigateWithAnimation('sustainable-reporting.html', 'Sustainable Reporting', event)" class="card-hover fade-in-right bg-white rounded-xl p-8 shadow-lg border border-gray-100 text-center cursor-pointer flex flex-col">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-chart-bar text-2xl text-blue-600"></i>
+                <div onclick="navigateWithAnimation('sustainable-reporting.html', 'Sustainable Reporting', event)" class="group card-hover fade-in-right bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 cursor-pointer h-full flex flex-col">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center transition-colors duration-300 group-hover:bg-blue-100">
+                            <i class="fas fa-chart-bar text-xl text-blue-600"></i>
+                        </div>
+                        <i class="fas fa-arrow-right w-5 h-5 text-slate-300 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-300"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-4" data-translate="reporting">Reporting</h3>
-                    <p class="text-gray-600 mb-6 flex-grow" data-translate="reportingDesc">Tools, frameworks, and guides for sustainability reporting</p>
-                    <span class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto" data-translate="learnMore">Learn More</span>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3" data-translate="reporting">Reporting</h3>
+                    <p class="text-slate-600 mb-6 text-sm leading-relaxed flex-grow" data-translate="reportingDesc">Tools, frameworks, and guides for sustainability reporting</p>
+                    <span class="text-blue-600 font-semibold text-sm group-hover:underline inline-flex items-center mt-auto" data-translate="learnMore">Learn More</span>
                 </div>
             </div>
         </div>
@@ -583,27 +611,33 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <div class="card-hover fade-in-left bg-white rounded-xl p-8 shadow-lg border border-blue-100 flex flex-col">
+                <div class="group card-hover fade-in-left bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 flex flex-col h-full relative">
                     <div class="text-center flex flex-col flex-grow">
-                        <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-6">
-                            <i class="fas fa-leaf text-2xl text-blue-600"></i>
+                        <div class="relative mb-6">
+                            <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center transition-colors duration-300 group-hover:bg-blue-100 mx-auto">
+                                <i class="fas fa-leaf text-2xl text-blue-600"></i>
+                            </div>
+                            <i class="fas fa-arrow-right w-5 h-5 text-slate-300 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-300 absolute top-0 right-0"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-blue-900 mb-2">Journal of Sustainability and Management Research</h3>
-                        <p class="text-gray-500 text-sm mb-4">ISSN: 2456-7890</p>
-                        <p class="text-gray-600 mb-6 flex-grow">A multidisciplinary platform that publishes high-quality manuscripts at the intersection of sustainability and management.</p>
-                        <a href="journals.html?journal=sustainability-management" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto inline-block text-center" data-translate="viewJournal">View Journal</a>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Journal of Sustainability and Management Research</h3>
+                        <p class="text-slate-500 text-sm mb-4">ISSN: 2456-7890</p>
+                        <p class="text-slate-600 mb-6 flex-grow text-sm leading-relaxed">A multidisciplinary platform that publishes high-quality manuscripts at the intersection of sustainability and management.</p>
+                        <a href="journals.html?journal=sustainability-management" class="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-blue-200 shadow-lg mt-auto inline-block text-center group-hover:shadow-xl" data-translate="viewJournal">View Journal</a>
                     </div>
                 </div>
 
-                <div class="card-hover fade-in-right bg-white rounded-xl p-8 shadow-lg border border-blue-100 flex flex-col">
+                <div class="group card-hover fade-in-right bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 flex flex-col h-full relative">
                     <div class="text-center flex flex-col flex-grow">
-                        <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-6">
-                            <i class="fas fa-file-alt text-2xl text-blue-600"></i>
+                        <div class="relative mb-6">
+                            <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center transition-colors duration-300 group-hover:bg-blue-100 mx-auto">
+                                <i class="fas fa-file-alt text-2xl text-blue-600"></i>
+                            </div>
+                            <i class="fas fa-arrow-right w-5 h-5 text-slate-300 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-300 absolute top-0 right-0"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-blue-900 mb-2">Sustainability Cases</h3>
-                        <p class="text-gray-500 text-sm mb-4">ISSN: 2345-6789</p>
-                        <p class="text-gray-600 mb-6 flex-grow">A peer-reviewed platform that publishes high-quality case studies focusing on sustainability practices and real-world applications.</p>
-                        <a href="journals.html?journal=sustainability-cases" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors mt-auto inline-block text-center" data-translate="viewJournal">View Journal</a>
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">Sustainability Cases</h3>
+                        <p class="text-slate-500 text-sm mb-4">ISSN: 2345-6789</p>
+                        <p class="text-slate-600 mb-6 flex-grow text-sm leading-relaxed">A peer-reviewed platform that publishes high-quality case studies focusing on sustainability practices and real-world applications.</p>
+                        <a href="journals.html?journal=sustainability-cases" class="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-blue-200 shadow-lg mt-auto inline-block text-center group-hover:shadow-xl" data-translate="viewJournal">View Journal</a>
                     </div>
                 </div>
             </div>
@@ -864,6 +898,277 @@
         const counterSections = document.querySelectorAll('.impact-card');
         counterSections.forEach(section => {
             counterObserver.observe(section);
+        });
+
+        // Neural Network Particle Animation - White particles on blue background
+        function initNeuralParticles() {
+            const canvas = document.getElementById('particle-canvas');
+            const heroSection = document.getElementById('home');
+            
+            if (!canvas || !heroSection) return;
+            
+            // Set canvas size
+            const resizeCanvas = () => {
+                canvas.width = heroSection.offsetWidth;
+                canvas.height = heroSection.offsetHeight;
+            };
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+            
+            // Shaders for white particles
+            const particleVertexShader = `
+                attribute float size;
+                varying vec3 vColor;
+                void main() {
+                    vColor = color;
+                    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                    gl_PointSize = size * (400.0 / -mvPosition.z);
+                    gl_Position = projectionMatrix * mvPosition;
+                }
+            `;
+            
+            const particleFragmentShader = `
+                varying vec3 vColor;
+                void main() {
+                    float r = length(gl_PointCoord - vec2(0.5, 0.5));
+                    if (r > 0.5) discard;
+                    float alpha = smoothstep(0.5, 0.0, r);
+                    gl_FragColor = vec4(vColor, alpha);
+                }
+            `;
+            
+            // Scene setup with blue background
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x002377); // CSMR blue rgb(0, 35, 119)
+            
+            const camera = new THREE.PerspectiveCamera(75, canvas.width / canvas.height, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ 
+                canvas: canvas, 
+                antialias: true,
+                alpha: true 
+            });
+            renderer.setSize(canvas.width, canvas.height);
+            renderer.setClearColor(0x002377);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            
+            // Particle system - white small particles
+            const MAX_PARTICLES = 1000;
+            const particleCount = Math.min(MAX_PARTICLES, Math.floor(window.innerWidth / 2));
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+            const sizes = new Float32Array(particleCount);
+            const velocities = new Float32Array(particleCount * 3);
+            
+            const geometry = new THREE.BufferGeometry();
+            const maxDistance = 8; // Increased connection distance
+            
+            // Calculate spread based on viewport
+            const aspect = canvas.width / canvas.height;
+            const spreadX = 60;
+            const spreadY = 60 / aspect;
+            const spreadZ = 60;
+            
+            // Initialize white particles - spread across full background
+            for (let i = 0; i < particleCount; i++) {
+                const i3 = i * 3;
+                
+                // Distribute particles across a wider area
+                positions[i3] = (Math.random() - 0.5) * spreadX * 2;
+                positions[i3 + 1] = (Math.random() - 0.5) * spreadY * 2;
+                positions[i3 + 2] = (Math.random() - 0.5) * spreadZ * 2;
+                
+                // White color
+                colors[i3] = 1.0;
+                colors[i3 + 1] = 1.0;
+                colors[i3 + 2] = 1.0;
+                
+                // Small particles
+                sizes[i] = 0.3 + Math.random() * 0.3;
+                
+                // Slower velocities for smoother spread
+                velocities[i3] = (Math.random() - 0.5) * 0.04;
+                velocities[i3 + 1] = (Math.random() - 0.5) * 0.04;
+                velocities[i3 + 2] = (Math.random() - 0.5) * 0.04;
+            }
+            
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+            
+            const material = new THREE.ShaderMaterial({
+                vertexShader: particleVertexShader,
+                fragmentShader: particleFragmentShader,
+                vertexColors: true,
+                transparent: true,
+            });
+            
+            const particleSystem = new THREE.Points(geometry, material);
+            scene.add(particleSystem);
+            
+            // Connection lines - white
+            const maxConnections = particleCount * 2;
+            const linePositions = new Float32Array(maxConnections * 6);
+            const lineColors = new Float32Array(maxConnections * 6);
+            const lineGeometry = new THREE.BufferGeometry();
+            
+            lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
+            lineGeometry.setAttribute('color', new THREE.BufferAttribute(lineColors, 3));
+            
+            const lineMaterial = new THREE.LineBasicMaterial({
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.3,
+                blending: THREE.AdditiveBlending,
+            });
+            
+            const lineSystem = new THREE.LineSegments(lineGeometry, lineMaterial);
+            scene.add(lineSystem);
+            
+            // Camera positioned to see full spread
+            camera.position.z = 80;
+            camera.position.y = 0;
+            camera.position.x = 0;
+            
+            // Spatial grid for optimized distance checks
+            const GRID_SIZE = maxDistance;
+            const spatialGrid = new Map();
+            
+            const getCellKey = (x, y, z) => {
+                const cellX = Math.floor(x / GRID_SIZE);
+                const cellY = Math.floor(y / GRID_SIZE);
+                const cellZ = Math.floor(z / GRID_SIZE);
+                return `${cellX},${cellY},${cellZ}`;
+            };
+            
+            const getAdjacentCells = (key) => {
+                const [x, y, z] = key.split(',').map(Number);
+                const adjacent = [];
+                for (let dx = -1; dx <= 1; dx++) {
+                    for (let dy = -1; dy <= 1; dy++) {
+                        for (let dz = -1; dz <= 1; dz++) {
+                            adjacent.push(`${x + dx},${y + dy},${z + dz}`);
+                        }
+                    }
+                }
+                return adjacent;
+            };
+            
+            let animationFrameId;
+            
+            const animate = () => {
+                animationFrameId = requestAnimationFrame(animate);
+                
+                const positions = geometry.attributes.position.array;
+                let lineIndex = 0;
+                
+                scene.rotation.y += 0.00075;
+                
+                // Update particle positions
+                for (let i = 0; i < particleCount; i++) {
+                    const i3 = i * 3;
+                    
+                    positions[i3] += velocities[i3];
+                    positions[i3 + 1] += velocities[i3 + 1];
+                    positions[i3 + 2] += velocities[i3 + 2];
+                    
+                    // Bounce off boundaries - wider boundaries
+                    const boundaryX = spreadX;
+                    const boundaryY = spreadY;
+                    const boundaryZ = spreadZ;
+                    
+                    if (Math.abs(positions[i3]) > boundaryX) {
+                        velocities[i3] *= -0.8;
+                    }
+                    if (Math.abs(positions[i3 + 1]) > boundaryY) {
+                        velocities[i3 + 1] *= -0.8;
+                    }
+                    if (Math.abs(positions[i3 + 2]) > boundaryZ) {
+                        velocities[i3 + 2] *= -0.8;
+                    }
+                }
+                
+                // Build spatial grid
+                spatialGrid.clear();
+                for (let i = 0; i < particleCount; i++) {
+                    const i3 = i * 3;
+                    const key = getCellKey(positions[i3], positions[i3 + 1], positions[i3 + 2]);
+                    if (!spatialGrid.has(key)) {
+                        spatialGrid.set(key, []);
+                    }
+                    spatialGrid.get(key).push(i);
+                }
+                
+                // Check connections using spatial grid
+                const checked = new Set();
+                for (let i = 0; i < particleCount; i++) {
+                    const i3 = i * 3;
+                    const cellKey = getCellKey(positions[i3], positions[i3 + 1], positions[i3 + 2]);
+                    const adjacentCells = getAdjacentCells(cellKey);
+                    
+                    for (const adjKey of adjacentCells) {
+                        const nearbyParticles = spatialGrid.get(adjKey);
+                        if (!nearbyParticles) continue;
+                        
+                        for (const j of nearbyParticles) {
+                            if (i >= j) continue;
+                            
+                            const pairKey = `${i},${j}`;
+                            if (checked.has(pairKey)) continue;
+                            checked.add(pairKey);
+                            
+                            const j3 = j * 3;
+                            const dx = positions[i3] - positions[j3];
+                            const dy = positions[i3 + 1] - positions[j3 + 1];
+                            const dz = positions[i3 + 2] - positions[j3 + 2];
+                            const distSq = dx * dx + dy * dy + dz * dz;
+                            
+                            if (distSq < maxDistance * maxDistance && lineIndex < maxConnections * 6) {
+                                linePositions[lineIndex] = positions[i3];
+                                linePositions[lineIndex + 1] = positions[i3 + 1];
+                                linePositions[lineIndex + 2] = positions[i3 + 2];
+                                linePositions[lineIndex + 3] = positions[j3];
+                                linePositions[lineIndex + 4] = positions[j3 + 1];
+                                linePositions[lineIndex + 5] = positions[j3 + 2];
+                                
+                                // White lines
+                                for (let k = 0; k < 6; k++) {
+                                    lineColors[lineIndex + k] = 1.0;
+                                }
+                                
+                                lineIndex += 6;
+                            }
+                        }
+                    }
+                }
+                
+                // Clear unused line segments
+                for (let i = lineIndex; i < maxConnections * 6; i++) {
+                    linePositions[i] = 0;
+                    lineColors[i] = 0;
+                }
+                
+                geometry.attributes.position.needsUpdate = true;
+                lineGeometry.attributes.position.needsUpdate = true;
+                lineGeometry.attributes.color.needsUpdate = true;
+                
+                renderer.render(scene, camera);
+            };
+            
+            const handleResize = () => {
+                canvas.width = heroSection.offsetWidth;
+                canvas.height = heroSection.offsetHeight;
+                camera.aspect = canvas.width / canvas.height;
+                camera.updateProjectionMatrix();
+                renderer.setSize(canvas.width, canvas.height);
+            };
+            
+            window.addEventListener('resize', handleResize);
+            animate();
+        }
+        
+        // Initialize neural particles when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(initNeuralParticles, 100);
         });
     </script>
 </body>

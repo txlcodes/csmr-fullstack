@@ -10,31 +10,12 @@
     <style>
         body {
             font-family: 'Source Sans Pro', sans-serif;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            background-color: #1e3a8a;
-        }
-        html {
-            margin: 0;
-            padding: 0;
-            background-color: #1e3a8a;
-        }
-        .main-content {
-            flex: 1;
-            background-color: #f9fafb;
-        }
-        footer {
-            margin-top: auto;
-            background-color: #1e3a8a !important;
         }
         h1, h2, h3, h4, h5, h6, .hero-title {
             font-family: 'Merriweather', serif;
         }
         .gradient-bg {
-            background: rgb(0, 35, 119);
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
         }
         .step {
             display: none;
@@ -55,9 +36,30 @@
         }
         .author-row {
             transition: all 0.3s ease;
+            cursor: move;
+            position: relative;
         }
         .author-row:hover {
             background-color: #f8fafc;
+        }
+        .author-row.dragging {
+            opacity: 0.5;
+            transform: scale(0.95);
+        }
+        .author-row.drag-over {
+            border-top: 3px solid #3b82f6;
+            background-color: #eff6ff;
+        }
+        .drag-handle {
+            cursor: grab;
+            color: #6b7280;
+            transition: color 0.2s ease;
+        }
+        .drag-handle:hover {
+            color: #3b82f6;
+        }
+        .drag-handle:active {
+            cursor: grabbing;
         }
         .modal {
             display: none;
@@ -136,8 +138,6 @@
         </div>
     </nav>
 
-    <!-- Main Content Wrapper -->
-    <div class="main-content">
     <!-- Hero Section -->
     <section class="gradient-bg py-16 text-white">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -145,7 +145,7 @@
             <p class="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
                 Share your research with the global academic community through our peer-reviewed publication platform
             </p>
-            <button type="button" id="startSubmissionBtn" class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg">
+            <button onclick="startSubmission()" class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-all duration-300 transform hover:scale-105 shadow-lg">
                 <i class="fas fa-paper-plane mr-2"></i>
                 Start New Submission
             </button>
@@ -201,7 +201,7 @@
                                 I have read the <a href="#" class="text-blue-600 hover:underline">author guidelines</a> for this journal
                             </span>
                         </label>
-                                </div>
+                    </div>
 
                     <!-- Original material -->
                     <div class="mb-6">
@@ -212,7 +212,7 @@
                                 <span class="text-gray-600">I have only submitted this article to this journal and it has not been published anywhere else</span>
                             </span>
                         </label>
-                            </div>
+                    </div>
 
                     <!-- Author/Contributor Question -->
                     <div class="mb-6">
@@ -238,8 +238,8 @@
                                 You or any co-author have not previously assigned or licensed rights to any other third party for this article or content that would conflict with any rights to be granted in the publishing terms, and take precedence over any other terms that you assert during the submission or publication process to any version of this article or content;<br><br>
                                 You and all co-authors are willing and able to proceed with publication.
                             </p>
+                        </div>
                     </div>
-                </div>
 
                     <!-- Article Type -->
                     <div class="mb-6">
@@ -255,260 +255,74 @@
                     </div>
                 </div>
 
-                <!-- Step 2: Manuscript Details & Upload -->
+                <!-- Step 2: Upload Manuscript -->
                 <div id="step2" class="step">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Manuscript Details</h2>
-                    
-                    <!-- Manuscript Title -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Manuscript Title *</label>
-                        <div class="relative">
-                            <textarea id="manuscriptTitle" rows="2" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter manuscript title" oninput="updateWordCount('manuscriptTitle', 'titleWordCount', 200)"></textarea>
-                            <div class="absolute right-3 bottom-3 text-xs text-gray-500">
-                                <span id="titleWordCount">0</span> / 200 Words
-                        </div>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-1">You can enter characters not found on a standard keyboard.</p>
-                    </div>
-
-                    <!-- Abstract -->
-                    <div class="mb-6">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Abstract *</label>
-                        <div class="relative">
-                            <textarea id="abstract" rows="6" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter abstract" oninput="updateWordCount('abstract', 'abstractWordCount', 250)"></textarea>
-                            <div class="absolute right-3 bottom-3 text-xs text-gray-500">
-                                <span id="abstractWordCount">0</span> / 250 Words
-                        </div>
-                            </div>
-                        <p class="text-xs text-gray-500 mt-1">This can be enhanced with a <a href="#" class="text-blue-600 hover:underline">video abstract</a> if your article is accepted</p>
-                    </div>
-
-                    <!-- Section -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Section *</label>
-                        <select id="section" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="">Select a subject section</option>
-                                    <option value="sustainability">Sustainability</option>
-                                    <option value="management">Management</option>
-                                    <option value="environment">Environment</option>
-                                    <option value="innovation">Innovation</option>
-                            <option value="esg">ESG</option>
-                            <option value="case-studies">Case Studies</option>
-                                </select>
-                        <p class="text-xs text-gray-500 mt-1">This is the section in the journal where you would like your article to appear</p>
-                        <p id="sectionError" class="text-xs text-red-600 mt-1 hidden">Section is a required field</p>
-                            </div>
-
-                    <!-- Special Issue -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-3">Are you submitting your paper for a specific special issue or article collection? (This is typically in response to a Call For Papers, Editor request, or direct invitation) *</label>
-                        <div class="flex space-x-6">
-                            <label class="flex items-center">
-                                <input type="radio" name="specialIssue" value="yes" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
-                                <span class="ml-2 text-sm text-gray-700">Yes</span>
-                            </label>
-                            <label class="flex items-center">
-                                <input type="radio" name="specialIssue" value="no" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
-                                <span class="ml-2 text-sm text-gray-700">No</span>
-                            </label>
-                        </div>
-                        <p id="specialIssueError" class="text-xs text-red-600 mt-1 hidden">This is a required field</p>
-                        </div>
-
-                    <!-- Copyright -->
-                    <div class="mb-6">
-                        <h3 class="text-xl font-bold text-gray-900 mb-4">Copyright</h3>
-                        <label class="flex items-start">
-                            <input type="checkbox" id="copyrightConfirm" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1">
-                            <span class="ml-3 text-sm text-gray-700">
-                                Confirm that you have seen, read and understood the publisher guidelines on <a href="#" class="text-blue-600 hover:underline">copyright and author rights</a>.
-                            </span>
-                        </label>
-                        <p id="copyrightError" class="text-xs text-red-600 mt-1 hidden">This is a required field</p>
-                    </div>
-
-                    <!-- File Upload -->
-                    <div class="mb-6">
-                        <h3 class="text-xl font-bold text-gray-900 mb-4">File Upload</h3>
-                        <p class="text-sm text-gray-600 mb-4">Files required for submission to this journal are listed below. Figures, tables, supplementary material, and other relevant files meeting the <a href="#" class="text-blue-600 hover:underline">file guidelines</a>, can also be provided.</p>
-                        
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Manuscript - with author details *</label>
-                            <div id="fileUploadArea" class="file-upload-area rounded-lg p-8 text-center border-2 border-dashed border-gray-300 cursor-pointer" onclick="openFileUploadModal()">
-                                <i class="fas fa-cloud-upload-alt text-4xl text-blue-600 mb-4"></i>
-                                <p class="text-lg font-medium text-gray-700 mb-2">Drag your research article and any supporting files here</p>
-                                <p class="text-sm text-gray-500 mb-4">OR</p>
-                                <button type="button" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Upload Your Manuscript</h3>
+                    <div id="fileUploadArea" class="file-upload-area rounded-lg p-6 text-center">
+                        <i class="fas fa-cloud-upload-alt text-3xl text-blue-600 mb-3"></i>
+                        <p class="text-lg font-medium text-gray-700 mb-2">Drag and drop your manuscript here</p>
+                        <p class="text-sm text-gray-500 mb-4">or click to browse files</p>
+                        <input type="file" id="manuscriptFile" accept=".pdf,.docx" class="hidden">
+                        <button onclick="document.getElementById('manuscriptFile').click()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
                             Choose File
                         </button>
-                                <p class="text-xs text-gray-500 mt-2">Please upload "Manuscript - with author details"</p>
+                        <p class="text-xs text-gray-400 mt-2">Accepted formats: PDF, DOCX (Max 10MB)</p>
                     </div>
-                            <div id="uploadedFilesList" class="mt-4 space-y-2"></div>
-                            <p id="fileUploadError" class="text-xs text-red-600 mt-1 hidden">At least one manuscript file is required</p>
-                                </div>
-
-                        <div class="bg-green-50 border border-green-200 rounded-lg p-4 flex items-start">
-                            <i class="fas fa-info-circle text-green-600 mr-3 mt-1"></i>
-                            <p class="text-sm text-gray-700">
-                                To maximize the impact of your research, editing services such as artwork preparation or manuscript formatting are available. Explore our <a href="#" class="text-blue-600 hover:underline">Editing Services</a> website for more information.
-                            </p>
-                            </div>
-                        </div>
-
-                    <!-- Ethics Declarations -->
-                    <div class="mb-6">
-                        <h3 class="text-xl font-bold text-gray-900 mb-4">Ethics Declarations</h3>
-                        
-                        <div class="mb-4">
-                            <label class="flex items-start">
-                                <input type="checkbox" id="ethicalGuidelines" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1">
-                                <span class="ml-3 text-sm text-gray-700">I confirm that all the research meets ethical guidelines and adheres to the legal requirements of the study country.</span>
-                            </label>
-                            <p id="ethicalGuidelinesError" class="text-xs text-red-600 mt-1 hidden">Ethical Guidelines is a required field</p>
-                    </div>
-
-                        <div class="mb-4">
-                            <h4 class="text-lg font-semibold text-gray-900 mb-2">Generative Artificial Intelligence (AI)</h4>
-                            <label class="flex items-start">
-                                <input type="checkbox" id="aiPolicy" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1">
-                                <span class="ml-3 text-sm text-gray-700">
-                                    I have read and agree to comply with the <strong>CSMR AI Policy</strong>. I confirm that in accordance with the CSMR AI Policy, if I have used Generative AI tools (e.g. Chat GPT) or any large language models at any point in the preparation of my manuscript, I have clearly disclosed the use in the manuscript, including the full name of the tool used (with version number), how it was used, and the reason for use.
-                                </span>
-                            </label>
-                            <p id="aiPolicyError" class="text-xs text-red-600 mt-1 hidden">This is a required field</p>
-                </div>
-
-                        <div class="mb-4">
-                            <h4 class="text-lg font-semibold text-gray-900 mb-2">Human Participants</h4>
-                            <p class="text-sm text-gray-600 mb-3">CSMR require authors of research involving human participants to adhere to the <strong>ICMJE guidelines</strong> on Protection of Research Participants, <strong>The Belmont Report</strong>, or the <strong>Declaration of Helsinki</strong>, as appropriate. Research involving human subjects must have obtained formal, prospective, approval from an independent ethics committee (e.g. an Institutional Review Board or Human Subjects Review Committee). If the requirement for approval was waived by the ethics committee this should be explained in the manuscript.</p>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Does your study include human research participants? *</label>
-                            <div class="flex space-x-6">
-                                <label class="flex items-center">
-                                    <input type="radio" name="humanParticipants" value="yes" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
-                                    <span class="ml-2 text-sm text-gray-700">Yes</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="humanParticipants" value="no" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
-                                    <span class="ml-2 text-sm text-gray-700">No</span>
-                                </label>
-                            </div>
-                            <p id="humanParticipantsError" class="text-xs text-red-600 mt-1 hidden">This is a required field</p>
-                        </div>
-
-                        <div class="mb-4">
-                            <h4 class="text-lg font-semibold text-gray-900 mb-2">Consent to Publish</h4>
-                            <label class="flex items-start">
-                                <input type="checkbox" id="consentToPublish" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1">
-                                <span class="ml-3 text-sm text-gray-700">
-                                    I confirm that any participants (or their guardians if unable to give informed consent, or next of kin, if deceased) who may be identifiable through the manuscript (such as a case report), have been given an opportunity to review the final manuscript and have provided written consent to publish.
-                                </span>
-                            </label>
-                            <p id="consentToPublishError" class="text-xs text-red-600 mt-1 hidden">This is a required field</p>
-                        </div>
-
-                        <div class="mb-4">
-                            <h4 class="text-lg font-semibold text-gray-900 mb-2">Clinical Trials</h4>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Does your manuscript report a clinical trial? *</label>
-                            <div class="flex space-x-6">
-                                <label class="flex items-center">
-                                    <input type="radio" name="clinicalTrials" value="yes" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
-                                    <span class="ml-2 text-sm text-gray-700">Yes</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="clinicalTrials" value="no" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
-                                    <span class="ml-2 text-sm text-gray-700">No</span>
-                                </label>
-                            </div>
-                            <p id="clinicalTrialsError" class="text-xs text-red-600 mt-1 hidden">This is a required field</p>
-                        </div>
-
-                        <div class="mb-4">
-                            <h4 class="text-lg font-semibold text-gray-900 mb-2">Animal Subjects</h4>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Does your manuscript report on animal subjects? *</label>
-                            <div class="flex space-x-6">
-                                <label class="flex items-center">
-                                    <input type="radio" name="animalSubjects" value="yes" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
-                                    <span class="ml-2 text-sm text-gray-700">Yes</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="animalSubjects" value="no" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
-                                    <span class="ml-2 text-sm text-gray-700">No</span>
-                                </label>
-                            </div>
-                            <p id="animalSubjectsError" class="text-xs text-red-600 mt-1 hidden">This is a required field</p>
-                        </div>
-
-                        <div class="mb-4">
-                            <h4 class="text-lg font-semibold text-gray-900 mb-2">Acknowledgements</h4>
-                            <label class="flex items-start">
-                                <input type="checkbox" id="acknowledgements" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1">
-                                <span class="ml-3 text-sm text-gray-700">
-                                    I confirm that anyone listed under the Acknowledgements section of the manuscript has been informed of their inclusion and approve this.
-                                </span>
-                            </label>
-                            <p id="acknowledgementsError" class="text-xs text-red-600 mt-1 hidden">This is a required field</p>
-                        </div>
-                    </div>
-
-                    <!-- Permissions -->
-                    <div class="mb-6">
-                        <h3 class="text-xl font-bold text-gray-900 mb-4">Permissions</h3>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Are you using material that has been published before? *</label>
-                        <div class="flex space-x-6">
-                            <label class="flex items-center">
-                                <input type="radio" name="permissions" value="yes" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
-                                <span class="ml-2 text-sm text-gray-700">Yes</span>
-                            </label>
-                            <label class="flex items-center">
-                                <input type="radio" name="permissions" value="no" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
-                                <span class="ml-2 text-sm text-gray-700">No</span>
-                            </label>
-                        </div>
-                        <p id="permissionsError" class="text-xs text-red-600 mt-1 hidden">This is a required field</p>
-                    </div>
-
-                    <!-- Social Media Promotion (Optional) -->
-                    <div class="mb-6">
-                        <h3 class="text-xl font-bold text-gray-900 mb-4">Social Media Promotion</h3>
-                        
-                        <div class="mb-4">
-                            <h4 class="text-lg font-semibold text-gray-900 mb-2">Highlights for Social Media Promotion</h4>
-                            <div class="relative">
-                                <textarea id="socialMediaHighlights" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Please provide the highlights of your paper for promotion on social media" oninput="updateCharCount('socialMediaHighlights', 'highlightsCharCount', 280)"></textarea>
-                                <div class="absolute right-3 bottom-3 text-xs text-gray-500">
-                                    <span id="highlightsCharCount">0</span> / 280 Characters
+                    <div id="filePreview" class="hidden mt-4 p-4 bg-gray-50 rounded-lg">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <i class="fas fa-file-pdf text-2xl text-blue-600 mr-3"></i>
+                                <div>
+                                    <p class="font-medium text-gray-900" id="fileName"></p>
+                                    <p class="text-sm text-gray-500" id="fileSize"></p>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="mb-4">
-                            <h4 class="text-lg font-semibold text-gray-900 mb-2">Social Media Handle(s)</h4>
-                            <div class="relative">
-                                <input type="text" id="socialMediaHandles" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Please provide any social media handles (comma separated) which can be associated with the promotion of your paper" oninput="updateCharCount('socialMediaHandles', 'handlesCharCount', 25)">
-                                <div class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">
-                                    <span id="handlesCharCount">0</span> / 25 Characters
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Manuscript Word Count (Optional) -->
-                    <div class="mb-6">
-                        <h3 class="text-xl font-bold text-gray-900 mb-4">Manuscript Word Count</h3>
-                        <div class="relative">
-                            <input type="text" id="manuscriptWordCount" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Please state your manuscript's word count" oninput="updateCharCount('manuscriptWordCount', 'wordCountCharCount', 25)">
-                            <div class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">
-                                <span id="wordCountCharCount">0</span> / 25 Characters
-                            </div>
+                            <button onclick="removeFile()" class="text-red-600 hover:text-red-800">
+                                <i class="fas fa-times"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Step 3: Authors -->
+                <!-- Step 3: Metadata -->
                 <div id="step3" class="step">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Article Information</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Title *</label>
+                            <input type="text" id="articleTitle" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter article title">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Abstract *</label>
+                            <textarea id="articleAbstract" rows="6" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter abstract (max 300 words)"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Subject Area *</label>
+                            <select id="subjectArea" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="">Select subject area</option>
+                                <option value="sustainability">Sustainability</option>
+                                <option value="management">Management</option>
+                                <option value="environment">Environment</option>
+                                <option value="innovation">Innovation</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Keywords</label>
+                            <input type="text" id="keywords" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter keywords separated by commas">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Authors -->
+                <div id="step4" class="step">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Author Information</h3>
                     <div id="authorsList" class="space-y-4">
-                        <div class="author-row border border-gray-200 rounded-lg p-4">
+                        <div class="author-row border border-gray-200 rounded-lg p-4" draggable="true" data-index="0">
+                            <div class="flex items-start mb-3">
+                                <div class="drag-handle mr-3 mt-1">
+                                    <i class="fas fa-grip-vertical text-lg"></i>
+                                </div>
+                                <div class="flex-1">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
@@ -529,12 +343,14 @@
                             </div>
                             <div class="mt-3 flex items-center justify-between">
                                 <label class="flex items-center">
-                                    <input type="radio" name="correspondingAuthor" value="0" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
+                                    <input type="radio" name="correspondingAuthor" value="0" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300" checked>
                                     <span class="ml-2 text-sm text-gray-700">Corresponding Author</span>
                                 </label>
                                 <button onclick="removeAuthor(this)" class="text-red-600 hover:text-red-800 text-sm">
                                     <i class="fas fa-trash mr-1"></i>Remove
                                 </button>
+                            </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -543,8 +359,8 @@
                     </button>
                 </div>
 
-                <!-- Step 4: Cover Letter -->
-                <div id="step4" class="step">
+                <!-- Step 5: Cover Letter -->
+                <div id="step5" class="step">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Cover Letter</h3>
                     <div class="space-y-4">
                         <div>
@@ -558,8 +374,8 @@
                     </div>
                 </div>
 
-                <!-- Step 5: Supplementary Files -->
-                <div id="step5" class="step">
+                <!-- Step 6: Supplementary Files -->
+                <div id="step6" class="step">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Supplementary Files</h3>
                     <div id="supplementaryUploadArea" class="file-upload-area rounded-lg p-6 text-center">
                         <i class="fas fa-folder-plus text-3xl text-blue-600 mb-3"></i>
@@ -573,8 +389,8 @@
                     <div id="supplementaryFilesList" class="mt-4 space-y-2"></div>
                 </div>
 
-                <!-- Step 6: Declarations -->
-                <div id="step6" class="step">
+                <!-- Step 7: Declarations -->
+                <div id="step7" class="step">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Declarations & Agreements</h3>
                     <div class="space-y-4">
                         <div class="border border-gray-200 rounded-lg p-4">
@@ -612,8 +428,8 @@
                     </div>
                 </div>
 
-                <!-- Step 7: Review & Submit -->
-                <div id="step7" class="step">
+                <!-- Step 8: Review & Submit -->
+                <div id="step8" class="step">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Review & Submit</h3>
                     <div class="space-y-6">
                         <div class="bg-gray-50 rounded-lg p-4">
@@ -661,49 +477,6 @@
     </div>
 
     <!-- Submission Success Modal -->
-    <!-- File Upload Modal -->
-    <div id="fileUploadModal" class="modal fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-hidden">
-            <div class="p-6">
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900">Upload Files</h2>
-                    <button onclick="closeFileUploadModal()" class="text-gray-400 hover:text-gray-600">
-                        <i class="fas fa-times text-xl"></i>
-                    </button>
-                </div>
-                
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Left Side: File List -->
-                    <div class="lg:col-span-2">
-                        <div id="filesList" class="space-y-4 mb-4">
-                            <!-- Files will be added here dynamically -->
-                        </div>
-                        <p class="text-xs text-gray-500 mb-4">Multiple files can be selected</p>
-                        <div class="flex space-x-4">
-                            <button onclick="addFiles()" class="border-2 border-blue-600 text-blue-600 px-6 py-2 rounded-lg hover:bg-blue-50 transition-colors font-semibold">
-                                ADD FILES
-                            </button>
-                            <button id="uploadBtn" onclick="uploadFiles()" class="bg-gray-400 text-white px-6 py-2 rounded-lg font-semibold cursor-not-allowed" disabled>
-                                UPLOAD
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Right Side: Guidelines -->
-                    <div class="lg:col-span-1 border-l border-gray-200 pl-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">File Upload Guidelines</h3>
-                        <ul class="space-y-3 text-sm text-gray-600">
-                            <li>• File categories required for submission are marked with an asterisk.</li>
-                            <li>• The maximum size for a single file is 128 MB.</li>
-                            <li>• Files associated with the following file categories will be available for review and publication.</li>
-                        </ul>
-                        <a href="#" class="text-blue-600 hover:underline text-sm mt-4 inline-block">Read more ...</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div id="successModal" class="modal fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-6 text-center">
             <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -721,8 +494,6 @@
             </div>
         </div>
     </div>
-    </div>
-    <!-- End Main Content Wrapper -->
 
     <!-- Footer -->
     <footer class="bg-blue-900 text-white py-8">
@@ -741,36 +512,37 @@
                         Publishing cutting-edge research in sustainability, innovation, and responsible management practices across India and beyond.
                     </p>
                 </div>
-                
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
-                    <ul class="space-y-2">
-                        <li><a href="journals.html" class="text-gray-300 hover:text-white transition-colors">Journals</a></li>
-                        <li><a href="articles.html" class="text-gray-300 hover:text-white transition-colors">Articles</a></li>
-                        <li><a href="about.html" class="text-gray-300 hover:text-white transition-colors">About</a></li>
-                        <li><a href="contact.html" class="text-gray-300 hover:text-white transition-colors">Contact</a></li>
+                    <h3 class="text-xl font-bold mb-6">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="journals.html" class="text-gray-300 hover:text-blue-400 transition-colors">Journals</a></li>
+                        <li><a href="articles.html" class="text-gray-300 hover:text-blue-400 transition-colors">Articles</a></li>
+                        <li><a href="about.html" class="text-gray-300 hover:text-blue-400 transition-colors">About</a></li>
+                        <li><a href="contact.html" class="text-gray-300 hover:text-blue-400 transition-colors">Contact</a></li>
                     </ul>
                 </div>
-                
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Contact</h3>
-                    <ul class="space-y-2 text-gray-300">
-                        <li><i class="fas fa-map-marker-alt mr-2 text-blue-400"></i>123 Research Lane, New Delhi, India</li>
-                        <li><i class="fas fa-envelope mr-2 text-blue-400"></i>info@csmr.org</li>
-                        <li><i class="fas fa-phone mr-2 text-blue-400"></i>+91 98765 43210</li>
-                    </ul>
+                    <h3 class="text-xl font-bold mb-6">Contact Us</h3>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-map-marker-alt mr-2 text-blue-400"></i>123 Research Lane, New Delhi, India
+                    </p>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-envelope mr-2 text-blue-400"></i>info@csmr.org
+                    </p>
+                    <p class="text-gray-300 mb-3">
+                        <i class="fas fa-phone mr-2 text-blue-400"></i>+91 98765 43210
+                    </p>
                 </div>
             </div>
-            
-            <div class="border-t border-blue-800 mt-12 pt-8 text-center text-blue-300">
-                <p>&copy; 2025 CSMR. All rights reserved.</p>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500 text-sm">
+                &copy; 2025 CSMR. All rights reserved.
             </div>
         </div>
     </footer>
 
     <script>
         let currentStep = 1;
-        const totalSteps = 7;
+        const totalSteps = 8;
         let submissionData = {};
 
         // Check if user is logged in
@@ -784,41 +556,11 @@
             return true;
         }
 
-        // Start submission process - make it globally accessible
+        // Start submission process
         function startSubmission() {
-            console.log('startSubmission called');
-            const modal = document.getElementById('submissionModal');
-            if (modal) {
-                console.log('Modal found, opening...');
-                modal.classList.add('active');
-                console.log('Modal classes:', modal.className);
-            } else {
-                console.error('Modal not found!');
-                alert('Modal element not found. Please refresh the page.');
-            }
+            if (!checkAuth()) return;
+            document.getElementById('submissionModal').classList.add('active');
         }
-
-        // Make it globally accessible
-        window.startSubmission = startSubmission;
-
-        // Ensure DOM is loaded and set up event listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, initializing...');
-            
-            // Set up Start Submission button
-            const startBtn = document.getElementById('startSubmissionBtn');
-            if (startBtn) {
-                console.log('Start button found, adding event listener...');
-                startBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    console.log('Button clicked!');
-                    startSubmission();
-                });
-            } else {
-                console.error('Start button not found!');
-            }
-        });
 
         // Close modal
         function closeModal() {
@@ -873,7 +615,8 @@
             
             const stepTitles = [
                 'Submission Creation',
-                'Manuscript Details',
+                'Upload Manuscript',
+                'Article Information',
                 'Author Information',
                 'Cover Letter',
                 'Supplementary Files',
@@ -931,124 +674,37 @@
                     }
                     break;
                 case 2:
-                    const hasManuscript = uploadedFiles.some(f => f.category === 'manuscript-author');
-                    if (!hasManuscript) {
-                        document.getElementById('fileUploadError').classList.remove('hidden');
-                        alert('Please upload at least one "Manuscript - with author details" file');
-                        return false;
-                    }
-                    document.getElementById('fileUploadError').classList.add('hidden');
-                    
-                    // Validate other required fields
-                    const manuscriptTitle = document.getElementById('manuscriptTitle').value.trim();
-                    const manuscriptAbstract = document.getElementById('abstract').value.trim();
-                    const section = document.getElementById('section').value;
-                    const specialIssue = document.querySelector('input[name="specialIssue"]:checked');
-                    const copyrightConfirm = document.getElementById('copyrightConfirm').checked;
-                    const ethicalGuidelines = document.getElementById('ethicalGuidelines').checked;
-                    const aiPolicy = document.getElementById('aiPolicy').checked;
-                    const humanParticipants = document.querySelector('input[name="humanParticipants"]:checked');
-                    const consentToPublish = document.getElementById('consentToPublish').checked;
-                    const clinicalTrials = document.querySelector('input[name="clinicalTrials"]:checked');
-                    const animalSubjects = document.querySelector('input[name="animalSubjects"]:checked');
-                    const acknowledgements = document.getElementById('acknowledgements').checked;
-                    const permissions = document.querySelector('input[name="permissions"]:checked');
-                    
-                    // Show errors for missing required fields
-                    let hasErrors = false;
-                    if (!manuscriptTitle) {
-                        hasErrors = true;
-                    }
-                    if (!manuscriptAbstract) {
-                        hasErrors = true;
-                    }
-                    if (!section) {
-                        document.getElementById('sectionError').classList.remove('hidden');
-                        hasErrors = true;
-                    } else {
-                        document.getElementById('sectionError').classList.add('hidden');
-                    }
-                    if (!specialIssue) {
-                        document.getElementById('specialIssueError').classList.remove('hidden');
-                        hasErrors = true;
-                    } else {
-                        document.getElementById('specialIssueError').classList.add('hidden');
-                    }
-                    if (!copyrightConfirm) {
-                        document.getElementById('copyrightError').classList.remove('hidden');
-                        hasErrors = true;
-                    } else {
-                        document.getElementById('copyrightError').classList.add('hidden');
-                    }
-                    if (!ethicalGuidelines) {
-                        document.getElementById('ethicalGuidelinesError').classList.remove('hidden');
-                        hasErrors = true;
-                    } else {
-                        document.getElementById('ethicalGuidelinesError').classList.add('hidden');
-                    }
-                    if (!aiPolicy) {
-                        document.getElementById('aiPolicyError').classList.remove('hidden');
-                        hasErrors = true;
-                    } else {
-                        document.getElementById('aiPolicyError').classList.add('hidden');
-                    }
-                    if (!humanParticipants) {
-                        document.getElementById('humanParticipantsError').classList.remove('hidden');
-                        hasErrors = true;
-                    } else {
-                        document.getElementById('humanParticipantsError').classList.add('hidden');
-                    }
-                    if (!consentToPublish) {
-                        document.getElementById('consentToPublishError').classList.remove('hidden');
-                        hasErrors = true;
-                    } else {
-                        document.getElementById('consentToPublishError').classList.add('hidden');
-                    }
-                    if (!clinicalTrials) {
-                        document.getElementById('clinicalTrialsError').classList.remove('hidden');
-                        hasErrors = true;
-                    } else {
-                        document.getElementById('clinicalTrialsError').classList.add('hidden');
-                    }
-                    if (!animalSubjects) {
-                        document.getElementById('animalSubjectsError').classList.remove('hidden');
-                        hasErrors = true;
-                    } else {
-                        document.getElementById('animalSubjectsError').classList.add('hidden');
-                    }
-                    if (!acknowledgements) {
-                        document.getElementById('acknowledgementsError').classList.remove('hidden');
-                        hasErrors = true;
-                    } else {
-                        document.getElementById('acknowledgementsError').classList.add('hidden');
-                    }
-                    if (!permissions) {
-                        document.getElementById('permissionsError').classList.remove('hidden');
-                        hasErrors = true;
-                    } else {
-                        document.getElementById('permissionsError').classList.add('hidden');
-                    }
-                    
-                    if (hasErrors) {
-                        alert('Please fill in all required fields');
+                    const file = document.getElementById('manuscriptFile').files[0];
+                    if (!file) {
+                        alert('Please upload your manuscript file');
                         return false;
                     }
                     break;
                 case 3:
+                    const title = document.getElementById('articleTitle').value;
+                    const abstract = document.getElementById('articleAbstract').value;
+                    const subject = document.getElementById('subjectArea').value;
+                    
+                    if (!title || !abstract || !subject) {
+                        alert('Please fill in all required fields');
+                        return false;
+                    }
+                    break;
+                case 4:
                     const authorRows = document.querySelectorAll('#authorsList .author-row');
                     if (authorRows.length === 0) {
                         alert('Please add at least one author');
                         return false;
                     }
                     break;
-                case 4:
+                case 5:
                     const coverLetter = document.getElementById('coverLetter').value;
                     if (!coverLetter.trim()) {
                         alert('Please provide a cover letter');
                         return false;
                     }
                     break;
-                case 6:
+                case 7:
                     const originality = document.getElementById('originality').checked;
                     const ethics = document.getElementById('ethics').checked;
                     const conflict = document.getElementById('conflict').checked;
@@ -1059,7 +715,7 @@
                         return false;
                     }
                     break;
-                case 7:
+                case 8:
                     const finalAgreement = document.getElementById('finalAgreement').checked;
                     if (!finalAgreement) {
                         alert('Please confirm your submission');
@@ -1070,9 +726,19 @@
             return true;
         }
 
-        // Drag and drop handling for file upload area
+        // File upload handling
+        const manuscriptFileInput = document.getElementById('manuscriptFile');
+        if (manuscriptFileInput) {
+            manuscriptFileInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    showFilePreview(file);
+                }
+            });
+        }
+
+        // Drag and drop handling
         const uploadArea = document.getElementById('fileUploadArea');
-        if (uploadArea) {
         uploadArea.addEventListener('dragover', function(e) {
             e.preventDefault();
             uploadArea.classList.add('dragover');
@@ -1088,25 +754,14 @@
             uploadArea.classList.remove('dragover');
             const files = e.dataTransfer.files;
             if (files.length > 0) {
-                    openFileUploadModal();
-                    // Add dropped files
+                document.getElementById('manuscriptFile').files = files;
+                showFilePreview(files[0]);
+                // Automatically go to next step after file drop
                 setTimeout(() => {
-                        Array.from(files).forEach(file => {
-                            if (validateFileName(file.name)) {
-                                uploadedFiles.push({
-                                    file: file,
-                                    category: '',
-                                    id: Date.now() + Math.random()
-                                });
-                            } else {
-                                alert(`The file name "${file.name}" contains invalid characters. Include alphanumeric characters or underscores only.`);
-                            }
-                        });
-                        renderFilesList();
-                    }, 100);
-                }
-            });
-        }
+                    nextStep();
+                }, 500);
+            }
+        });
 
         // Journal selection
         function selectJournal(journalId) {
@@ -1115,182 +770,18 @@
             }
         }
 
-        // File upload modal and management
-        let uploadedFiles = [];
-
-        function openFileUploadModal() {
-            document.getElementById('fileUploadModal').classList.add('active');
+        // Show file preview
+        function showFilePreview(file) {
+            document.getElementById('filePreview').classList.remove('hidden');
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('fileSize').textContent = formatFileSize(file.size);
         }
 
-        function closeFileUploadModal() {
-            document.getElementById('fileUploadModal').classList.remove('active');
+        // Remove file
+        function removeFile() {
+            document.getElementById('manuscriptFile').value = '';
+            document.getElementById('filePreview').classList.add('hidden');
         }
-
-        function addFiles() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.multiple = true;
-            input.accept = '.pdf,.docx,.doc,.jpg,.jpeg,.png,.xlsx,.xls';
-            input.onchange = function(e) {
-                Array.from(e.target.files).forEach(file => {
-                    if (validateFileName(file.name)) {
-                        uploadedFiles.push({
-                            file: file,
-                            category: '',
-                            id: Date.now() + Math.random()
-                        });
-                        renderFilesList();
-                    } else {
-                        alert(`The file name "${file.name}" contains invalid characters. Include alphanumeric characters or underscores only.`);
-                    }
-                });
-            };
-            input.click();
-        }
-
-        function validateFileName(fileName) {
-            // Allow alphanumeric, underscores, dots, and hyphens
-            return /^[a-zA-Z0-9._-]+$/.test(fileName);
-        }
-
-        function renderFilesList() {
-            const filesList = document.getElementById('filesList');
-            filesList.innerHTML = '';
-            
-            uploadedFiles.forEach((fileObj, index) => {
-                const fileItem = document.createElement('div');
-                fileItem.className = 'border border-gray-200 rounded-lg p-4';
-                fileItem.innerHTML = `
-                    <div class="flex items-start justify-between mb-3">
-                        <div class="flex-1">
-                            <p class="font-medium text-gray-900 text-sm">${fileObj.file.name}</p>
-                            <p class="text-xs text-gray-500 mt-1">${formatFileSize(fileObj.file.size)}</p>
-                        </div>
-                        <button onclick="removeUploadedFile(${index})" class="text-red-600 hover:text-red-800 ml-4">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                    <div>
-                        <select onchange="updateFileCategory(${index}, this.value)" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="">Select a file category</option>
-                            <option value="manuscript-author" ${fileObj.category === 'manuscript-author' ? 'selected' : ''}>Manuscript - with author details *</option>
-                            <option value="author-bio" ${fileObj.category === 'author-bio' ? 'selected' : ''}>Author Bio</option>
-                            <option value="figure" ${fileObj.category === 'figure' ? 'selected' : ''}>Figure</option>
-                            <option value="cover-letter" ${fileObj.category === 'cover-letter' ? 'selected' : ''}>Cover Letter</option>
-                            <option value="supplementary-review" ${fileObj.category === 'supplementary-review' ? 'selected' : ''}>Supplementary Material - for review</option>
-                            <option value="supplementary-no-review" ${fileObj.category === 'supplementary-no-review' ? 'selected' : ''}>Supplementary Material - not for review</option>
-                            <option value="table" ${fileObj.category === 'table' ? 'selected' : ''}>Table</option>
-                            <option value="arrive-checklist" ${fileObj.category === 'arrive-checklist' ? 'selected' : ''}>ARRIVE Guidelines Checklist</option>
-                            <option value="author-list-change" ${fileObj.category === 'author-list-change' ? 'selected' : ''}>Author List Change Form</option>
-                        </select>
-                        ${!validateFileName(fileObj.file.name) ? '<p class="text-xs text-red-600 mt-1">The file name contains invalid characters. Include alphanumeric characters or underscores only.</p>' : ''}
-                    </div>
-                `;
-                filesList.appendChild(fileItem);
-            });
-            
-            // Enable upload button if files are added
-            const uploadBtn = document.getElementById('uploadBtn');
-            if (uploadedFiles.length > 0) {
-                uploadBtn.disabled = false;
-                uploadBtn.classList.remove('bg-gray-400', 'cursor-not-allowed');
-                uploadBtn.classList.add('bg-blue-600', 'hover:bg-blue-700', 'cursor-pointer');
-            } else {
-                uploadBtn.disabled = true;
-                uploadBtn.classList.add('bg-gray-400', 'cursor-not-allowed');
-                uploadBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700', 'cursor-pointer');
-            }
-        }
-
-        function updateFileCategory(index, category) {
-            uploadedFiles[index].category = category;
-        }
-
-        function removeUploadedFile(index) {
-            uploadedFiles.splice(index, 1);
-            renderFilesList();
-            updateUploadedFilesDisplay();
-        }
-
-        function uploadFiles() {
-            // Check if manuscript file is uploaded
-            const hasManuscript = uploadedFiles.some(f => f.category === 'manuscript-author');
-            if (!hasManuscript) {
-                alert('Please upload at least one "Manuscript - with author details" file');
-                return;
-            }
-            
-            // Update the display
-            updateUploadedFilesDisplay();
-            closeFileUploadModal();
-        }
-
-        function updateUploadedFilesDisplay() {
-            const uploadedFilesList = document.getElementById('uploadedFilesList');
-            uploadedFilesList.innerHTML = '';
-            
-            uploadedFiles.forEach((fileObj, index) => {
-                const fileItem = document.createElement('div');
-                fileItem.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-lg';
-                fileItem.innerHTML = `
-                    <div class="flex items-center">
-                        <i class="fas fa-file-pdf text-2xl text-blue-600 mr-3"></i>
-                        <div>
-                            <p class="font-medium text-gray-900 text-sm">${fileObj.file.name}</p>
-                            <p class="text-xs text-gray-500">${getCategoryName(fileObj.category)}</p>
-                        </div>
-                    </div>
-                    <button onclick="removeUploadedFile(${index})" class="text-red-600 hover:text-red-800">
-                        <i class="fas fa-times"></i>
-                    </button>
-                `;
-                uploadedFilesList.appendChild(fileItem);
-            });
-        }
-
-        function getCategoryName(category) {
-            const categories = {
-                'manuscript-author': 'Manuscript - with author details',
-                'author-bio': 'Author Bio',
-                'figure': 'Figure',
-                'cover-letter': 'Cover Letter',
-                'supplementary-review': 'Supplementary Material - for review',
-                'supplementary-no-review': 'Supplementary Material - not for review',
-                'table': 'Table',
-                'arrive-checklist': 'ARRIVE Guidelines Checklist',
-                'author-list-change': 'Author List Change Form'
-            };
-            return categories[category] || 'Uncategorized';
-        }
-
-        // Word and character count functions
-        function updateWordCount(textareaId, countId, maxWords) {
-            const textarea = document.getElementById(textareaId);
-            const countElement = document.getElementById(countId);
-            const text = textarea.value;
-            const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
-            countElement.textContent = wordCount;
-            
-            if (wordCount > maxWords) {
-                countElement.classList.add('text-red-600');
-            } else {
-                countElement.classList.remove('text-red-600');
-            }
-        }
-
-        function updateCharCount(inputId, countId, maxChars) {
-            const input = document.getElementById(inputId);
-            const countElement = document.getElementById(countId);
-            const charCount = input.value.length;
-            countElement.textContent = charCount;
-            
-            if (charCount > maxChars) {
-                countElement.classList.add('text-red-600');
-            } else {
-                countElement.classList.remove('text-red-600');
-            }
-        }
-
 
         // Format file size
         function formatFileSize(bytes) {
@@ -1307,7 +798,14 @@
             const authorCount = authorsList.children.length;
             const authorRow = document.createElement('div');
             authorRow.className = 'author-row border border-gray-200 rounded-lg p-4';
+            authorRow.draggable = true;
+            authorRow.dataset.index = authorCount;
             authorRow.innerHTML = `
+                <div class="flex items-start mb-3">
+                    <div class="drag-handle mr-3 mt-1">
+                        <i class="fas fa-grip-vertical text-lg"></i>
+                    </div>
+                    <div class="flex-1">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
@@ -1335,20 +833,127 @@
                         <i class="fas fa-trash mr-1"></i>Remove
                     </button>
                 </div>
+                    </div>
+                </div>
             `;
             authorsList.appendChild(authorRow);
+            initDragAndDrop(authorRow);
+            updateAuthorIndices();
         }
 
         // Remove author
         function removeAuthor(button) {
             button.closest('.author-row').remove();
+            updateAuthorIndices();
         }
+
+        // Initialize drag and drop for author rows
+        function initDragAndDrop(authorRow) {
+            authorRow.addEventListener('dragstart', handleDragStart);
+            authorRow.addEventListener('dragover', handleDragOver);
+            authorRow.addEventListener('drop', handleDrop);
+            authorRow.addEventListener('dragend', handleDragEnd);
+            
+            // Prevent form inputs from interfering with drag
+            const inputs = authorRow.querySelectorAll('input, button, select, textarea, label');
+            inputs.forEach(input => {
+                input.addEventListener('mousedown', function(e) {
+                    e.stopPropagation();
+                });
+            });
+        }
+
+        let draggedElement = null;
+
+        function handleDragStart(e) {
+            draggedElement = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.innerHTML);
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            
+            // Remove drag-over class from all rows
+            document.querySelectorAll('.author-row').forEach(row => {
+                row.classList.remove('drag-over');
+            });
+            
+            // Add drag-over class to current row if it's not the dragged element
+            if (this !== draggedElement) {
+                this.classList.add('drag-over');
+            }
+            
+            return false;
+        }
+
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            
+            if (draggedElement !== this) {
+                const authorsList = document.getElementById('authorsList');
+                const allRows = Array.from(authorsList.querySelectorAll('.author-row'));
+                const draggedIndex = allRows.indexOf(draggedElement);
+                const targetIndex = allRows.indexOf(this);
+                
+                if (draggedIndex < targetIndex) {
+                    authorsList.insertBefore(draggedElement, this.nextSibling);
+                } else {
+                    authorsList.insertBefore(draggedElement, this);
+                }
+                
+                updateAuthorIndices();
+            }
+            
+            this.classList.remove('drag-over');
+            return false;
+        }
+
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+            document.querySelectorAll('.author-row').forEach(row => {
+                row.classList.remove('drag-over');
+            });
+        }
+
+        // Update author indices and radio button values
+        function updateAuthorIndices() {
+            const authorsList = document.getElementById('authorsList');
+            const authorRows = authorsList.querySelectorAll('.author-row');
+            authorRows.forEach((row, index) => {
+                row.dataset.index = index;
+                const radioButton = row.querySelector('input[name="correspondingAuthor"]');
+                if (radioButton) {
+                    radioButton.value = index;
+                    // Top author (index 0) automatically gets priority as corresponding author
+                    if (index === 0) {
+                        radioButton.checked = true;
+                    }
+                }
+            });
+        }
+
+        // Initialize drag and drop for existing author rows on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const existingRows = document.querySelectorAll('#authorsList .author-row');
+            existingRows.forEach(row => {
+                row.draggable = true;
+                initDragAndDrop(row);
+            });
+            updateAuthorIndices();
+        });
 
         // Update review summary
         function updateReviewSummary() {
-            document.getElementById('reviewTitle').textContent = document.getElementById('manuscriptTitle').value || 'Not provided';
+            document.getElementById('reviewTitle').textContent = document.getElementById('articleTitle').value;
             document.getElementById('reviewType').textContent = `Type: ${document.getElementById('articleType').options[document.getElementById('articleType').selectedIndex].text}`;
-            document.getElementById('reviewSubject').textContent = `Subject: ${document.getElementById('section').options[document.getElementById('section').selectedIndex].text}`;
+            document.getElementById('reviewSubject').textContent = `Subject: ${document.getElementById('subjectArea').options[document.getElementById('subjectArea').selectedIndex].text}`;
             
             // Update authors
             const authorsList = document.getElementById('reviewAuthors');
@@ -1362,12 +967,8 @@
             });
             
             // Update files
-            const manuscriptFiles = uploadedFiles.filter(f => f.category === 'manuscript-author');
-            if (manuscriptFiles.length > 0) {
-                document.getElementById('reviewFiles').textContent = `Manuscript: ${manuscriptFiles[0].file.name}${uploadedFiles.length > 1 ? ` (+${uploadedFiles.length - 1} more files)` : ''}`;
-            } else {
-                document.getElementById('reviewFiles').textContent = 'No files uploaded';
-            }
+            const file = document.getElementById('manuscriptFile').files[0];
+            document.getElementById('reviewFiles').textContent = file ? `Manuscript: ${file.name}` : 'No files uploaded';
         }
 
         // Submit manuscript
@@ -1383,8 +984,8 @@
             }
             
             // Collect form data
-            const title = document.getElementById('manuscriptTitle').value;
-            const abstract = document.getElementById('abstract').value;
+            const title = document.getElementById('articleTitle').value;
+            const abstract = document.getElementById('articleAbstract').value;
             const keywords = document.getElementById('keywords').value || '';
             
             // Collect authors
@@ -1418,8 +1019,8 @@
                 const data = await response.json();
                 
                 if (data.success) {
-                document.getElementById('submissionModal').classList.remove('active');
-                document.getElementById('successModal').classList.add('active');
+                    document.getElementById('submissionModal').classList.remove('active');
+                    document.getElementById('successModal').classList.add('active');
                     resetForm();
                 } else {
                     alert('Failed to submit: ' + (data.message || 'Unknown error'));
