@@ -255,6 +255,117 @@
         .image-stagger-3 { transition-delay: 0.3s; }
         .image-stagger-4 { transition-delay: 0.4s; }
         
+        /* Profile Dropdown */
+        .profile-dropdown {
+            position: relative;
+        }
+        
+        .profile-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .profile-icon:hover {
+            transform: scale(1.05);
+            border-color: #3b82f6;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+        }
+        
+        .profile-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            min-width: 240px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+        
+        .profile-dropdown.active .profile-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .profile-dropdown-header {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e5e7eb;
+            background: #f9fafb;
+        }
+        
+        .profile-dropdown-header .user-name {
+            font-weight: 600;
+            color: #111827;
+            font-size: 14px;
+        }
+        
+        .profile-dropdown-header .user-email {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 2px;
+        }
+        
+        .profile-dropdown-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 16px;
+            color: #374151;
+            font-size: 14px;
+            transition: background-color 0.2s ease;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+        
+        .profile-dropdown-item:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .profile-dropdown-item i {
+            width: 20px;
+            margin-right: 12px;
+            color: #6b7280;
+        }
+        
+        .profile-dropdown-item:hover i {
+            color: #3b82f6;
+        }
+        
+        .profile-dropdown-divider {
+            height: 1px;
+            background: #e5e7eb;
+            margin: 4px 0;
+        }
+        
+        .profile-dropdown-item.logout {
+            color: #dc2626;
+        }
+        
+        .profile-dropdown-item.logout:hover {
+            background-color: #fee2e2;
+        }
+        
+        .profile-dropdown-item.logout i {
+            color: #dc2626;
+        }
+        
     </style>
 </head>
 <body class="bg-gray-50">
@@ -274,6 +385,35 @@
                         <a href="login.html" class="text-gray-600 hover:text-blue-600">Login</a>
                         <span class="text-gray-300 mx-2">/</span>
                         <a href="register.html" class="text-gray-600 hover:text-blue-600">Register</a>
+                    </div>
+                    <div id="profileDropdown" class="profile-dropdown hidden">
+                        <div class="profile-icon" onclick="toggleProfileDropdown()" id="profileIcon">
+                            <i class="fas fa-user text-sm" id="profileIconDefault"></i>
+                            <span id="profileIconInitials" class="text-xs font-semibold hidden"></span>
+                        </div>
+                        <div class="profile-dropdown-menu">
+                            <div class="profile-dropdown-header">
+                                <div class="user-name" id="profileUserName">User Name</div>
+                                <div class="user-email" id="profileUserEmail">user@example.com</div>
+                            </div>
+                            <button class="profile-dropdown-item" onclick="checkAuthAndNavigate('my-submissions.html'); toggleProfileDropdown();">
+                                <i class="fas fa-list-alt"></i>
+                                <span>View My Submissions</span>
+                            </button>
+                            <button class="profile-dropdown-item" onclick="openEditProfile(); toggleProfileDropdown();">
+                                <i class="fas fa-user-edit"></i>
+                                <span>Edit Profile</span>
+                            </button>
+                            <button class="profile-dropdown-item" onclick="checkAuthAndNavigate('dashboard.html'); toggleProfileDropdown();">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>Dashboard</span>
+                            </button>
+                            <div class="profile-dropdown-divider"></div>
+                            <button class="profile-dropdown-item logout" onclick="logout(); toggleProfileDropdown();">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </button>
+                        </div>
                     </div>
                     <div class="relative">
                         <select class="language-selector bg-transparent border-none text-gray-600 text-sm focus:outline-none cursor-pointer" onchange="LanguageManager.setLanguage(this.value); window.location.reload();">
@@ -517,7 +657,7 @@
                     </div>
                     <h3 class="text-xl font-bold text-slate-900 mb-4 font-serif" data-translate="viewMySubmissions">View My Submissions</h3>
                     <p class="text-slate-600 mb-8 flex-grow" data-translate="viewSubmissionsDesc">Track and manage all your manuscript submissions and their status</p>
-                    <a href="my-submissions.html" class="block w-full bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-blue-200 shadow-lg mt-auto" data-translate="viewSubmissions">View Submissions</a>
+                    <a href="#" onclick="checkAuthAndNavigate('my-submissions.html'); return false;" class="block w-full bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-blue-200 shadow-lg mt-auto" data-translate="viewSubmissions">View Submissions</a>
                 </div>
 
                 <div class="group card-hover fade-in-up bg-white rounded-2xl p-8 shadow-lg border border-slate-100 text-center flex flex-col hover:-translate-y-2 transition-transform duration-300 h-full">
@@ -755,31 +895,97 @@
             const token = localStorage.getItem('token');
             const user = JSON.parse(localStorage.getItem('user') || '{}');
             const authSection = document.getElementById('authSection');
+            const profileDropdown = document.getElementById('profileDropdown');
             
             if (token && user.firstName) {
-                // User is logged in - show name and logout
-                authSection.innerHTML = `
-                    <div class="flex items-center space-x-4">
-                        <span class="text-gray-600 text-sm">Welcome, ${user.firstName}!</span>
-                        <button onclick="logout()" class="text-gray-600 hover:text-blue-600">Logout</button>
-                    </div>
-                `;
+                // User is logged in - hide login/register, show profile dropdown
+                authSection.innerHTML = '';
+                if (profileDropdown) {
+                    profileDropdown.classList.remove('hidden');
+                    // Update profile dropdown user info
+                    const userName = `${user.firstName} ${user.lastName || ''}`.trim();
+                    document.getElementById('profileUserName').textContent = userName;
+                    document.getElementById('profileUserEmail').textContent = user.email || 'user@example.com';
+                    
+                    // Update profile icon with initials
+                    const profileIcon = document.getElementById('profileIcon');
+                    const profileIconDefault = document.getElementById('profileIconDefault');
+                    const profileIconInitials = document.getElementById('profileIconInitials');
+                    
+                    if (user.firstName) {
+                        const firstInitial = user.firstName.charAt(0).toUpperCase();
+                        const lastInitial = (user.lastName && user.lastName.charAt(0).toUpperCase()) || '';
+                        const initials = firstInitial + lastInitial;
+                        
+                        if (profileIconDefault) profileIconDefault.classList.add('hidden');
+                        if (profileIconInitials) {
+                            profileIconInitials.textContent = initials;
+                            profileIconInitials.classList.remove('hidden');
+                        }
+                    }
+                }
             } else {
-                // User not logged in - show login/register
+                // User not logged in - show login/register, hide profile dropdown
                 authSection.innerHTML = `
                     <a href="login.html" class="text-gray-600 hover:text-blue-600">Login</a>
                     <span class="text-gray-300 mx-2">/</span>
                     <a href="register.html" class="text-gray-600 hover:text-blue-600">Register</a>
                 `;
+                if (profileDropdown) {
+                    profileDropdown.classList.add('hidden');
+                }
             }
+        }
+        
+        // Toggle profile dropdown
+        function toggleProfileDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            if (dropdown) {
+                dropdown.classList.toggle('active');
+            }
+        }
+        
+        // Close profile dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('profileDropdown');
+            if (dropdown && !dropdown.contains(event.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+        
+        // Open edit profile modal/page
+        function openEditProfile() {
+            // You can create an edit profile page or modal here
+            alert('Edit Profile feature coming soon!');
+            // window.location.href = 'edit-profile.html';
         }
 
         // Logout function
         function logout() {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
+            localStorage.removeItem('userId');
+            const profileDropdown = document.getElementById('profileDropdown');
+            if (profileDropdown) {
+                profileDropdown.classList.remove('active');
+            }
             updateNavbar();
             window.location.href = 'index.html';
+        }
+
+        // Check authentication before navigating to protected pages
+        function checkAuthAndNavigate(url) {
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            
+            if (!token || !user.firstName) {
+                alert('Please login first to view your submissions.');
+                window.location.href = 'login.html';
+                return false;
+            } else {
+                window.location.href = url;
+                return true;
+            }
         }
 
         // Update navbar on page load
