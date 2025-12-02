@@ -15,7 +15,7 @@
         }
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
+            background: rgb(0, 35, 119); /* Same dark blue as homepage */
         }
         .fade-in-up {
             opacity: 0;
@@ -25,6 +25,77 @@
         .fade-in-up.animate {
             opacity: 1;
             transform: translateY(0);
+        }
+        
+        /* Editorial Board Card Animations */
+        .editorial-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        
+        .editorial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .editorial-card:hover .icon-container {
+            background-color: #3b82f6;
+            transform: scale(1.1);
+        }
+        
+        .editorial-card:hover .icon-container i {
+            color: white;
+        }
+        
+        .icon-container {
+            transition: all 0.3s ease;
+        }
+        
+        /* Member Info Modal */
+        .member-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .member-modal.active {
+            display: flex;
+        }
+        
+        .member-modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .member-modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 4px 8px;
+            transition: color 0.2s ease;
+        }
+        
+        .member-modal-close:hover {
+            color: #111827;
         }
     </style>
 </head>
@@ -141,148 +212,163 @@
         </div>
     </section>
 
-    <!-- Our Team Section -->
+    <!-- Editorial Board Section -->
     <section class="py-16 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">Our Team</h2>
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Editorial Board</h2>
                 <div class="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
-                <p class="text-gray-600 mt-4">Scientific & Research Community</p>
             </div>
 
-            <!-- Scientific Advisory Board -->
+            <!-- Editor-in-Chief -->
             <div class="mb-12">
-                <h3 class="text-2xl font-bold text-blue-900 mb-6">Scientific Advisory Board</h3>
-                <p class="text-gray-700 mb-6">Senior professors from IITs, IISc, climate scientists, environmental policy experts, international advisors & visiting scholars, and industry sustainability leaders guide our research directions and ensure academic rigor.</p>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-white rounded-lg shadow-lg p-6 text-center">
-                        <div class="w-20 h-20 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-blue-600"></i>
+                <h3 class="text-2xl font-bold text-blue-900 mb-6">Editor-in-Chief</h3>
+                <div class="grid md:grid-cols-1 lg:grid-cols-1 gap-6 max-w-md mx-auto">
+                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Editor-in-Chief', 'To be announced', 'Editor-in-Chief', '', '')">
+                        <div class="icon-container w-24 h-24 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i class="fas fa-user-tie text-3xl text-blue-600"></i>
                         </div>
-                        <h4 class="font-bold text-lg mb-2">Prof. Rajesh Kumar</h4>
-                        <p class="text-blue-600 text-sm mb-2">IIT Delhi</p>
-                        <p class="text-gray-600 text-sm">Climate Science Expert</p>
-                    </div>
-                    <div class="bg-white rounded-lg shadow-lg p-6 text-center">
-                        <div class="w-20 h-20 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-blue-600"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2">Dr. Priya Sharma</h4>
-                        <p class="text-blue-600 text-sm mb-2">IISc Bangalore</p>
-                        <p class="text-gray-600 text-sm">Environmental Policy</p>
-                    </div>
-                    <div class="bg-white rounded-lg shadow-lg p-6 text-center">
-                        <div class="w-20 h-20 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-blue-600"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2">Prof. Michael Chen</h4>
-                        <p class="text-blue-600 text-sm mb-2">International Advisor</p>
-                        <p class="text-gray-600 text-sm">Sustainability Leader</p>
+                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
+                        <p class="text-blue-600 text-sm">Editor-in-Chief</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Research Committee -->
+            <!-- Senior Editors -->
             <div class="mb-12">
-                <h3 class="text-2xl font-bold text-blue-900 mb-6">Research Committee</h3>
-                <p class="text-gray-700 mb-6">PhD scholars, post-doctoral researchers, sustainability analysts, marine geophysics & climate researchers, and environmental data scientists conduct research, publish journals, review papers, and manage conferences.</p>
+                <h3 class="text-2xl font-bold text-blue-900 mb-6">Senior Editors</h3>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-white rounded-lg shadow-lg p-6 text-center">
-                        <div class="w-20 h-20 bg-green-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-green-600"></i>
+                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Senior Editor', 'To be announced', 'Senior Editor', '', '')">
+                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i class="fas fa-user text-2xl text-blue-600"></i>
                         </div>
-                        <h4 class="font-bold text-lg mb-2">Dr. Sarah Johnson</h4>
-                        <p class="text-green-600 text-sm mb-2">Research Lead</p>
-                        <p class="text-gray-600 text-sm">PhD in Environmental Science</p>
+                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
+                        <p class="text-blue-600 text-sm">Senior Editor</p>
                     </div>
-                    <div class="bg-white rounded-lg shadow-lg p-6 text-center">
-                        <div class="w-20 h-20 bg-green-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-green-600"></i>
+                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Senior Editor', 'To be announced', 'Senior Editor', '', '')">
+                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i class="fas fa-user text-2xl text-blue-600"></i>
                         </div>
-                        <h4 class="font-bold text-lg mb-2">Dr. David Lee</h4>
-                        <p class="text-green-600 text-sm mb-2">Climate Researcher</p>
-                        <p class="text-gray-600 text-sm">Post-Doctoral Fellow</p>
+                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
+                        <p class="text-blue-600 text-sm">Senior Editor</p>
                     </div>
-                    <div class="bg-white rounded-lg shadow-lg p-6 text-center">
-                        <div class="w-20 h-20 bg-green-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-green-600"></i>
+                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Senior Editor', 'To be announced', 'Senior Editor', '', '')">
+                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i class="fas fa-user text-2xl text-blue-600"></i>
                         </div>
-                        <h4 class="font-bold text-lg mb-2">Dr. Emily Rodriguez</h4>
-                        <p class="text-green-600 text-sm mb-2">Data Scientist</p>
-                        <p class="text-gray-600 text-sm">Environmental Analytics</p>
+                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
+                        <p class="text-blue-600 text-sm">Senior Editor</p>
+                    </div>
+                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Senior Editor', 'To be announced', 'Senior Editor', '', '')">
+                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i class="fas fa-user text-2xl text-blue-600"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
+                        <p class="text-blue-600 text-sm">Senior Editor</p>
+                    </div>
+                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Senior Editor', 'To be announced', 'Senior Editor', '', '')">
+                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i class="fas fa-user text-2xl text-blue-600"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
+                        <p class="text-blue-600 text-sm">Senior Editor</p>
+                    </div>
+                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Senior Editor', 'To be announced', 'Senior Editor', '', '')">
+                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i class="fas fa-user text-2xl text-blue-600"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
+                        <p class="text-blue-600 text-sm">Senior Editor</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Consulting & Industry Experts -->
+            <!-- Associate Editors -->
             <div class="mb-12">
-                <h3 class="text-2xl font-bold text-blue-900 mb-6">Consulting & Industry Experts</h3>
-                <p class="text-gray-700 mb-6">ESG consultants, carbon accountants, renewable energy professionals, and corporate sustainability strategists provide practical industry insights, mentor students & early researchers, and build real-world sustainable solutions.</p>
+                <h3 class="text-2xl font-bold text-blue-900 mb-6">Associate Editors</h3>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-white rounded-lg shadow-lg p-6 text-center">
-                        <div class="w-20 h-20 bg-purple-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-purple-600"></i>
+                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Associate Editor', 'To be announced', 'Associate Editor', '', '')">
+                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i class="fas fa-user text-2xl text-blue-600"></i>
                         </div>
-                        <h4 class="font-bold text-lg mb-2">Dr. James Wilson</h4>
-                        <p class="text-purple-600 text-sm mb-2">ESG Consultant</p>
-                        <p class="text-gray-600 text-sm">Corporate Sustainability</p>
+                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
+                        <p class="text-blue-600 text-sm">Associate Editor</p>
                     </div>
-                    <div class="bg-white rounded-lg shadow-lg p-6 text-center">
-                        <div class="w-20 h-20 bg-purple-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-purple-600"></i>
+                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Associate Editor', 'To be announced', 'Associate Editor', '', '')">
+                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i class="fas fa-user text-2xl text-blue-600"></i>
                         </div>
-                        <h4 class="font-bold text-lg mb-2">Dr. Lisa Thompson</h4>
-                        <p class="text-purple-600 text-sm mb-2">Carbon Accountant</p>
-                        <p class="text-gray-600 text-sm">Renewable Energy</p>
+                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
+                        <p class="text-blue-600 text-sm">Associate Editor</p>
                     </div>
-                    <div class="bg-white rounded-lg shadow-lg p-6 text-center">
-                        <div class="w-20 h-20 bg-purple-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-purple-600"></i>
+                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Associate Editor', 'To be announced', 'Associate Editor', '', '')">
+                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i class="fas fa-user text-2xl text-blue-600"></i>
                         </div>
-                        <h4 class="font-bold text-lg mb-2">Prof. Robert Kim</h4>
-                        <p class="text-purple-600 text-sm mb-2">Sustainability Strategist</p>
-                        <p class="text-gray-600 text-sm">Industry Expert</p>
+                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
+                        <p class="text-blue-600 text-sm">Associate Editor</p>
+                    </div>
+                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Associate Editor', 'To be announced', 'Associate Editor', '', '')">
+                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i class="fas fa-user text-2xl text-blue-600"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
+                        <p class="text-blue-600 text-sm">Associate Editor</p>
+                    </div>
+                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Associate Editor', 'To be announced', 'Associate Editor', '', '')">
+                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i class="fas fa-user text-2xl text-blue-600"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
+                        <p class="text-blue-600 text-sm">Associate Editor</p>
+                    </div>
+                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Associate Editor', 'To be announced', 'Associate Editor', '', '')">
+                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i class="fas fa-user text-2xl text-blue-600"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
+                        <p class="text-blue-600 text-sm">Associate Editor</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Management & Operations Team -->
+            <!-- Editorial Advisory Board -->
             <div>
-                <h3 class="text-2xl font-bold text-blue-900 mb-6">Management & Operations Team</h3>
-                <p class="text-gray-700 mb-6">Technical coordinators, full-stack developers, editors & content managers, and outreach & partnership coordinators manage the website, journal workflows, student training programs, and conference organization.</p>
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-white rounded-lg shadow-lg p-6 text-center">
-                        <div class="w-20 h-20 bg-orange-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-orange-600"></i>
+                <h3 class="text-2xl font-bold text-blue-900 mb-6">Editorial Advisory Board</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Editorial Advisory Board', 'Nisar Ahmed', 'Editorial Advisory Board', 'Sultan Qaboos University', 'Oman')">
+                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i class="fas fa-user text-2xl text-blue-600"></i>
                         </div>
-                        <h4 class="font-bold text-lg mb-2">Technical Team</h4>
-                        <p class="text-gray-600 text-sm">Website & Systems</p>
-                    </div>
-                    <div class="bg-white rounded-lg shadow-lg p-6 text-center">
-                        <div class="w-20 h-20 bg-orange-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-orange-600"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2">Editorial Team</h4>
-                        <p class="text-gray-600 text-sm">Content Management</p>
-                    </div>
-                    <div class="bg-white rounded-lg shadow-lg p-6 text-center">
-                        <div class="w-20 h-20 bg-orange-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-orange-600"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2">Training Coordinators</h4>
-                        <p class="text-gray-600 text-sm">Program Management</p>
-                    </div>
-                    <div class="bg-white rounded-lg shadow-lg p-6 text-center">
-                        <div class="w-20 h-20 bg-orange-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-orange-600"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2">Partnership Team</h4>
-                        <p class="text-gray-600 text-sm">Outreach & Events</p>
+                        <h4 class="font-bold text-lg mb-2 text-slate-900">Nisar Ahmed</h4>
+                        <p class="text-blue-600 text-sm mb-2">Sultan Qaboos University</p>
+                        <p class="text-gray-600 text-sm">Oman</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Member Info Modal -->
+    <div id="memberModal" class="member-modal" onclick="closeMemberModal(event)">
+        <div class="member-modal-content" onclick="event.stopPropagation()">
+            <button class="member-modal-close" onclick="closeMemberModal(event)">&times;</button>
+            <div class="text-center mb-6">
+                <div class="w-24 h-24 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <i class="fas fa-user text-3xl text-blue-600" id="modalIcon"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2" id="modalName">Member Name</h3>
+                <p class="text-blue-600 text-lg mb-1" id="modalRole">Role</p>
+                <p class="text-gray-600 text-sm" id="modalAffiliation">Affiliation</p>
+            </div>
+            <div class="border-t border-gray-200 pt-6">
+                <h4 class="font-semibold text-slate-900 mb-4">Personal Information</h4>
+                <div id="modalInfo" class="text-gray-600">
+                    <p class="mb-2">Personal information will be announced soon.</p>
+                    </div>
+                </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="bg-blue-900 text-white py-8">
@@ -372,6 +458,56 @@
 
         document.querySelectorAll('.fade-in-up').forEach(el => {
             observer.observe(el);
+        });
+
+        // Open member modal with information
+        function openMemberModal(role, name, title, affiliation, location) {
+            const modal = document.getElementById('memberModal');
+            const modalName = document.getElementById('modalName');
+            const modalRole = document.getElementById('modalRole');
+            const modalAffiliation = document.getElementById('modalAffiliation');
+            const modalIcon = document.getElementById('modalIcon');
+            
+            // Set icon based on role
+            if (role === 'Editor-in-Chief') {
+                modalIcon.className = 'fas fa-user-tie text-3xl text-blue-600';
+            } else {
+                modalIcon.className = 'fas fa-user text-3xl text-blue-600';
+            }
+            
+            // Update modal content
+            modalName.textContent = name;
+            modalRole.textContent = title;
+            
+            let affiliationText = '';
+            if (affiliation) {
+                affiliationText = affiliation;
+            }
+            if (location) {
+                affiliationText += affiliationText ? `, ${location}` : location;
+            }
+            modalAffiliation.textContent = affiliationText || 'Affiliation to be announced';
+            
+            // Show modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close member modal
+        function closeMemberModal(event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            const modal = document.getElementById('memberModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeMemberModal();
+            }
         });
     </script>
 </body>
