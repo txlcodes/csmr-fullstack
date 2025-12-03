@@ -97,6 +97,31 @@
         .member-modal-close:hover {
             color: #111827;
         }
+        
+        /* Scroll Reveal Animations - Matching Homepage */
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease-out;
+        }
+        .fade-in-left.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease-out;
+        }
+        .fade-in-right.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -181,168 +206,287 @@
         </div>
     </nav>
 
-    <!-- About Us Section -->
-    <section class="gradient-bg py-20 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h1 class="text-5xl md:text-6xl font-black mb-6">About Us</h1>
-                <div class="w-24 h-1 bg-white mx-auto rounded-full"></div>
+    <!-- Modern Split Hero Section -->
+    <div class="relative gradient-bg min-h-screen flex items-center pt-20">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-900 to-blue-950 opacity-90"></div>
+            <img 
+                src="https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2574&auto=format&fit=crop" 
+                alt="Abstract" 
+                class="w-full h-full object-cover opacity-20 mix-blend-overlay"
+            />
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full grid lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-8">
+                <div class="fade-in-right">
+                    <div class="flex items-center space-x-4 mb-8">
+                        <div class="h-px w-12 bg-blue-400"></div>
+                        <span class="text-blue-400 font-medium tracking-widest uppercase text-sm">About CSMR</span>
+                    </div>
+                </div>
+                
+                <div class="fade-in-up">
+                    <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif font-medium text-white mb-8 leading-[0.9] tracking-tight">
+                        Research. <br/> 
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-white italic">Certification.</span> <br/>
+                        Global Impact.
+                    </h1>
+                </div>
+                
+            <div class="fade-in-up">
+                    <p class="text-xl text-blue-100 max-w-2xl leading-relaxed font-light border-l border-blue-300 pl-6">
+                        More than a publisher. We are a global ecosystem for sustainability—bridging the gap between academic rigor and corporate action through ESG consulting, professional training, and world-class conferences.
+                    </p>
+                </div>
+            </div>
+
+            <div class="lg:col-span-4 hidden lg:block">
+                <div class="fade-in-left relative">
+                    <div class="aspect-[3/4] rounded-sm overflow-hidden relative grayscale hover:grayscale-0 transition-all duration-700 ease-in-out">
+                        <img 
+                            src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop" 
+                            alt="Team collaboration" 
+                            class="object-cover w-full h-full"
+                        />
+                        <div class="absolute inset-0 bg-blue-900/20 mix-blend-multiply"></div>
+                    </div>
+                    <!-- Floating Badge -->
+                    <div class="absolute -bottom-6 -left-6 bg-white p-6 shadow-xl max-w-[200px]">
+                        <p class="font-serif text-2xl text-blue-900 leading-none mb-1">ESD</p>
+                        <p class="text-xs text-gray-600 uppercase tracking-wide">Education for Sustainable Development</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manifesto Strip Section -->
+    <section class="bg-white py-24 md:py-32 border-b border-gray-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="fade-in-up">
+                <h2 class="text-4xl md:text-5xl font-serif text-blue-900 leading-tight mb-12">
+                    "Our mission is to drive the global <span class="text-blue-600 italic">ESG agenda</span> by publishing world-class research, certifying the next generation of leaders, and consulting for sustainable growth."
+                </h2>
+            </div>
+            <div class="fade-in-up">
+                <div class="flex flex-col md:flex-row justify-center items-center space-y-6 md:space-y-0 md:space-x-16 mt-16">
+                    <div class="text-center md:text-left">
+                        <div class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-1">Publications</div>
+                        <div class="text-4xl font-serif text-blue-900">1.2k+</div>
+                    </div>
+                    <div class="h-12 w-px bg-gray-300 hidden md:block"></div>
+                    <div class="text-center md:text-left">
+                        <div class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-1">Certified Pros</div>
+                        <div class="text-4xl font-serif text-blue-900">5,000+</div>
+                    </div>
+                    <div class="h-12 w-px bg-gray-300 hidden md:block"></div>
+                    <div class="text-center md:text-left">
+                        <div class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-1">Corporate Partners</div>
+                        <div class="text-4xl font-serif text-blue-900">150+</div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Mission & Vision Section -->
-    <section class="py-16 bg-white">
+    <!-- Sticky Differentiation Section -->
+    <section class="bg-gray-50 py-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="prose max-w-none">
-                <div class="bg-blue-50 rounded-lg p-8 mb-8">
-                    <p class="text-lg text-gray-700 leading-relaxed mb-6">
-                        The <strong>Centre for Sustainability & Management Research (CSMR)</strong> is an interdisciplinary platform dedicated to advancing global sustainability through scientific research, professional training, and impactful knowledge dissemination.
-                    </p>
-                    
-                    <p class="text-lg text-gray-700 leading-relaxed mb-6">
-                        Our mission is to bridge the gap between academia, industry, and policy-making by enabling young researchers, innovators, and sustainability professionals to access high-quality knowledge resources across environmental science, climate technology, and sustainable management.
-                    </p>
-                    
-                    <p class="text-lg text-gray-700 leading-relaxed">
-                        We strive to empower society with evidence-based solutions, foster innovation, and support global climate goals.
-                    </p>
+            <div class="grid lg:grid-cols-2 gap-16">
+                <!-- Left: Sticky Header -->
+                <div class="relative">
+                    <div class="lg:sticky lg:top-32">
+                        <div class="fade-in-up">
+                            <div class="w-16 h-1 bg-blue-600 mb-8"></div>
+                            <h2 class="text-4xl md:text-5xl font-serif font-bold text-blue-900 mb-6">
+                                Comprehensive <br/> Expertise.
+                            </h2>
+                            <p class="text-lg text-gray-700 mb-8 leading-relaxed max-w-md">
+                                We integrate academic excellence with practical application. From research journals to boardroom strategy, CSMR is your partner in sustainability.
+                            </p>
+                            <a href="index.html#resources" class="group flex items-center text-blue-600 font-semibold tracking-wide uppercase text-sm hover:text-blue-700 transition-colors mb-10">
+                                View Our Offerings <i class="fas fa-arrow-right ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Scrolling Content -->
+                <div class="space-y-8">
+                    <div class="fade-in-right card-hover">
+                        <div class="bg-white p-8 md:p-10 rounded-xl shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 group relative overflow-hidden">
+                            <div class="absolute -right-4 -bottom-8 text-9xl font-serif font-black text-gray-50 opacity-50 group-hover:opacity-100 group-hover:text-gray-100 transition-all duration-500 select-none z-0">01</div>
+                            <div class="relative z-10">
+                                <div class="w-14 h-14 rounded-xl bg-blue-600 text-white flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                    <i class="fas fa-layer-group text-2xl"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-blue-900 mb-3 font-serif group-hover:text-blue-700 transition-colors">Premier Publishing</h3>
+                                <p class="text-gray-600 leading-relaxed max-w-sm">
+                                    Facilitating global dialogue on environmental and social governance through high-impact, open-access journals.
+                                </p>
+                                <div class="mt-6 w-full h-0.5 bg-gray-100 relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-blue-600 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="fade-in-right card-hover">
+                        <div class="bg-white p-8 md:p-10 rounded-xl shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 group relative overflow-hidden">
+                            <div class="absolute -right-4 -bottom-8 text-9xl font-serif font-black text-gray-50 opacity-50 group-hover:opacity-100 group-hover:text-gray-100 transition-all duration-500 select-none z-0">02</div>
+                            <div class="relative z-10">
+                                <div class="w-14 h-14 rounded-xl bg-blue-500 text-white flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                    <i class="fas fa-graduation-cap text-2xl"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-blue-900 mb-3 font-serif group-hover:text-blue-700 transition-colors">Professional Certification</h3>
+                                <p class="text-gray-600 leading-relaxed max-w-sm">
+                                    Industry-recognized credentials in ESG, equipping professionals with the skills to lead the green transition.
+                                </p>
+                                <div class="mt-6 w-full h-0.5 bg-gray-100 relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-blue-500 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="fade-in-right card-hover">
+                        <div class="bg-white p-8 md:p-10 rounded-xl shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 group relative overflow-hidden">
+                            <div class="absolute -right-4 -bottom-8 text-9xl font-serif font-black text-gray-50 opacity-50 group-hover:opacity-100 group-hover:text-gray-100 transition-all duration-500 select-none z-0">03</div>
+                            <div class="relative z-10">
+                                <div class="w-14 h-14 rounded-xl bg-blue-700 text-white flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                    <i class="fas fa-briefcase text-2xl"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-blue-900 mb-3 font-serif group-hover:text-blue-700 transition-colors">Strategic Consulting</h3>
+                                <p class="text-gray-600 leading-relaxed max-w-sm">
+                                    Translating academic insights into actionable corporate strategies for net-zero goals and regulatory compliance.
+                                </p>
+                                <div class="mt-6 w-full h-0.5 bg-gray-100 relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-blue-700 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="fade-in-right card-hover">
+                        <div class="bg-white p-8 md:p-10 rounded-xl shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 group relative overflow-hidden">
+                            <div class="absolute -right-4 -bottom-8 text-9xl font-serif font-black text-gray-50 opacity-50 group-hover:opacity-100 group-hover:text-gray-100 transition-all duration-500 select-none z-0">04</div>
+                            <div class="relative z-10">
+                                <div class="w-14 h-14 rounded-xl bg-blue-900 text-white flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                    <i class="fas fa-microphone text-2xl"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-blue-900 mb-3 font-serif group-hover:text-blue-700 transition-colors">Global Summits</h3>
+                                <p class="text-gray-600 leading-relaxed max-w-sm">
+                                    Curating high-impact conferences that bring together policymakers and industry leaders to foster innovation.
+                                </p>
+                                <div class="mt-6 w-full h-0.5 bg-gray-100 relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-blue-900 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Editorial Board Section -->
-    <section class="py-16 bg-gray-50">
+    <!-- Publish With Us Section -->
+    <section class="py-24 bg-white border-y border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">Editorial Board</h2>
-                <div class="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
-            </div>
-
-            <!-- Editor-in-Chief -->
-            <div class="mb-12">
-                <h3 class="text-2xl font-bold text-blue-900 mb-6">Editor-in-Chief</h3>
-                <div class="grid md:grid-cols-1 lg:grid-cols-1 gap-6 max-w-md mx-auto">
-                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Editor-in-Chief', 'To be announced', 'Editor-in-Chief', '', '')">
-                        <div class="icon-container w-24 h-24 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user-tie text-3xl text-blue-600"></i>
+            <div class="flex flex-col md:flex-row items-center justify-between gap-12">
+                <div class="md:w-1/2">
+                    <div class="fade-in-up">
+                        <div class="inline-flex items-center space-x-2 bg-blue-50 px-4 py-2 rounded-full text-blue-700 text-sm font-semibold mb-6">
+                            <i class="fas fa-file-alt w-4 h-4"></i>
+                            <span>Call for Papers</span>
                         </div>
-                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
-                        <p class="text-blue-600 text-sm">Editor-in-Chief</p>
+                        <h2 class="text-3xl md:text-5xl font-serif font-bold text-blue-900 mb-6 leading-tight">
+                            Publish your research <br/> with impact.
+                        </h2>
+                        <p class="text-lg text-gray-700 mb-8 leading-relaxed">
+                            CSMR invites researchers, scholars, and practitioners to contribute high-quality work to our peer-reviewed journals. We provide a credible, academically rigorous platform for publishing research across sustainability, ESG, climate risk, responsible management, and related interdisciplinary domains.
+                        </p>
+                        <a href="submit.html" class="inline-flex items-center text-blue-900 font-bold border-b-2 border-blue-900 pb-1 hover:text-blue-600 hover:border-blue-600 transition-colors">
+                            View Submission Guidelines <i class="fas fa-arrow-right ml-2 w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 w-full">
+                    <div class="fade-in-left">
+                        <div class="gradient-bg p-8 md:p-12 text-white rounded-2xl relative overflow-hidden">
+                            <i class="fas fa-globe absolute -right-10 -top-10 text-6xl text-blue-800 opacity-30"></i>
+                            <div class="relative z-10">
+                                <h3 class="text-2xl font-bold mb-6 font-serif">Why publish with CSMR?</h3>
+                                <ul class="space-y-4">
+                                    <li class="flex items-center space-x-3">
+                                        <div class="w-2 h-2 rounded-full bg-blue-400"></div>
+                                        <span class="text-blue-100">Rigorous Double-Blind Peer Review</span>
+                                    </li>
+                                    <li class="flex items-center space-x-3">
+                                        <div class="w-2 h-2 rounded-full bg-blue-400"></div>
+                                        <span class="text-blue-100">Global Open Access Reach</span>
+                                    </li>
+                                    <li class="flex items-center space-x-3">
+                                        <div class="w-2 h-2 rounded-full bg-blue-400"></div>
+                                        <span class="text-blue-100">Indexed in Major Databases</span>
+                                    </li>
+                                    <li class="flex items-center space-x-3">
+                                        <div class="w-2 h-2 rounded-full bg-blue-400"></div>
+                                        <span class="text-blue-100">Fast-Track Review Options</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- Senior Editors -->
-            <div class="mb-12">
-                <h3 class="text-2xl font-bold text-blue-900 mb-6">Senior Editors</h3>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Senior Editor', 'To be announced', 'Senior Editor', '', '')">
-                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-blue-600"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
-                        <p class="text-blue-600 text-sm">Senior Editor</p>
+    <!-- Detailed Certification CTA Section -->
+    <section class="bg-gray-50 py-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="fade-in-up">
+                <div class="bg-white rounded-3xl p-8 md:p-16 shadow-2xl border border-gray-100 flex flex-col lg:flex-row gap-12 lg:gap-24 items-center">
+                    <div class="lg:w-1/2">
+                        <h2 class="text-3xl md:text-5xl font-serif font-bold text-blue-900 mb-6 leading-tight">
+                            Become a Certified <span class="text-blue-600">Sustainability</span> Professional
+                        </h2>
+                        <p class="text-lg text-gray-700 mb-8">
+                            Build the expertise required to lead sustainability transitions in organisations. Our flagship Certificate Programme in Sustainability & ESG Practices equips professionals, students, and corporate leaders with world-class skills.
+                        </p>
+                        <a href="certification.html" class="px-8 py-4 bg-blue-600 text-white font-bold rounded-xl shadow-lg hover:bg-blue-700 transition-colors flex items-center justify-center w-full sm:w-auto">
+                            Enrol Now & Accelerate Your Career
+                            <i class="fas fa-arrow-right ml-2 w-5 h-5"></i>
+                        </a>
                     </div>
-                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Senior Editor', 'To be announced', 'Senior Editor', '', '')">
-                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-blue-600"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
-                        <p class="text-blue-600 text-sm">Senior Editor</p>
-                    </div>
-                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Senior Editor', 'To be announced', 'Senior Editor', '', '')">
-                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-blue-600"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
-                        <p class="text-blue-600 text-sm">Senior Editor</p>
-                    </div>
-                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Senior Editor', 'To be announced', 'Senior Editor', '', '')">
-                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-blue-600"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
-                        <p class="text-blue-600 text-sm">Senior Editor</p>
-                    </div>
-                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Senior Editor', 'To be announced', 'Senior Editor', '', '')">
-                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-blue-600"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
-                        <p class="text-blue-600 text-sm">Senior Editor</p>
-                    </div>
-                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Senior Editor', 'To be announced', 'Senior Editor', '', '')">
-                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-blue-600"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
-                        <p class="text-blue-600 text-sm">Senior Editor</p>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Associate Editors -->
-            <div class="mb-12">
-                <h3 class="text-2xl font-bold text-blue-900 mb-6">Associate Editors</h3>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Associate Editor', 'To be announced', 'Associate Editor', '', '')">
-                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-blue-600"></i>
+                    <div class="lg:w-1/2 w-full">
+                        <div class="gradient-bg rounded-2xl p-8 text-white relative">
+                            <div class="absolute top-0 right-0 w-32 h-32 bg-blue-400 rounded-bl-full opacity-20"></div>
+                            <h3 class="text-xl font-bold mb-6 flex items-center">
+                                <i class="fas fa-graduation-cap w-6 h-6 mr-3 text-blue-300"></i>
+                                Program Outcomes
+                            </h3>
+                            <ul class="space-y-6">
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle w-5 h-5 mr-3 mt-1 text-blue-300 flex-shrink-0"></i>
+                                    <span class="text-blue-100 leading-relaxed">Understand emerging global frameworks (IFRS S1/S2, BRSR, GRI).</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle w-5 h-5 mr-3 mt-1 text-blue-300 flex-shrink-0"></i>
+                                    <span class="text-blue-100 leading-relaxed">Manage ESG reporting and climate disclosures.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle w-5 h-5 mr-3 mt-1 text-blue-300 flex-shrink-0"></i>
+                                    <span class="text-blue-100 leading-relaxed">Implement green innovation and responsible management practices.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle w-5 h-5 mr-3 mt-1 text-blue-300 flex-shrink-0"></i>
+                                    <span class="text-blue-100 leading-relaxed">Build sustainability strategies aligned with SDGs and Net-Zero goals.</span>
+                                </li>
+                            </ul>
                         </div>
-                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
-                        <p class="text-blue-600 text-sm">Associate Editor</p>
-                    </div>
-                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Associate Editor', 'To be announced', 'Associate Editor', '', '')">
-                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-blue-600"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
-                        <p class="text-blue-600 text-sm">Associate Editor</p>
-                    </div>
-                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Associate Editor', 'To be announced', 'Associate Editor', '', '')">
-                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-blue-600"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
-                        <p class="text-blue-600 text-sm">Associate Editor</p>
-                    </div>
-                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Associate Editor', 'To be announced', 'Associate Editor', '', '')">
-                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-blue-600"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
-                        <p class="text-blue-600 text-sm">Associate Editor</p>
-                    </div>
-                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Associate Editor', 'To be announced', 'Associate Editor', '', '')">
-                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-blue-600"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
-                        <p class="text-blue-600 text-sm">Associate Editor</p>
-                    </div>
-                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Associate Editor', 'To be announced', 'Associate Editor', '', '')">
-                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-blue-600"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2 text-slate-900">To be announced</h4>
-                        <p class="text-blue-600 text-sm">Associate Editor</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Editorial Advisory Board -->
-            <div>
-                <h3 class="text-2xl font-bold text-blue-900 mb-6">Editorial Advisory Board</h3>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="editorial-card bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 p-6 text-center" onclick="openMemberModal('Editorial Advisory Board', 'Nisar Ahmed', 'Editorial Advisory Board', 'Sultan Qaboos University', 'Oman')">
-                        <div class="icon-container w-20 h-20 bg-blue-50 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <i class="fas fa-user text-2xl text-blue-600"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-2 text-slate-900">Nisar Ahmed</h4>
-                        <p class="text-blue-600 text-sm mb-2">Sultan Qaboos University</p>
-                        <p class="text-gray-600 text-sm">Oman</p>
                     </div>
                 </div>
             </div>
@@ -508,6 +652,23 @@
             if (event.key === 'Escape') {
                 closeMemberModal();
             }
+        });
+
+        // Scroll Animation Observer - Matching Homepage
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        // Observe all animated elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .card-hover');
+            animatedElements.forEach(element => {
+                scrollObserver.observe(element);
+            });
         });
     </script>
 </body>
