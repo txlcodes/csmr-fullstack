@@ -1974,6 +1974,9 @@
             const form = document.getElementById('conferenceForm');
             const formData = new FormData(form);
             
+            // Get admin token
+            const adminToken = localStorage.getItem('adminToken') || 'admin-token-123';
+            
             const conferenceData = {
                 title: document.getElementById('confTitle').value,
                 description: document.getElementById('confDescription').value,
@@ -1986,7 +1989,8 @@
                 tags: document.getElementById('confTags').value.split(',').map(t => t.trim()).filter(t => t),
                 topics: document.getElementById('confTopics').value.split(',').map(t => t.trim()).filter(t => t),
                 deadline: document.getElementById('confDeadline').value,
-                icon: document.getElementById('confIcon').value
+                icon: document.getElementById('confIcon').value,
+                adminToken: adminToken
             };
 
             try {
@@ -2022,8 +2026,11 @@
                 return;
             }
 
+            // Get admin token
+            const adminToken = localStorage.getItem('adminToken') || 'admin-token-123';
+
             try {
-                const response = await fetch(`/api/conferences/${id}`, {
+                const response = await fetch(`/api/conferences/${id}?adminToken=${adminToken}`, {
                     method: 'DELETE'
                 });
                 

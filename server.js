@@ -234,6 +234,33 @@ const db = new sqlite3.Database('users.db', (err) => {
                             (3, 'MS-2024-003', 'Climate Change Adaptation Strategies for Business', '2024-01-25', '2024-02-25', 'completed', 'Dr. Anjali Patel, Dr. Ravi Gupta', 'A comprehensive study on business adaptation strategies for climate change impacts...')`);
                     }
                 });
+                
+                // Create conferences table
+                db.run(`CREATE TABLE IF NOT EXISTS conferences (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    title TEXT NOT NULL,
+                    description TEXT,
+                    location TEXT,
+                    start_date DATE,
+                    end_date DATE,
+                    category TEXT NOT NULL,
+                    status TEXT DEFAULT 'active',
+                    registration_link TEXT,
+                    image_url TEXT,
+                    tags TEXT,
+                    topics TEXT,
+                    deadline DATE,
+                    icon TEXT DEFAULT 'fa-chalkboard-teacher',
+                    year INTEGER,
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                )`, (err) => {
+                    if (err) {
+                        console.error('Error creating conferences table:', err.message);
+                    } else {
+                        console.log('Conferences table created/verified');
+                    }
+                });
             }
         });
     }
@@ -2196,6 +2223,170 @@ app.post('/api/test-email', async (req, res) => {
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// ========== CONFERENCES API ENDPOINTS ==========
+
+// GET /api/conferences - Get all conferences (with optional filters)
+app.get('/api/conferences', (req, res) => {
+    const { category, status } = req.query;
+    let query = 'SELECT * FROM conferences WHERE 1=1';
+    const params = [];
+    
+    if (category) {
+        query += ' AND category = ?';
+        params.push(category);
+    }
+    
+    if (status) {
+        query += ' AND status = ?';
+        params.push(status);
+    }
+    
+    query += ' ORDER BY created_at DESC';
+    
+    db.all(query, params, (err, rows) => {
+        if (err) {
+            console.error('Error fetching conferences:', err);
+            return res.status(500).json({ success: false, message: 'Database error' });
+        }
+        
+        // Parse JSON fields
+        const conferences = rows.map(row => ({
+            ...row,
+            tags: row.tags ? (row.tags.startsWith('[') ? JSON.parse(row.tags) : row.tags.split(',').map(t => t.trim())) : [],
+            topics: row.topics ? (row.topics.startsWith('[') ? JSON.parse(row.topics) : row.topics.split(',').map(t => t.trim())) : []
+        }));
+        
+        res.json(conferences);
+    });
+});
+
+// GET /api/conferences/:id - Get single conference
+app.get('/api/conferences/:id', (req, res) => {
+    const { id } = req.params;
+    
+    db.get('SELECT * FROM conferences WHERE id = ?', [id], (err, row) => {
+        if (err) {
+            console.error('Error fetching conference:', err);
+            return res.status(500).json({ success: false, message: 'Database error' });
+        }
+        
+        if (!row) {
+            return res.status(404).json({ success: false, message: 'Conference not found' });
+        }
+        
+        // Parse JSON fields
+        const conference = {
+            ...row,
+            tags: row.tags ? (row.tags.startsWith('[') ? JSON.parse(row.tags) : row.tags.split(',').map(t => t.trim())) : [],
+            topics: row.topics ? (row.topics.startsWith('[') ? JSON.parse(row.topics) : row.topics.split(',').map(t => t.trim())) : []
+        };
+        
+        res.json(conference);
+    });
+});
+
+// POST /api/conferences - Create new conference (Admin only)
+app.post('/api/conferences', (req, res) => {
+    const adminToken = req.headers.authorization?.replace('Bearer ', '') || req.body.adminToken;
+    
+    // Simple admin check (you can enhance this with proper JWT verification)
+    if (!adminToken || adminToken !== 'admin-token-123') {
+        return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+    
+    const { title, description, location, start_date, end_date, category, status, registration_link, tags, topics, deadline, icon } = req.body;
+    
+    // Validation
+    if (!title || !category) {
+        return res.status(400).json({ success: false, message: 'Title and category are required' });
+    }
+    
+    // Extract year from start_date if provided
+    const year = start_date ? new Date(start_date).getFullYear() : null;
+    
+    // Convert arrays to JSON strings
+    const tagsJson = tags && Array.isArray(tags) ? JSON.stringify(tags) : (tags || null);
+    const topicsJson = topics && Array.isArray(topics) ? JSON.stringify(topics) : (topics || null);
+    
+    db.run(
+        `INSERT INTO conferences (title, description, location, start_date, end_date, category, status, registration_link, tags, topics, deadline, icon, year)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [title, description || null, location || null, start_date || null, end_date || null, category, status || 'active', registration_link || null, tagsJson, topicsJson, deadline || null, icon || 'fa-chalkboard-teacher', year],
+        function(err) {
+            if (err) {
+                console.error('Error creating conference:', err);
+                return res.status(500).json({ success: false, message: 'Database error' });
+            }
+            
+            res.json({ success: true, id: this.lastID, message: 'Conference created successfully' });
+        }
+    );
+});
+
+// PUT /api/conferences/:id - Update conference (Admin only)
+app.put('/api/conferences/:id', (req, res) => {
+    const adminToken = req.headers.authorization?.replace('Bearer ', '') || req.body.adminToken;
+    
+    // Simple admin check
+    if (!adminToken || adminToken !== 'admin-token-123') {
+        return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+    
+    const { id } = req.params;
+    const { title, description, location, start_date, end_date, category, status, registration_link, tags, topics, deadline, icon } = req.body;
+    
+    // Extract year from start_date if provided
+    const year = start_date ? new Date(start_date).getFullYear() : null;
+    
+    // Convert arrays to JSON strings
+    const tagsJson = tags && Array.isArray(tags) ? JSON.stringify(tags) : (tags || null);
+    const topicsJson = topics && Array.isArray(topics) ? JSON.stringify(topics) : (topics || null);
+    
+    db.run(
+        `UPDATE conferences 
+         SET title = ?, description = ?, location = ?, start_date = ?, end_date = ?, category = ?, status = ?, registration_link = ?, tags = ?, topics = ?, deadline = ?, icon = ?, year = ?, updated_at = CURRENT_TIMESTAMP
+         WHERE id = ?`,
+        [title, description || null, location || null, start_date || null, end_date || null, category, status || 'active', registration_link || null, tagsJson, topicsJson, deadline || null, icon || 'fa-chalkboard-teacher', year, id],
+        function(err) {
+            if (err) {
+                console.error('Error updating conference:', err);
+                return res.status(500).json({ success: false, message: 'Database error' });
+            }
+            
+            if (this.changes === 0) {
+                return res.status(404).json({ success: false, message: 'Conference not found' });
+            }
+            
+            res.json({ success: true, message: 'Conference updated successfully' });
+        }
+    );
+});
+
+// DELETE /api/conferences/:id - Delete conference (Admin only)
+app.delete('/api/conferences/:id', (req, res) => {
+    const adminToken = req.headers.authorization?.replace('Bearer ', '') || req.query.adminToken;
+    
+    // Simple admin check
+    if (!adminToken || adminToken !== 'admin-token-123') {
+        return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+    
+    const { id } = req.params;
+    
+    db.run('DELETE FROM conferences WHERE id = ?', [id], function(err) {
+        if (err) {
+            console.error('Error deleting conference:', err);
+            return res.status(500).json({ success: false, message: 'Database error' });
+        }
+        
+        if (this.changes === 0) {
+            return res.status(404).json({ success: false, message: 'Conference not found' });
+        }
+        
+        res.json({ success: true, message: 'Conference deleted successfully' });
+    });
 });
 
 // Admin panel route - redirect to admin login
