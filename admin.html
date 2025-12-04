@@ -99,6 +99,10 @@
                     <i class="fas fa-check-circle w-5"></i>
                     <span class="sidebar-text ml-3 font-medium">Decisions</span>
                 </a>
+                <a href="#" onclick="showPage('conferences')" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
+                    <i class="fas fa-calendar-alt w-5"></i>
+                    <span class="sidebar-text ml-3 font-medium">Conferences</span>
+                </a>
                 <a href="#" onclick="showPage('analytics')" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
                     <i class="fas fa-chart-bar w-5"></i>
                     <span class="sidebar-text ml-3 font-medium">Analytics & Reports</span>
@@ -526,6 +530,50 @@
                 </div>
             </div>
 
+            <!-- Conferences Management Page -->
+            <div id="conferences" class="page">
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                        <h3 class="text-lg font-semibold text-gray-900">Conferences Management</h3>
+                        <button onclick="showAddConferenceModal()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center">
+                            <i class="fas fa-plus mr-2"></i>Add New Conference
+                        </button>
+                    </div>
+
+                    <!-- Filter Tabs -->
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <div class="flex space-x-2">
+                            <button onclick="filterConferences('all')" class="conference-filter-btn px-4 py-2 rounded-lg text-sm font-medium bg-blue-600 text-white" data-filter="all">
+                                All Conferences
+                            </button>
+                            <button onclick="filterConferences('upcoming')" class="conference-filter-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-blue-50" data-filter="upcoming">
+                                Upcoming
+                            </button>
+                            <button onclick="filterConferences('proceedings')" class="conference-filter-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-blue-50" data-filter="proceedings">
+                                Proceedings
+                            </button>
+                            <button onclick="filterConferences('cfp')" class="conference-filter-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-blue-50" data-filter="cfp">
+                                Call for Papers
+                            </button>
+                            <button onclick="filterConferences('workshops')" class="conference-filter-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-blue-50" data-filter="workshops">
+                                Workshops
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Conferences List -->
+                    <div class="p-6">
+                        <div id="conferencesList" class="space-y-4">
+                            <!-- Conferences will be loaded here -->
+                            <div class="text-center py-12 text-gray-500">
+                                <i class="fas fa-calendar-alt text-4xl mb-4"></i>
+                                <p>No conferences found. Click "Add New Conference" to get started.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Analytics Page -->
             <div id="analytics" class="page">
                 <div class="space-y-6">
@@ -630,6 +678,108 @@
                         </button>
                         <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
                             Add Editor
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Conference Modal -->
+    <div id="addConferenceModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+                <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                    <h3 id="conferenceModalTitle" class="text-lg font-semibold text-gray-900">Add New Conference</h3>
+                    <button onclick="hideConferenceModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <form id="conferenceForm" onsubmit="event.preventDefault(); saveConference();" class="p-6 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Title *</label>
+                            <input type="text" id="confTitle" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                            <textarea id="confDescription" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                            <input type="text" id="confLocation" placeholder="e.g., New Delhi, India or Online" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Category *</label>
+                            <select id="confCategory" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="upcoming">Upcoming Conferences</option>
+                                <option value="proceedings">Conference Proceedings</option>
+                                <option value="cfp">Call for Papers</option>
+                                <option value="workshops">Workshops & Webinars</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                            <input type="date" id="confStartDate" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+                            <input type="date" id="confEndDate" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div id="cfpFields" style="display: none;">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Deadline</label>
+                            <input type="date" id="confDeadline" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div id="workshopFields" style="display: none;">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Icon (Font Awesome class)</label>
+                            <select id="confIcon" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="fa-chalkboard-teacher">Workshop</option>
+                                <option value="fa-video">Webinar</option>
+                                <option value="fa-users">Training</option>
+                                <option value="fa-globe">Global Event</option>
+                                <option value="fa-certificate">Certification</option>
+                                <option value="fa-book">Course</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Registration Link</label>
+                            <input type="url" id="confRegistrationLink" placeholder="https://..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                            <select id="confStatus" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </div>
+                        
+                        <div id="proceedingsFields" style="display: none;">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Tags (comma-separated)</label>
+                            <input type="text" id="confTags" placeholder="Climate Change, ESG, Sustainability" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        
+                        <div id="cfpTopicsFields" style="display: none;">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Topics (comma-separated)</label>
+                            <input type="text" id="confTopics" placeholder="Topic 1, Topic 2, Topic 3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+                        <button type="button" onclick="hideConferenceModal()" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            Save Conference
                         </button>
                     </div>
                 </form>
@@ -1694,6 +1844,248 @@
             }
         }
 
+        // ========== CONFERENCES MANAGEMENT ==========
+        let currentConferenceFilter = 'all';
+        let editingConferenceId = null;
+
+        // Load conferences
+        async function loadConferences(filter = 'all') {
+            try {
+                const url = filter === 'all' ? '/api/conferences' : `/api/conferences?category=${filter}&status=active`;
+                const response = await fetch(url);
+                const conferences = await response.json();
+                
+                renderConferences(conferences);
+            } catch (error) {
+                console.error('Error loading conferences:', error);
+                // Show empty state or sample data for now
+                renderConferences([]);
+            }
+        }
+
+        // Render conferences list
+        function renderConferences(conferences) {
+            const container = document.getElementById('conferencesList');
+            if (!container) return;
+
+            if (conferences.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-500">
+                        <i class="fas fa-calendar-alt text-4xl mb-4"></i>
+                        <p>No conferences found. Click "Add New Conference" to get started.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = conferences.map(conf => `
+                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-3 mb-2">
+                                <h4 class="text-lg font-semibold text-gray-900">${conf.title}</h4>
+                                <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-semibold rounded-full">${conf.category}</span>
+                                <span class="px-2 py-1 ${conf.status === 'active' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'} text-xs font-semibold rounded-full">${conf.status}</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-2">${conf.description || 'No description'}</p>
+                            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                ${conf.location ? `<span><i class="fas fa-map-marker-alt mr-1"></i>${conf.location}</span>` : ''}
+                                ${conf.start_date ? `<span><i class="fas fa-calendar mr-1"></i>${formatConferenceDate(conf.start_date, conf.end_date)}</span>` : ''}
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2 ml-4">
+                            <button onclick="editConference(${conf.id})" class="bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="deleteConference(${conf.id}, '${conf.title}')" class="bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700 transition-colors text-sm">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter conferences
+        function filterConferences(filter) {
+            currentConferenceFilter = filter;
+            
+            // Update button styles
+            document.querySelectorAll('.conference-filter-btn').forEach(btn => {
+                if (btn.dataset.filter === filter) {
+                    btn.classList.add('bg-blue-600', 'text-white');
+                    btn.classList.remove('text-gray-700', 'hover:bg-blue-50');
+                } else {
+                    btn.classList.remove('bg-blue-600', 'text-white');
+                    btn.classList.add('text-gray-700', 'hover:bg-blue-50');
+                }
+            });
+            
+            loadConferences(filter);
+        }
+
+        // Show add conference modal
+        function showAddConferenceModal() {
+            editingConferenceId = null;
+            document.getElementById('addConferenceModal').classList.remove('hidden');
+            document.getElementById('conferenceForm').reset();
+            document.getElementById('conferenceModalTitle').textContent = 'Add New Conference';
+        }
+
+        // Show edit conference modal
+        async function editConference(id) {
+            try {
+                const response = await fetch(`/api/conferences/${id}`);
+                const conference = await response.json();
+                
+                editingConferenceId = id;
+                document.getElementById('conferenceModalTitle').textContent = 'Edit Conference';
+                
+                // Fill form with conference data
+                document.getElementById('confTitle').value = conference.title || '';
+                document.getElementById('confDescription').value = conference.description || '';
+                document.getElementById('confLocation').value = conference.location || '';
+                document.getElementById('confStartDate').value = conference.start_date || '';
+                document.getElementById('confEndDate').value = conference.end_date || '';
+                document.getElementById('confCategory').value = conference.category || 'upcoming';
+                document.getElementById('confRegistrationLink').value = conference.registration_link || '';
+                document.getElementById('confStatus').value = conference.status || 'active';
+                document.getElementById('confTags').value = Array.isArray(conference.tags) ? conference.tags.join(', ') : (conference.tags || '');
+                document.getElementById('confTopics').value = Array.isArray(conference.topics) ? conference.topics.join(', ') : (conference.topics || '');
+                document.getElementById('confDeadline').value = conference.deadline || '';
+                document.getElementById('confIcon').value = conference.icon || 'fa-chalkboard-teacher';
+                
+                document.getElementById('addConferenceModal').classList.remove('hidden');
+            } catch (error) {
+                console.error('Error loading conference:', error);
+                alert('Failed to load conference details');
+            }
+        }
+
+        // Hide conference modal
+        function hideConferenceModal() {
+            document.getElementById('addConferenceModal').classList.add('hidden');
+            document.getElementById('conferenceForm').reset();
+            editingConferenceId = null;
+        }
+
+        // Save conference (add or update)
+        async function saveConference() {
+            const form = document.getElementById('conferenceForm');
+            const formData = new FormData(form);
+            
+            const conferenceData = {
+                title: document.getElementById('confTitle').value,
+                description: document.getElementById('confDescription').value,
+                location: document.getElementById('confLocation').value,
+                start_date: document.getElementById('confStartDate').value,
+                end_date: document.getElementById('confEndDate').value,
+                category: document.getElementById('confCategory').value,
+                registration_link: document.getElementById('confRegistrationLink').value,
+                status: document.getElementById('confStatus').value,
+                tags: document.getElementById('confTags').value.split(',').map(t => t.trim()).filter(t => t),
+                topics: document.getElementById('confTopics').value.split(',').map(t => t.trim()).filter(t => t),
+                deadline: document.getElementById('confDeadline').value,
+                icon: document.getElementById('confIcon').value
+            };
+
+            try {
+                const url = editingConferenceId ? `/api/conferences/${editingConferenceId}` : '/api/conferences';
+                const method = editingConferenceId ? 'PUT' : 'POST';
+                
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(conferenceData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert(editingConferenceId ? 'Conference updated successfully!' : 'Conference added successfully!');
+                    hideConferenceModal();
+                    loadConferences(currentConferenceFilter);
+                } else {
+                    alert('Failed to save conference: ' + (data.message || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error saving conference:', error);
+                alert('Failed to save conference. Please try again.');
+            }
+        }
+
+        // Delete conference
+        async function deleteConference(id, title) {
+            if (!confirm(`Are you sure you want to delete "${title}"? This action cannot be undone.`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/conferences/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Conference deleted successfully!');
+                    loadConferences(currentConferenceFilter);
+                } else {
+                    alert('Failed to delete conference: ' + (data.message || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error deleting conference:', error);
+                alert('Failed to delete conference');
+            }
+        }
+
+        // Format conference date
+        function formatConferenceDate(startDate, endDate) {
+            if (!startDate) return '';
+            const start = new Date(startDate);
+            const end = endDate ? new Date(endDate) : null;
+            
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            
+            if (end && start.getTime() !== end.getTime()) {
+                if (start.getMonth() === end.getMonth()) {
+                    return `${months[start.getMonth()]} ${start.getDate()}-${end.getDate()}, ${start.getFullYear()}`;
+                } else {
+                    return `${months[start.getMonth()]} ${start.getDate()}-${months[end.getMonth()]} ${end.getDate()}, ${start.getFullYear()}`;
+                }
+            } else {
+                return `${months[start.getMonth()]} ${start.getDate()}, ${start.getFullYear()}`;
+            }
+        }
+
+        // Show/hide conditional fields based on category
+        document.addEventListener('DOMContentLoaded', function() {
+            const categorySelect = document.getElementById('confCategory');
+            if (categorySelect) {
+                categorySelect.addEventListener('change', function() {
+                    const category = this.value;
+                    
+                    // Hide all conditional fields
+                    document.getElementById('cfpFields').style.display = 'none';
+                    document.getElementById('workshopFields').style.display = 'none';
+                    document.getElementById('proceedingsFields').style.display = 'none';
+                    document.getElementById('cfpTopicsFields').style.display = 'none';
+                    
+                    // Show relevant fields
+                    if (category === 'cfp') {
+                        document.getElementById('cfpFields').style.display = 'block';
+                        document.getElementById('cfpTopicsFields').style.display = 'block';
+                    } else if (category === 'workshops') {
+                        document.getElementById('workshopFields').style.display = 'block';
+                    } else if (category === 'proceedings') {
+                        document.getElementById('proceedingsFields').style.display = 'block';
+                    }
+                });
+            }
+        });
+
         // Initialize
         checkAdminAuth();
         initCharts();
@@ -1703,6 +2095,15 @@
         setupReviewSearch();
         loadEditors();
         setupEditorSearch();
+        
+        // Load conferences when conferences page is shown
+        const originalShowPage = window.showPage;
+        window.showPage = function(pageName) {
+            originalShowPage(pageName);
+            if (pageName === 'conferences') {
+                loadConferences(currentConferenceFilter);
+            }
+        };
         
         // Setup forms after DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
