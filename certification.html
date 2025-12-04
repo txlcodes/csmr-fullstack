@@ -15,7 +15,13 @@
             font-family: 'Merriweather', serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
+            background: rgb(0, 35, 119);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-title.typing-animation {
+            font-size: 44.8px;
+            font-family: 'Merriweather', serif;
         }
         .card-hover {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -185,27 +191,19 @@
     </div>
 
     <!-- Hero Section -->
-    <section class="relative pt-32 pb-24 brand-900 overflow-hidden">
-        <div class="absolute inset-0 z-0">
-            <div class="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-900 to-slate-900 opacity-95"></div>
-            <img 
-                src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop" 
-                alt="Office background" 
-                class="w-full h-full object-cover opacity-20 mix-blend-overlay"
-            />
-        </div>
-        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl md:text-6xl font-serif font-black text-white mb-6 tracking-tight">
-                Professional Certification <br/> Programs
+    <section class="gradient-bg py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="hero-title typing-animation font-black text-white mb-6" style="border-right: none;">
+                Professional Certification Programs
             </h1>
-            <p class="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto font-light leading-relaxed">
+            <p class="text-xl text-white text-opacity-90 mb-12 max-w-4xl mx-auto">
                 Professional development programs for sustainability skill development, ESG reporting, carbon accounting, and environmental impact assessment.
             </p>
         </div>
     </section>
 
     <!-- Certification Programs Grid - Blue Theme Only -->
-    <section class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-20">
+    <section class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="programsGrid">
             <!-- Programs will be rendered here dynamically -->
         </div>

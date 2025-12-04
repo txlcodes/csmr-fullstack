@@ -15,7 +15,13 @@
             font-family: 'Merriweather', serif;
         }
         .gradient-bg {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
+            background: rgb(0, 35, 119);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-title.typing-animation {
+            font-size: 44.8px;
+            font-family: 'Merriweather', serif;
         }
         .card-hover {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -23,6 +29,9 @@
         .card-hover:hover {
             transform: translateY(-5px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .brand-900 {
+            background: rgb(0, 35, 119);
         }
     </style>
 </head>
@@ -124,49 +133,30 @@
         </div>
     </nav>
 
-    <!-- Breadcrumb -->
-    <div class="bg-gray-50 py-4">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <nav class="flex" aria-label="Breadcrumb">
-                <ol class="flex items-center space-x-2">
-                    <li>
-                        <a href="index.html" class="text-gray-500 hover:text-blue-600">
-                            <i class="fas fa-home"></i>
-                            <span class="sr-only">Home</span>
-                        </a>
-                    </li>
-                    <li>
-                        <div class="flex items-center">
-                            <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
-                            <span class="text-gray-900 font-medium">Conferences</span>
-                        </div>
-                    </li>
-                </ol>
-            </nav>
-        </div>
-    </div>
 
     <!-- Hero Section -->
-    <section class="gradient-bg py-16 text-white">
+    <section class="gradient-bg py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl md:text-5xl font-black mb-6">Sustainability Conferences</h1>
-            <p class="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+            <h1 class="hero-title typing-animation font-black text-white mb-6" style="border-right: none;">
+                Sustainability Conferences & Events
+            </h1>
+            <p class="text-xl text-white text-opacity-90 mb-12 max-w-4xl mx-auto">
                 A central hub for researchers and scientists to discover and participate in sustainability-related conferences, workshops, and webinars.
             </p>
         </div>
     </section>
 
     <!-- Navigation Tabs -->
-    <section class="bg-white border-b border-gray-200">
+    <section class="bg-white border-b border-gray-200 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-wrap gap-2 py-4">
-                <button onclick="showTab('upcoming')" id="upcoming-tab" class="tab-button active bg-white border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-t-lg font-semibold">
+            <div class="flex flex-wrap gap-2 py-6">
+                <button onclick="showTab('upcoming')" id="upcoming-tab" class="tab-button active bg-white border-b-4 border-blue-600 text-blue-600 px-8 py-3 font-bold text-sm uppercase tracking-wide transition-all duration-200">
                     Upcoming Conferences
                 </button>
-                <button onclick="showTab('proceedings')" id="proceedings-tab" class="tab-button text-blue-900 px-6 py-3 font-semibold hover:text-blue-600">
+                <button onclick="showTab('proceedings')" id="proceedings-tab" class="tab-button text-gray-600 px-8 py-3 font-semibold hover:text-blue-600 border-b-4 border-transparent hover:border-blue-300 transition-all duration-200">
                     Conference Proceedings
                 </button>
-                <button onclick="showTab('cfp')" id="cfp-tab" class="tab-button text-blue-900 px-6 py-3 font-semibold hover:text-blue-600">
+                <button onclick="showTab('cfp')" id="cfp-tab" class="tab-button text-gray-600 px-8 py-3 font-semibold hover:text-blue-600 border-b-4 border-transparent hover:border-blue-300 transition-all duration-200">
                     Call for Papers
                 </button>
             </div>
@@ -174,13 +164,13 @@
     </section>
 
     <!-- Tab Content -->
-    <section class="py-16 bg-gray-50">
+    <section class="py-24 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Upcoming Conferences Content -->
             <div id="upcoming-content" class="tab-content">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-blue-900 mb-6">Upcoming Sustainability Conferences</h2>
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-blue-900 mb-8">Upcoming Sustainability Conferences</h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <!-- Conferences will be dynamically loaded here -->
                     </div>
                 </div>
@@ -189,7 +179,7 @@
             <!-- Conference Proceedings Content -->
             <div id="proceedings-content" class="tab-content hidden">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-blue-900 mb-6">Previous Conference Proceedings</h2>
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-blue-900 mb-8">Previous Conference Proceedings</h2>
                     <div class="space-y-6">
                         <!-- Conferences will be dynamically loaded here -->
                     </div>
@@ -199,7 +189,7 @@
             <!-- Call for Papers Content -->
             <div id="cfp-content" class="tab-content hidden">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-blue-900 mb-6">Call for Papers (CFP)</h2>
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-blue-900 mb-8">Call for Papers (CFP)</h2>
                     <div class="space-y-6">
                         <!-- Conferences will be dynamically loaded here -->
                     </div>
@@ -210,43 +200,47 @@
     </section>
 
     <!-- Keynote Speakers Section -->
-    <section class="py-16 bg-white">
+    <section class="bg-white py-24 border-t border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">Keynote Speakers</h2>
+                <div class="inline-flex items-center space-x-2 bg-blue-50 px-3 py-1 rounded-full text-blue-700 text-xs font-bold uppercase tracking-widest mb-6">
+                    <i class="fas fa-microphone w-4 h-4"></i>
+                    <span>Featured Speakers</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-serif font-bold text-blue-900 mb-4">Keynote Speakers</h2>
                 <div class="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
             </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="text-center">
-                    <div class="w-24 h-24 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center card-hover bg-gray-50 rounded-xl p-6">
+                    <div class="w-24 h-24 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg">
                         <i class="fas fa-user text-3xl text-blue-600"></i>
                     </div>
-                    <h3 class="font-bold text-lg mb-2">Dr. Rajesh Kumar</h3>
-                    <p class="text-blue-600 text-sm mb-2">IIT Delhi</p>
+                    <h3 class="font-bold text-lg mb-2 text-blue-900">Dr. Rajesh Kumar</h3>
+                    <p class="text-blue-600 text-sm mb-2 font-semibold">IIT Delhi</p>
                     <p class="text-gray-600 text-sm">Climate Science Expert</p>
                 </div>
-                <div class="text-center">
-                    <div class="w-24 h-24 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <div class="text-center card-hover bg-gray-50 rounded-xl p-6">
+                    <div class="w-24 h-24 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg">
                         <i class="fas fa-user text-3xl text-blue-600"></i>
                     </div>
-                    <h3 class="font-bold text-lg mb-2">Prof. Priya Sharma</h3>
-                    <p class="text-blue-600 text-sm mb-2">IISc Bangalore</p>
+                    <h3 class="font-bold text-lg mb-2 text-blue-900">Prof. Priya Sharma</h3>
+                    <p class="text-blue-600 text-sm mb-2 font-semibold">IISc Bangalore</p>
                     <p class="text-gray-600 text-sm">Environmental Policy</p>
                 </div>
-                <div class="text-center">
-                    <div class="w-24 h-24 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <div class="text-center card-hover bg-gray-50 rounded-xl p-6">
+                    <div class="w-24 h-24 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg">
                         <i class="fas fa-user text-3xl text-blue-600"></i>
                     </div>
-                    <h3 class="font-bold text-lg mb-2">Dr. Michael Chen</h3>
-                    <p class="text-blue-600 text-sm mb-2">International Expert</p>
+                    <h3 class="font-bold text-lg mb-2 text-blue-900">Dr. Michael Chen</h3>
+                    <p class="text-blue-600 text-sm mb-2 font-semibold">International Expert</p>
                     <p class="text-gray-600 text-sm">Sustainability Leader</p>
                 </div>
-                <div class="text-center">
-                    <div class="w-24 h-24 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <div class="text-center card-hover bg-gray-50 rounded-xl p-6">
+                    <div class="w-24 h-24 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center shadow-lg">
                         <i class="fas fa-user text-3xl text-blue-600"></i>
                     </div>
-                    <h3 class="font-bold text-lg mb-2">Prof. Sarah Johnson</h3>
-                    <p class="text-blue-600 text-sm mb-2">Harvard University</p>
+                    <h3 class="font-bold text-lg mb-2 text-blue-900">Prof. Sarah Johnson</h3>
+                    <p class="text-blue-600 text-sm mb-2 font-semibold">Harvard University</p>
                     <p class="text-gray-600 text-sm">ESG & Finance</p>
                 </div>
             </div>
@@ -340,17 +334,21 @@
             // Template for Upcoming Conferences (Card Style) - Blue Theme Only
             renderUpcomingCard: function(conference) {
                 return `
-                    <div class="card-hover bg-white rounded-lg shadow-lg p-6 border-l-4 border-blue-600">
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">${conference.year || new Date(conference.start_date).getFullYear()}</span>
-                            <span class="text-gray-500 text-sm">${this.formatDateRange(conference.start_date, conference.end_date)}</span>
+                    <div class="card-hover bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wide">${conference.year || new Date(conference.start_date).getFullYear()}</span>
+                            <span class="text-gray-500 text-sm font-medium">${this.formatDateRange(conference.start_date, conference.end_date)}</span>
                         </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">${conference.title}</h3>
-                        <p class="text-gray-600 text-sm mb-4">${conference.location}</p>
-                        <p class="text-gray-700 mb-4">${conference.description}</p>
-                        <div class="flex items-center justify-between">
-                            <a href="${conference.registration_link || '#'}" class="text-blue-600 hover:text-blue-800 font-semibold text-sm">Learn More →</a>
-                            <button onclick="registerForConference(${conference.id}, '${conference.title.replace(/'/g, "\\'")}', event)" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700">Register</button>
+                        <h3 class="text-xl md:text-2xl font-serif font-bold text-blue-900 mb-3 leading-tight">${conference.title}</h3>
+                        ${conference.location ? `<p class="text-blue-600 text-sm mb-4 font-semibold flex items-center"><i class="fas fa-map-marker-alt mr-2"></i>${conference.location}</p>` : ''}
+                        <p class="text-gray-700 mb-6 leading-relaxed line-clamp-3">${conference.description || 'Join us for this exciting conference on sustainability and management research.'}</p>
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                            <a href="${conference.registration_link || '#'}" class="text-blue-600 hover:text-blue-800 font-semibold text-sm flex items-center group">
+                                Learn More <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                            <button onclick="registerForConference(${conference.id}, '${conference.title.replace(/'/g, "\\'")}', event)" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg">
+                                Register
+                            </button>
                         </div>
                     </div>
                 `;
@@ -361,18 +359,24 @@
                 const tags = conference.tags ? (Array.isArray(conference.tags) ? conference.tags : JSON.parse(conference.tags)) : [];
                 
                 return `
-                    <div class="bg-white rounded-lg shadow-lg p-6">
-                        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
-                            <div>
-                                <h3 class="text-xl font-bold text-gray-900 mb-2">${conference.title}</h3>
-                                <p class="text-gray-600 text-sm mb-2">${this.formatDateRange(conference.start_date, conference.end_date)} | ${conference.location}</p>
+                    <div class="card-hover bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+                        <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-6">
+                            <div class="flex-1">
+                                <h3 class="text-xl md:text-2xl font-serif font-bold text-blue-900 mb-3 leading-tight">${conference.title}</h3>
+                                <p class="text-gray-600 text-sm mb-3 flex items-center">
+                                    <i class="fas fa-calendar-alt mr-2 text-blue-600"></i>
+                                    ${this.formatDateRange(conference.start_date, conference.end_date)}
+                                    ${conference.location ? ` | <i class="fas fa-map-marker-alt ml-3 mr-2 text-blue-600"></i>${conference.location}` : ''}
+                                </p>
                             </div>
-                            <a href="${conference.registration_link || '#'}" class="text-blue-600 hover:text-blue-800 font-semibold mt-2 md:mt-0">View Proceedings →</a>
+                            <a href="${conference.registration_link || '#'}" class="text-blue-600 hover:text-blue-800 font-semibold mt-2 md:mt-0 flex items-center group">
+                                View Proceedings <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
                         </div>
-                        <p class="text-gray-700 mb-4">${conference.description}</p>
+                        <p class="text-gray-700 mb-6 leading-relaxed">${conference.description || 'Explore the proceedings from this conference.'}</p>
                         ${tags.length > 0 ? `
-                            <div class="flex flex-wrap gap-2">
-                                ${tags.map(tag => `<span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">${tag}</span>`).join('')}
+                            <div class="flex flex-wrap gap-2 pt-4 border-t border-gray-100">
+                                ${tags.map(tag => `<span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1.5 rounded-full">${tag}</span>`).join('')}
                             </div>
                         ` : ''}
                     </div>
@@ -385,20 +389,25 @@
                 const topics = conference.topics ? (Array.isArray(conference.topics) ? conference.topics : JSON.parse(conference.topics)) : [];
                 
                 return `
-                    <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-blue-600">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-xl font-bold text-gray-900">${conference.title}</h3>
-                            ${deadline ? `<span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Deadline: ${this.formatDate(deadline)}</span>` : ''}
+                    <div class="card-hover bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-xl md:text-2xl font-serif font-bold text-blue-900 leading-tight">${conference.title}</h3>
+                            ${deadline ? `<span class="bg-red-100 text-red-800 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wide whitespace-nowrap">Deadline: ${this.formatDate(deadline)}</span>` : ''}
                         </div>
-                        <p class="text-gray-700 mb-4">${conference.description}</p>
+                        <p class="text-gray-700 mb-6 leading-relaxed">${conference.description || 'Submit your research paper to this conference.'}</p>
                         ${topics.length > 0 ? `
-                            <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4">
-                                ${topics.map(topic => `<li>${topic}</li>`).join('')}
-                            </ul>
+                            <div class="mb-6">
+                                <h4 class="text-sm font-bold text-blue-900 uppercase tracking-wide mb-3">Topics of Interest:</h4>
+                                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                    ${topics.map(topic => `<li class="flex items-start"><span class="text-blue-600 mr-2">•</span><span>${topic}</span></li>`).join('')}
+                                </ul>
+                            </div>
                         ` : ''}
-                        <div class="flex items-center gap-4">
-                            <a href="${conference.registration_link || 'submit.html'}" class="text-blue-600 hover:text-blue-800 font-semibold">Submit Paper →</a>
-                            <a href="#" class="text-gray-600 hover:text-gray-800 text-sm">View Guidelines</a>
+                        <div class="flex items-center gap-4 pt-4 border-t border-gray-100">
+                            <a href="${conference.registration_link || 'submit.html'}" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg flex items-center group">
+                                Submit Paper <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                            <a href="#" class="text-gray-600 hover:text-gray-800 text-sm font-medium">View Guidelines</a>
                         </div>
                     </div>
                 `;
@@ -545,8 +554,8 @@
             
             // Remove active class from all tab buttons
             document.querySelectorAll('.tab-button').forEach(button => {
-                button.classList.remove('active', 'bg-white', 'border-2', 'border-blue-600', 'text-blue-600');
-                button.classList.add('text-blue-900');
+                button.classList.remove('active', 'bg-white', 'border-b-4', 'border-blue-600', 'text-blue-600', 'font-bold');
+                button.classList.add('text-gray-600', 'border-transparent', 'font-semibold');
             });
             
             // Show selected tab content
@@ -554,8 +563,8 @@
             
             // Add active class to selected tab button
             const activeButton = document.getElementById(tabName + '-tab');
-            activeButton.classList.add('active', 'bg-white', 'border-2', 'border-blue-600', 'text-blue-600');
-            activeButton.classList.remove('text-blue-900');
+            activeButton.classList.add('active', 'bg-white', 'border-b-4', 'border-blue-600', 'text-blue-600', 'font-bold');
+            activeButton.classList.remove('text-gray-600', 'border-transparent', 'font-semibold');
 
             // Load conferences for this tab
             loadConferencesForTab(tabName);

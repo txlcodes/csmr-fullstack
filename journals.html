@@ -884,6 +884,78 @@
             </div>
         </div>
     </section>
+
+    <!-- Conferences Hero Section -->
+    <section class="relative pt-32 pb-24 brand-900 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-900 to-slate-900 opacity-95"></div>
+            <img 
+                src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2070&auto=format&fit=crop" 
+                alt="Conference background" 
+                class="w-full h-full object-cover opacity-20 mix-blend-overlay"
+            />
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl md:text-6xl font-serif font-black text-white mb-6 tracking-tight">
+                Sustainability Conferences <br/> & Events
+            </h2>
+            <p class="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto font-light leading-relaxed">
+                Discover and participate in sustainability-related conferences, workshops, and webinars.
+            </p>
+        </div>
+    </section>
+
+    <!-- Conference Navigation Tabs -->
+    <section class="bg-white border-b border-gray-200 -mt-16 relative z-20 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap gap-2 py-6">
+                <button onclick="showConferenceTab('upcoming')" id="conf-upcoming-tab" class="conf-tab-button active bg-white border-b-4 border-blue-600 text-blue-600 px-8 py-3 font-bold text-sm uppercase tracking-wide transition-all duration-200">
+                    Upcoming Conferences
+                </button>
+                <button onclick="showConferenceTab('proceedings')" id="conf-proceedings-tab" class="conf-tab-button text-gray-600 px-8 py-3 font-semibold hover:text-blue-600 border-b-4 border-transparent hover:border-blue-300 transition-all duration-200">
+                    Conference Proceedings
+                </button>
+                <button onclick="showConferenceTab('cfp')" id="conf-cfp-tab" class="conf-tab-button text-gray-600 px-8 py-3 font-semibold hover:text-blue-600 border-b-4 border-transparent hover:border-blue-300 transition-all duration-200">
+                    Call for Papers
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conference Tab Content -->
+    <section class="py-24 bg-gray-50 -mt-16 relative z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+            <!-- Upcoming Conferences Content -->
+            <div id="conf-upcoming-content" class="conf-tab-content">
+                <div class="mb-8">
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-blue-900 mb-8">Upcoming Sustainability Conferences</h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Conferences will be dynamically loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conference Proceedings Content -->
+            <div id="conf-proceedings-content" class="conf-tab-content hidden">
+                <div class="mb-8">
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-blue-900 mb-8">Previous Conference Proceedings</h2>
+                    <div class="space-y-6">
+                        <!-- Conference proceedings will be dynamically loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call for Papers Content -->
+            <div id="conf-cfp-content" class="conf-tab-content hidden">
+                <div class="mb-8">
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-blue-900 mb-8">Call for Papers (CFP)</h2>
+                    <div class="space-y-6">
+                        <!-- Call for papers will be dynamically loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     </div>
     <!-- End Journal of Sustainability and Management Research -->
 
@@ -1612,6 +1684,328 @@
 
         // Call on page load
         loadJournalFromURL();
+
+        // Conference Template System (for Journal page)
+        const JournalConferenceTemplate = {
+            // Template for Upcoming Conferences (Card Style) - Blue Theme Only
+            renderUpcomingCard: function(conference) {
+                return `
+                    <div class="card-hover bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wide">${conference.year || new Date(conference.start_date).getFullYear()}</span>
+                            <span class="text-gray-500 text-sm font-medium">${this.formatDateRange(conference.start_date, conference.end_date)}</span>
+                        </div>
+                        <h3 class="text-xl md:text-2xl font-serif font-bold text-blue-900 mb-3 leading-tight">${conference.title}</h3>
+                        ${conference.location ? `<p class="text-blue-600 text-sm mb-4 font-semibold flex items-center"><i class="fas fa-map-marker-alt mr-2"></i>${conference.location}</p>` : ''}
+                        <p class="text-gray-700 mb-6 leading-relaxed line-clamp-3">${conference.description || 'Join us for this exciting conference on sustainability and management research.'}</p>
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                            <a href="${conference.registration_link || '#'}" class="text-blue-600 hover:text-blue-800 font-semibold text-sm flex items-center group">
+                                Learn More <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                            <button onclick="registerForConference(${conference.id}, '${conference.title.replace(/'/g, "\\'")}', event)" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg">
+                                Register
+                            </button>
+                        </div>
+                    </div>
+                `;
+            },
+
+            // Template for Conference Proceedings (List Style)
+            renderProceedingsCard: function(conference) {
+                const tags = conference.tags ? (Array.isArray(conference.tags) ? conference.tags : JSON.parse(conference.tags)) : [];
+                
+                return `
+                    <div class="card-hover bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+                        <div class="flex flex-col md:flex-row md:items-start md:justify-between mb-6">
+                            <div class="flex-1">
+                                <h3 class="text-xl md:text-2xl font-serif font-bold text-blue-900 mb-3 leading-tight">${conference.title}</h3>
+                                <p class="text-gray-600 text-sm mb-3 flex items-center">
+                                    <i class="fas fa-calendar-alt mr-2 text-blue-600"></i>
+                                    ${this.formatDateRange(conference.start_date, conference.end_date)}
+                                    ${conference.location ? ` | <i class="fas fa-map-marker-alt ml-3 mr-2 text-blue-600"></i>${conference.location}` : ''}
+                                </p>
+                            </div>
+                            <a href="${conference.registration_link || '#'}" class="text-blue-600 hover:text-blue-800 font-semibold mt-2 md:mt-0 flex items-center group">
+                                View Proceedings <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                        <p class="text-gray-700 mb-6 leading-relaxed">${conference.description || 'Explore the proceedings from this conference.'}</p>
+                        ${tags.length > 0 ? `
+                            <div class="flex flex-wrap gap-2 pt-4 border-t border-gray-100">
+                                ${tags.map(tag => `<span class="bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1.5 rounded-full">${tag}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            },
+
+            // Template for Call for Papers (CFP) - Blue Theme Only
+            renderCFPCard: function(conference) {
+                const deadline = conference.deadline || conference.end_date;
+                const topics = conference.topics ? (Array.isArray(conference.topics) ? conference.topics : JSON.parse(conference.topics)) : [];
+                
+                return `
+                    <div class="card-hover bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-xl md:text-2xl font-serif font-bold text-blue-900 leading-tight">${conference.title}</h3>
+                            ${deadline ? `<span class="bg-red-100 text-red-800 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wide whitespace-nowrap">Deadline: ${this.formatDate(deadline)}</span>` : ''}
+                        </div>
+                        <p class="text-gray-700 mb-6 leading-relaxed">${conference.description || 'Submit your research paper to this conference.'}</p>
+                        ${topics.length > 0 ? `
+                            <div class="mb-6">
+                                <h4 class="text-sm font-bold text-blue-900 uppercase tracking-wide mb-3">Topics of Interest:</h4>
+                                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                                    ${topics.map(topic => `<li class="flex items-start"><span class="text-blue-600 mr-2">•</span><span>${topic}</span></li>`).join('')}
+                                </ul>
+                            </div>
+                        ` : ''}
+                        <div class="flex items-center gap-4 pt-4 border-t border-gray-100">
+                            <a href="${conference.registration_link || 'submit.html'}" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg flex items-center group">
+                                Submit Paper <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                            <a href="#" class="text-gray-600 hover:text-gray-800 text-sm font-medium">View Guidelines</a>
+                        </div>
+                    </div>
+                `;
+            },
+
+            // Helper: Format date range
+            formatDateRange: function(startDate, endDate) {
+                if (!startDate) return '';
+                const start = new Date(startDate);
+                const end = endDate ? new Date(endDate) : null;
+                
+                const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                               'July', 'August', 'September', 'October', 'November', 'December'];
+                
+                if (end && start.getTime() !== end.getTime()) {
+                    if (start.getMonth() === end.getMonth()) {
+                        return `${months[start.getMonth()]} ${start.getDate()}-${end.getDate()}`;
+                    } else {
+                        return `${months[start.getMonth()]} ${start.getDate()}-${months[end.getMonth()]} ${end.getDate()}`;
+                    }
+                } else {
+                    return `${months[start.getMonth()]} ${start.getDate()}`;
+                }
+            },
+
+            // Helper: Format single date
+            formatDate: function(date) {
+                if (!date) return '';
+                const d = new Date(date);
+                const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                               'July', 'August', 'September', 'October', 'November', 'December'];
+                return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+            },
+
+            // Load conferences from API
+            loadConferences: async function(category) {
+                try {
+                    const response = await fetch(`/api/conferences?category=${category}&status=active`);
+                    const conferences = await response.json();
+                    return conferences;
+                } catch (error) {
+                    console.error('Error loading conferences:', error);
+                    return [];
+                }
+            },
+
+            // Render conferences by category
+            renderConferences: function(conferences, category, containerId) {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+
+                const gridContainer = container.querySelector('.grid, .space-y-6');
+                if (!gridContainer) return;
+
+                gridContainer.innerHTML = '';
+
+                const filteredConferences = conferences.filter(c => c.category === category && c.status === 'active');
+
+                filteredConferences.forEach(conference => {
+                    let html = '';
+                    switch(category) {
+                        case 'upcoming':
+                            html = this.renderUpcomingCard(conference);
+                            break;
+                        case 'proceedings':
+                            html = this.renderProceedingsCard(conference);
+                            break;
+                        case 'cfp':
+                            html = this.renderCFPCard(conference);
+                            break;
+                    }
+                    gridContainer.insertAdjacentHTML('beforeend', html);
+                });
+
+                // Show empty state if no conferences
+                if (filteredConferences.length === 0) {
+                    gridContainer.innerHTML = `
+                        <div class="col-span-full text-center py-12">
+                            <i class="fas fa-calendar-times text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-gray-600 text-lg">No ${category} conferences available at the moment.</p>
+                            <p class="text-gray-500 text-sm mt-2">Check back soon for updates!</p>
+                        </div>
+                    `;
+                }
+            }
+        };
+
+        // Conference Tab switching functionality for Journal page
+        async function showConferenceTab(tabName) {
+            // Hide all conference tab contents
+            document.querySelectorAll('.conf-tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Remove active class from all conference tab buttons
+            document.querySelectorAll('.conf-tab-button').forEach(button => {
+                button.classList.remove('active', 'bg-white', 'border-b-4', 'border-blue-600', 'text-blue-600', 'font-bold');
+                button.classList.add('text-gray-600', 'border-transparent', 'font-semibold');
+            });
+            
+            // Show selected conference tab content
+            const contentId = 'conf-' + tabName + '-content';
+            const contentElement = document.getElementById(contentId);
+            if (contentElement) {
+                contentElement.classList.remove('hidden');
+            }
+            
+            // Add active class to selected conference tab button
+            const activeButton = document.getElementById('conf-' + tabName + '-tab');
+            if (activeButton) {
+                activeButton.classList.add('active', 'bg-white', 'border-b-4', 'border-blue-600', 'text-blue-600', 'font-bold');
+                activeButton.classList.remove('text-gray-600', 'border-transparent', 'font-semibold');
+            }
+
+            // Load conferences for this tab
+            await loadConferencesForJournalTab(tabName);
+        }
+
+        // Load conferences when tab is shown
+        async function loadConferencesForJournalTab(category) {
+            const containerMap = {
+                'upcoming': 'conf-upcoming-content',
+                'proceedings': 'conf-proceedings-content',
+                'cfp': 'conf-cfp-content'
+            };
+
+            const containerId = containerMap[category];
+            if (containerId) {
+                const conferences = await JournalConferenceTemplate.loadConferences(category);
+                JournalConferenceTemplate.renderConferences(conferences, category, containerId);
+            }
+        }
+
+        // Register for conference function (for journal page)
+        async function registerForConference(conferenceId, conferenceTitle, event) {
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            
+            // Check if user is logged in
+            if (!token || !user.firstName) {
+                const shouldLogin = confirm('You need to be logged in to register for a conference. Would you like to login now?');
+                if (shouldLogin) {
+                    window.location.href = 'login.html?redirect=' + encodeURIComponent(window.location.href);
+                }
+                return;
+            }
+            
+            // Show loading state
+            const button = event ? event.target : null;
+            let originalText = '';
+            if (button) {
+                originalText = button.innerHTML;
+                button.disabled = true;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Registering...';
+            }
+            
+            try {
+                console.log('Attempting to register for conference:', conferenceId);
+                
+                const response = await fetch(`/api/conferences/${conferenceId}/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ token: token })
+                });
+                
+                console.log('Response status:', response.status, response.statusText);
+                
+                // Try to parse response as JSON first
+                let data;
+                try {
+                    const responseText = await response.text();
+                    console.log('Response text:', responseText);
+                    data = JSON.parse(responseText);
+                } catch (parseError) {
+                    console.error('Error parsing response:', parseError);
+                    alert(`Server error (${response.status}): Invalid response format. Please try again.`);
+                    if (button) {
+                        button.disabled = false;
+                        button.innerHTML = originalText;
+                    }
+                    return;
+                }
+                
+                // Check if response is ok
+                if (!response.ok) {
+                    const errorMessage = data.message || `Error ${response.status}: ${response.statusText || 'Please try again.'}`;
+                    console.error('Registration failed:', errorMessage);
+                    alert(`❌ ${errorMessage}`);
+                    if (button) {
+                        button.disabled = false;
+                        button.innerHTML = originalText;
+                    }
+                    return;
+                }
+                
+                // Handle successful response
+                if (data.success) {
+                    console.log('Registration successful:', data.message);
+                    alert(`✅ ${data.message || `Successfully registered for "${conferenceTitle}"`}`);
+                    // Reload conferences to show updated status
+                    const activeTab = document.querySelector('.conf-tab-button.active');
+                    if (activeTab) {
+                        const tabId = activeTab.id;
+                        const tabName = tabId.replace('conf-', '').replace('-tab', '');
+                        loadConferencesForJournalTab(tabName);
+                    }
+                } else {
+                    console.error('Registration failed:', data.message);
+                    alert(`❌ ${data.message || 'Failed to register for conference. Please try again.'}`);
+                    if (button) {
+                        button.disabled = false;
+                        button.innerHTML = originalText;
+                    }
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                const errorMessage = error.message || 'Network error. Please check your connection and try again.';
+                alert(`❌ ${errorMessage}`);
+                if (button) {
+                    button.disabled = false;
+                    button.innerHTML = originalText;
+                }
+            }
+        }
+
+        // Load initial conferences on page load (only if on sustainability-management journal)
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const journal = urlParams.get('journal');
+            
+            // Only load conferences if we're on the sustainability-management journal page
+            if (!journal || journal === 'sustainability-management') {
+                // Check if conference section exists
+                const confSection = document.getElementById('conf-upcoming-content');
+                if (confSection) {
+                    loadConferencesForJournalTab('upcoming');
+                }
+            }
+        });
 
         // Tab switching functionality for Journal of Sustainability
         function showTab(tabName) {
