@@ -74,6 +74,10 @@
         <!-- Navigation -->
         <nav class="mt-6">
             <div class="px-4 space-y-2">
+                <a href="index.html" class="nav-item flex items-center px-4 py-3 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors border-l-4 border-blue-600">
+                    <i class="fas fa-home w-5"></i>
+                    <span class="sidebar-text ml-3 font-medium">Go to Home Page</span>
+                </a>
                 <a href="#" onclick="showPage('dashboard')" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
                     <i class="fas fa-tachometer-alt w-5"></i>
                     <span class="sidebar-text ml-3 font-medium">Dashboard</span>
@@ -102,6 +106,10 @@
                 <a href="#" onclick="showPage('conferences')" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
                     <i class="fas fa-calendar-alt w-5"></i>
                     <span class="sidebar-text ml-3 font-medium">Conferences</span>
+                </a>
+                <a href="#" onclick="showPage('workshops')" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
+                    <i class="fas fa-chalkboard-teacher w-5"></i>
+                    <span class="sidebar-text ml-3 font-medium">Workshops & Webinars</span>
                 </a>
                 <a href="#" onclick="showPage('analytics')" class="nav-item flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors">
                     <i class="fas fa-chart-bar w-5"></i>
@@ -325,10 +333,10 @@
                             <div class="relative">
                                 <input type="text" id="editorSearch" placeholder="Search editors..." class="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        </div>
                             </div>
                         </div>
-                    </div>
-                    
+
                     <!-- Manuscript Selection -->
                     <div class="mb-6 p-4 bg-gray-50 rounded-lg">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Select Manuscript to Assign Editor:</label>
@@ -353,11 +361,11 @@
                                 Climate Change Adaptation Strategies for Business
                             </option>
                         </select>
-                    </div>
+                            </div>
 
                     <div id="editorsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <!-- Editors will be loaded here -->
-                    </div>
+                        </div>
 
                     <div id="noEditors" class="text-center py-8 text-gray-500 hidden">
                         <i class="fas fa-user-tie text-4xl mb-4"></i>
@@ -574,6 +582,47 @@
                 </div>
             </div>
 
+            <!-- Workshops & Webinars Management Page -->
+            <div id="workshops" class="page">
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                        <h3 class="text-lg font-semibold text-gray-900">Workshops & Webinars Management</h3>
+                        <button onclick="showAddWorkshopModal()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center">
+                            <i class="fas fa-plus mr-2"></i>Add New Workshop/Webinar
+                        </button>
+                    </div>
+
+                    <!-- Filter Tabs -->
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <div class="flex space-x-2">
+                            <button onclick="filterWorkshops('all')" class="workshop-filter-btn px-4 py-2 rounded-lg text-sm font-medium bg-blue-600 text-white" data-filter="all">
+                                All
+                            </button>
+                            <button onclick="filterWorkshops('workshop')" class="workshop-filter-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-blue-50" data-filter="workshop">
+                                Workshops
+                            </button>
+                            <button onclick="filterWorkshops('webinar')" class="workshop-filter-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-blue-50" data-filter="webinar">
+                                Webinars
+                            </button>
+                            <button onclick="filterWorkshops('training')" class="workshop-filter-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-blue-50" data-filter="training">
+                                Training Programs
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Workshops List -->
+                    <div class="p-6">
+                        <div id="workshopsList" class="space-y-4">
+                            <!-- Workshops will be loaded here -->
+                            <div class="text-center py-12 text-gray-500">
+                                <i class="fas fa-chalkboard-teacher text-4xl mb-4"></i>
+                                <p>No workshops/webinars found. Click "Add New Workshop/Webinar" to get started.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Analytics Page -->
             <div id="analytics" class="page">
                 <div class="space-y-6">
@@ -688,101 +737,344 @@
     <!-- Add/Edit Conference Modal -->
     <div id="addConferenceModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50 overflow-y-auto">
         <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-                <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+            <div class="bg-white rounded-lg shadow-xl max-w-5xl w-full max-h-[95vh] overflow-y-auto">
+                <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between sticky top-0 bg-white z-10">
                     <h3 id="conferenceModalTitle" class="text-lg font-semibold text-gray-900">Add New Conference</h3>
                     <button onclick="hideConferenceModal()" class="text-gray-400 hover:text-gray-600">
-                        <i class="fas fa-times"></i>
+                        <i class="fas fa-times text-xl"></i>
                     </button>
                 </div>
                 
-                <form id="conferenceForm" onsubmit="event.preventDefault(); saveConference();" class="p-6 space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Title *</label>
-                            <input type="text" id="confTitle" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <form id="conferenceForm" onsubmit="event.preventDefault(); saveConference();" class="p-6">
+                    <!-- Tab Navigation -->
+                    <div class="border-b border-gray-200 mb-6">
+                        <nav class="flex space-x-4 -mb-px">
+                            <button type="button" onclick="switchConferenceTab('basic')" class="conf-tab-btn active px-4 py-2 border-b-2 border-blue-600 text-blue-600 font-medium text-sm">
+                                <i class="fas fa-info-circle mr-2"></i>Basic Info
+                            </button>
+                            <button type="button" onclick="switchConferenceTab('dates')" class="conf-tab-btn px-4 py-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                                <i class="fas fa-calendar mr-2"></i>Dates & Venue
+                            </button>
+                            <button type="button" onclick="switchConferenceTab('submission')" class="conf-tab-btn px-4 py-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                                <i class="fas fa-paper-plane mr-2"></i>Submission
+                            </button>
+                            <button type="button" onclick="switchConferenceTab('speakers')" class="conf-tab-btn px-4 py-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                                <i class="fas fa-users mr-2"></i>Speakers & Program
+                            </button>
+                            <button type="button" onclick="switchConferenceTab('contact')" class="conf-tab-btn px-4 py-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                                <i class="fas fa-envelope mr-2"></i>Contact & Links
+                            </button>
+                        </nav>
+                    </div>
+
+                    <!-- Basic Info Tab -->
+                    <div id="confTab-basic" class="conf-tab-content">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Title *</label>
+                                <input type="text" id="confTitle" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Short Description</label>
+                                <textarea id="confDescription" rows="3" placeholder="Brief overview of the conference" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Full Description</label>
+                                <textarea id="confFullDescription" rows="5" placeholder="Detailed description, objectives, and scope" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Category *</label>
+                                <select id="confCategory" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="upcoming">Upcoming Conferences</option>
+                                    <option value="proceedings">Conference Proceedings</option>
+                                    <option value="cfp">Call for Papers</option>
+                                    <option value="workshops">Workshops & Webinars</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                                <select id="confStatus" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                    <option value="draft">Draft</option>
+                                    <option value="archived">Archived</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Visibility</label>
+                                <select id="confVisibility" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="public">Public</option>
+                                    <option value="private">Private</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Max Attendees</label>
+                                <input type="number" id="confMaxAttendees" min="0" placeholder="Leave empty for unlimited" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div id="proceedingsFields" style="display: none;">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Tags (comma-separated)</label>
+                                <input type="text" id="confTags" placeholder="Climate Change, ESG, Sustainability" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div id="workshopFields" style="display: none;">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Icon (Font Awesome class)</label>
+                                <select id="confIcon" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="fa-chalkboard-teacher">Workshop</option>
+                                    <option value="fa-video">Webinar</option>
+                                    <option value="fa-users">Training</option>
+                                    <option value="fa-globe">Global Event</option>
+                                    <option value="fa-certificate">Certification</option>
+                                    <option value="fa-book">Course</option>
+                                </select>
+                            </div>
                         </div>
-                        
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                            <textarea id="confDescription" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                    </div>
+
+                    <!-- Dates & Venue Tab -->
+                    <div id="confTab-dates" class="conf-tab-content hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                                <input type="date" id="confStartDate" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+                                <input type="date" id="confEndDate" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div id="cfpFields" style="display: none;">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">CFP Deadline</label>
+                                <input type="date" id="confDeadline" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Early Bird Deadline</label>
+                                <input type="date" id="confEarlyBirdDeadline" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                                <input type="text" id="confLocation" placeholder="e.g., New Delhi, India or Online" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Venue Address</label>
+                                <textarea id="confVenueAddress" rows="2" placeholder="Full address of the venue" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Venue Map Link</label>
+                                <input type="url" id="confVenueMap" placeholder="Google Maps or other map link" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Accommodation Info</label>
+                                <textarea id="confAccommodation" rows="3" placeholder="Nearby hotels, accommodation details" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Registration Fee (Early Bird)</label>
+                                <input type="text" id="confEarlyBirdFee" placeholder="e.g., $299 or ₹15,000" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Registration Fee (Regular)</label>
+                                <input type="text" id="confRegularFee" placeholder="e.g., $399 or ₹20,000" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Student Fee</label>
+                                <input type="text" id="confStudentFee" placeholder="e.g., $199 or ₹10,000" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
                         </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Location</label>
-                            <input type="text" id="confLocation" placeholder="e.g., New Delhi, India or Online" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Submission Tab -->
+                    <div id="confTab-submission" class="conf-tab-content hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div id="cfpTopicsFields" style="display: none;">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">CFP Topics (comma-separated)</label>
+                                <textarea id="confTopics" rows="4" placeholder="Topic 1, Topic 2, Topic 3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Submission Guidelines Link</label>
+                                <input type="url" id="confSubmissionGuidelines" placeholder="https://..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Submission Portal Link</label>
+                                <input type="url" id="confSubmissionPortal" placeholder="https://..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Paper Template Link</label>
+                                <input type="url" id="confPaperTemplate" placeholder="https://..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Review Process</label>
+                                <select id="confReviewProcess" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="single-blind">Single-Blind Review</option>
+                                    <option value="double-blind">Double-Blind Review</option>
+                                    <option value="open">Open Review</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Publication</label>
+                                <select id="confPublication" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="proceedings">Conference Proceedings</option>
+                                    <option value="journal">Special Issue in Journal</option>
+                                    <option value="both">Both</option>
+                                    <option value="none">No Publication</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Best Paper Award</label>
+                                <select id="confBestPaperAward" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="no">No</option>
+                                    <option value="yes">Yes</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Student Paper Award</label>
+                                <select id="confStudentAward" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="no">No</option>
+                                    <option value="yes">Yes</option>
+                                </select>
+                            </div>
                         </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Category *</label>
-                            <select id="confCategory" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="upcoming">Upcoming Conferences</option>
-                                <option value="proceedings">Conference Proceedings</option>
-                                <option value="cfp">Call for Papers</option>
-                                <option value="workshops">Workshops & Webinars</option>
-                            </select>
+                    </div>
+
+                    <!-- Speakers & Program Tab -->
+                    <div id="confTab-speakers" class="conf-tab-content hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Keynote Speakers (one per line)</label>
+                                <textarea id="confKeynoteSpeakers" rows="4" placeholder="Dr. John Doe, University Name&#10;Prof. Jane Smith, Institution Name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Invited Speakers (one per line)</label>
+                                <textarea id="confInvitedSpeakers" rows="4" placeholder="Dr. Name, Affiliation" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Program Schedule Link</label>
+                                <input type="url" id="confProgramSchedule" placeholder="https://..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Tracks/Sessions</label>
+                                <textarea id="confTracks" rows="3" placeholder="Track 1: Sustainability&#10;Track 2: ESG&#10;Track 3: Climate Change" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Workshops</label>
+                                <textarea id="confWorkshops" rows="3" placeholder="Workshop 1: Title&#10;Workshop 2: Title" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
                         </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
-                            <input type="date" id="confStartDate" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
-                            <input type="date" id="confEndDate" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        
-                        <div id="cfpFields" style="display: none;">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Deadline</label>
-                            <input type="date" id="confDeadline" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        
-                        <div id="workshopFields" style="display: none;">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Icon (Font Awesome class)</label>
-                            <select id="confIcon" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="fa-chalkboard-teacher">Workshop</option>
-                                <option value="fa-video">Webinar</option>
-                                <option value="fa-users">Training</option>
-                                <option value="fa-globe">Global Event</option>
-                                <option value="fa-certificate">Certification</option>
-                                <option value="fa-book">Course</option>
-                            </select>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Registration Link</label>
-                            <input type="url" id="confRegistrationLink" placeholder="https://..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                            <select id="confStatus" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
-                        </div>
-                        
-                        <div id="proceedingsFields" style="display: none;">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Tags (comma-separated)</label>
-                            <input type="text" id="confTags" placeholder="Climate Change, ESG, Sustainability" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-                        
-                        <div id="cfpTopicsFields" style="display: none;">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Topics (comma-separated)</label>
-                            <input type="text" id="confTopics" placeholder="Topic 1, Topic 2, Topic 3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- Contact & Links Tab -->
+                    <div id="confTab-contact" class="conf-tab-content hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Registration Link</label>
+                                <input type="url" id="confRegistrationLink" placeholder="https://..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Conference Website</label>
+                                <input type="url" id="confWebsite" placeholder="https://..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Organizer Email</label>
+                                <input type="email" id="confOrganizerEmail" placeholder="conference@example.com" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Contact Phone</label>
+                                <input type="tel" id="confContactPhone" placeholder="+91 123 456 7890" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Twitter/X Handle</label>
+                                <input type="text" id="confTwitter" placeholder="@conference2025" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">LinkedIn Page</label>
+                                <input type="url" id="confLinkedIn" placeholder="https://linkedin.com/..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Facebook Page</label>
+                                <input type="url" id="confFacebook" placeholder="https://facebook.com/..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Instagram Handle</label>
+                                <input type="text" id="confInstagram" placeholder="@conference2025" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Proceedings Link</label>
+                                <input type="url" id="confProceedingsLink" placeholder="https://..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Sponsors Info</label>
+                                <textarea id="confSponsors" rows="3" placeholder="Platinum: Company Name&#10;Gold: Company Name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+                    <div class="flex justify-end space-x-3 pt-6 mt-6 border-t border-gray-200 sticky bottom-0 bg-white">
                         <button type="button" onclick="hideConferenceModal()" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
                             Cancel
                         </button>
                         <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                            Save Conference
+                            <i class="fas fa-save mr-2"></i>Save Conference
                         </button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conference Registrations Modal -->
+    <div id="registrationsModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full">
+                <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                    <h3 id="registrationsModalTitle" class="text-lg font-semibold text-gray-900">Conference Registrations</h3>
+                    <button onclick="hideRegistrationsModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <div class="p-6">
+                    <div id="registrationsList">
+                        <!-- Registrations will be loaded here -->
+                    </div>
+                </div>
+                <div class="px-6 py-4 border-t border-gray-200 flex justify-end">
+                    <button onclick="hideRegistrationsModal()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        Close
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -824,6 +1116,411 @@
                         </button>
                         <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
                             Add Reviewer
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Workshop/Webinar Modal -->
+    <div id="addWorkshopModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-6xl w-full max-h-[95vh] overflow-y-auto">
+                <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between sticky top-0 bg-white z-10">
+                    <h3 id="workshopModalTitle" class="text-lg font-semibold text-gray-900">Add New Workshop/Webinar</h3>
+                    <button onclick="hideWorkshopModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <form id="workshopForm" onsubmit="event.preventDefault(); saveWorkshop();" class="p-6" enctype="multipart/form-data">
+                    <!-- Tab Navigation -->
+                    <div class="border-b border-gray-200 mb-6">
+                        <nav class="flex space-x-4 -mb-px">
+                            <button type="button" onclick="switchWorkshopTab('basic')" class="workshop-tab-btn active px-4 py-2 border-b-2 border-blue-600 text-blue-600 font-medium text-sm">
+                                <i class="fas fa-info-circle mr-2"></i>Basic Info
+                            </button>
+                            <button type="button" onclick="switchWorkshopTab('image')" class="workshop-tab-btn px-4 py-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                                <i class="fas fa-image mr-2"></i>Image & Media
+                            </button>
+                            <button type="button" onclick="switchWorkshopTab('schedule')" class="workshop-tab-btn px-4 py-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                                <i class="fas fa-calendar mr-2"></i>Schedule & Venue
+                            </button>
+                            <button type="button" onclick="switchWorkshopTab('instructors')" class="workshop-tab-btn px-4 py-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                                <i class="fas fa-users mr-2"></i>Instructors & Content
+                            </button>
+                            <button type="button" onclick="switchWorkshopTab('registration')" class="workshop-tab-btn px-4 py-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                                <i class="fas fa-user-plus mr-2"></i>Registration & Pricing
+                            </button>
+                            <button type="button" onclick="switchWorkshopTab('contact')" class="workshop-tab-btn px-4 py-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium text-sm">
+                                <i class="fas fa-envelope mr-2"></i>Contact & Links
+                            </button>
+                        </nav>
+                    </div>
+
+                    <!-- Basic Info Tab -->
+                    <div id="workshopTab-basic" class="workshop-tab-content">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Title *</label>
+                                <input type="text" id="workshopTitle" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Type *</label>
+                                <select id="workshopType" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="workshop">Workshop</option>
+                                    <option value="webinar">Webinar</option>
+                                    <option value="training">Training Program</option>
+                                    <option value="seminar">Seminar</option>
+                                    <option value="masterclass">Masterclass</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                                <select id="workshopStatus" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="active">Active</option>
+                                    <option value="upcoming">Upcoming</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                    <option value="draft">Draft</option>
+                                </select>
+                            </div>
+                            
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Short Description</label>
+                                <textarea id="workshopDescription" rows="3" placeholder="Brief overview (150-200 words)" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Full Description</label>
+                                <textarea id="workshopFullDescription" rows="6" placeholder="Detailed description, objectives, learning outcomes, and what participants will gain" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Category/Topic</label>
+                                <input type="text" id="workshopCategory" placeholder="e.g., ESG Reporting, Carbon Accounting, Sustainability" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Level</label>
+                                <select id="workshopLevel" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="beginner">Beginner</option>
+                                    <option value="intermediate">Intermediate</option>
+                                    <option value="advanced">Advanced</option>
+                                    <option value="all">All Levels</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Language</label>
+                                <select id="workshopLanguage" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="english">English</option>
+                                    <option value="hindi">Hindi</option>
+                                    <option value="bilingual">Bilingual (English/Hindi)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Max Participants</label>
+                                <input type="number" id="workshopMaxParticipants" min="1" placeholder="Leave empty for unlimited" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Tags (comma-separated)</label>
+                                <input type="text" id="workshopTags" placeholder="ESG, Sustainability, Reporting, GRI" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Image & Media Tab -->
+                    <div id="workshopTab-image" class="workshop-tab-content hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Featured Image *</label>
+                                <div class="mt-1 flex items-center space-x-4">
+                                    <div class="flex-1">
+                                        <input type="file" id="workshopImage" accept="image/*" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <p class="mt-1 text-xs text-gray-500">Recommended: 1200x600px, max 5MB (JPG, PNG)</p>
+                                    </div>
+                                </div>
+                                <div id="workshopImagePreview" class="mt-4 hidden">
+                                    <img id="workshopImagePreviewImg" src="" alt="Preview" class="max-w-full h-48 object-cover rounded-lg border border-gray-300">
+                                    <button type="button" onclick="removeWorkshopImage()" class="mt-2 text-red-600 text-sm hover:text-red-800">
+                                        <i class="fas fa-trash mr-1"></i>Remove Image
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Video URL (Optional)</label>
+                                <input type="url" id="workshopVideoUrl" placeholder="YouTube, Vimeo, or other video link" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Gallery Images (Optional)</label>
+                                <input type="file" id="workshopGallery" accept="image/*" multiple class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <p class="mt-1 text-xs text-gray-500">You can select multiple images</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Brochure/PDF (Optional)</label>
+                                <input type="file" id="workshopBrochure" accept=".pdf" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Presentation Template (Optional)</label>
+                                <input type="file" id="workshopTemplate" accept=".pptx,.ppt,.pdf" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Schedule & Venue Tab -->
+                    <div id="workshopTab-schedule" class="workshop-tab-content hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Start Date & Time</label>
+                                <input type="datetime-local" id="workshopStartDateTime" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">End Date & Time</label>
+                                <input type="datetime-local" id="workshopEndDateTime" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Duration</label>
+                                <input type="text" id="workshopDuration" placeholder="e.g., 2 hours, 1 day, 3 days" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Format</label>
+                                <select id="workshopFormat" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="online">Online</option>
+                                    <option value="offline">In-Person</option>
+                                    <option value="hybrid">Hybrid</option>
+                                </select>
+                            </div>
+                            
+                            <div id="workshopVenueFields">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Location/Venue</label>
+                                <input type="text" id="workshopLocation" placeholder="e.g., New Delhi, India or Online Platform Name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div id="workshopVenueAddressFields" style="display: none;">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Venue Address</label>
+                                <textarea id="workshopVenueAddress" rows="2" placeholder="Full address of the venue" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+
+                            <div id="workshopOnlineFields" style="display: none;">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Online Platform</label>
+                                <select id="workshopOnlinePlatform" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="zoom">Zoom</option>
+                                    <option value="teams">Microsoft Teams</option>
+                                    <option value="google-meet">Google Meet</option>
+                                    <option value="webex">Webex</option>
+                                    <option value="custom">Custom Platform</option>
+                                </select>
+                            </div>
+
+                            <div id="workshopPlatformLinkFields" style="display: none;">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Platform Link</label>
+                                <input type="url" id="workshopPlatformLink" placeholder="Meeting link will be sent after registration" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Time Zone</label>
+                                <select id="workshopTimezone" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="IST">IST (Indian Standard Time)</option>
+                                    <option value="UTC">UTC</option>
+                                    <option value="EST">EST (Eastern Standard Time)</option>
+                                    <option value="PST">PST (Pacific Standard Time)</option>
+                                    <option value="GMT">GMT (Greenwich Mean Time)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Accommodation Info (if applicable)</label>
+                                <textarea id="workshopAccommodation" rows="3" placeholder="Nearby hotels, accommodation details" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Instructors & Content Tab -->
+                    <div id="workshopTab-instructors" class="workshop-tab-content hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Lead Instructor/Facilitator *</label>
+                                <input type="text" id="workshopLeadInstructor" placeholder="Name, Title, Affiliation" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Co-Instructors/Facilitators (one per line)</label>
+                                <textarea id="workshopCoInstructors" rows="4" placeholder="Dr. Name, Title, Affiliation&#10;Prof. Name, Title, Affiliation" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Learning Objectives (one per line)</label>
+                                <textarea id="workshopObjectives" rows="5" placeholder="Objective 1&#10;Objective 2&#10;Objective 3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Course Outline/Agenda (one per line)</label>
+                                <textarea id="workshopAgenda" rows="6" placeholder="Session 1: Topic (Time)&#10;Session 2: Topic (Time)&#10;Break (Time)&#10;Session 3: Topic (Time)" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Prerequisites</label>
+                                <textarea id="workshopPrerequisites" rows="3" placeholder="Required knowledge or experience" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Materials Provided</label>
+                                <textarea id="workshopMaterials" rows="3" placeholder="Course materials, templates, certificates, etc." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Certificate Provided</label>
+                                <select id="workshopCertificate" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                    <option value="optional">Optional (Additional Fee)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">CPD/CE Credits</label>
+                                <input type="text" id="workshopCredits" placeholder="e.g., 8 CPD hours, 0.5 CEU" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Registration & Pricing Tab -->
+                    <div id="workshopTab-registration" class="workshop-tab-content hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Registration Link</label>
+                                <input type="url" id="workshopRegistrationLink" placeholder="https://..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Registration Deadline</label>
+                                <input type="datetime-local" id="workshopRegistrationDeadline" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Early Bird Price</label>
+                                <input type="text" id="workshopEarlyBirdPrice" placeholder="e.g., ₹5,000 or $99" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Early Bird Deadline</label>
+                                <input type="datetime-local" id="workshopEarlyBirdDeadline" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Regular Price</label>
+                                <input type="text" id="workshopRegularPrice" placeholder="e.g., ₹7,500 or $149" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Student Price</label>
+                                <input type="text" id="workshopStudentPrice" placeholder="e.g., ₹3,000 or $49" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Group Discount</label>
+                                <input type="text" id="workshopGroupDiscount" placeholder="e.g., 10% off for 3+ participants" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Payment Methods</label>
+                                <div class="space-y-2">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" id="workshopPaymentCard" checked class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                        <span class="ml-2 text-sm text-gray-700">Credit/Debit Card</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" id="workshopPaymentUPI" checked class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                        <span class="ml-2 text-sm text-gray-700">UPI</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" id="workshopPaymentBank" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                        <span class="ml-2 text-sm text-gray-700">Bank Transfer</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" id="workshopPaymentInvoice" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                        <span class="ml-2 text-sm text-gray-700">Invoice (Corporate)</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Cancellation Policy</label>
+                                <textarea id="workshopCancellationPolicy" rows="3" placeholder="Refund policy, cancellation terms" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Waitlist Available</label>
+                                <select id="workshopWaitlist" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact & Links Tab -->
+                    <div id="workshopTab-contact" class="workshop-tab-content hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Contact Email</label>
+                                <input type="email" id="workshopContactEmail" placeholder="workshop@csmr.org" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Contact Phone</label>
+                                <input type="tel" id="workshopContactPhone" placeholder="+91 123 456 7890" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Website URL</label>
+                                <input type="url" id="workshopWebsite" placeholder="https://..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Social Media Links</label>
+                                <div class="space-y-2">
+                                    <input type="text" id="workshopTwitter" placeholder="Twitter/X handle: @workshop2025" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <input type="url" id="workshopLinkedIn" placeholder="LinkedIn page URL" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <input type="text" id="workshopInstagram" placeholder="Instagram handle: @workshop2025" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">FAQ Link</label>
+                                <input type="url" id="workshopFAQ" placeholder="https://..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Recording Available</label>
+                                <select id="workshopRecording" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="yes">Yes (Included)</option>
+                                    <option value="optional">Optional (Additional Fee)</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 pt-6 mt-6 border-t border-gray-200 sticky bottom-0 bg-white">
+                        <button type="button" onclick="hideWorkshopModal()" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-save mr-2"></i>Save Workshop/Webinar
                         </button>
                     </div>
                 </form>
@@ -1082,8 +1779,8 @@
                                 </div>
                                 <div class="flex flex-col gap-2 ml-4">
                                     <button onclick="inviteReviewer(${reviewer.id})" class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm">
-                                        Invite
-                                    </button>
+                                    Invite
+                                </button>
                                     <button onclick="removeReviewer(${reviewer.id}, '${reviewer.first_name} ${reviewer.last_name}')" class="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors text-sm">
                                         <i class="fas fa-trash mr-1"></i>Remove
                                     </button>
@@ -1248,19 +1945,19 @@
         function setupAddReviewerForm() {
             const form = document.getElementById('addReviewerForm');
             if (form) {
-                form.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    
-                    const reviewerData = {
-                        firstName: document.getElementById('reviewerFirstName').value,
-                        lastName: document.getElementById('reviewerLastName').value,
-                        email: document.getElementById('reviewerEmail').value,
-                        expertise: document.getElementById('reviewerExpertise').value,
-                        password: 'temp_password_123' // Temporary password, reviewer can reset
-                    };
-                    
-                    await addReviewer(reviewerData);
-                });
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const reviewerData = {
+                    firstName: document.getElementById('reviewerFirstName').value,
+                    lastName: document.getElementById('reviewerLastName').value,
+                    email: document.getElementById('reviewerEmail').value,
+                    expertise: document.getElementById('reviewerExpertise').value,
+                    password: 'temp_password_123' // Temporary password, reviewer can reset
+                };
+                
+                await addReviewer(reviewerData);
+            });
             }
         }
 
@@ -1878,32 +2575,49 @@
                 return;
             }
 
-            container.innerHTML = conferences.map(conf => `
-                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                    <div class="flex items-start justify-between">
-                        <div class="flex-1">
-                            <div class="flex items-center space-x-3 mb-2">
-                                <h4 class="text-lg font-semibold text-gray-900">${conf.title}</h4>
-                                <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-semibold rounded-full">${conf.category}</span>
-                                <span class="px-2 py-1 ${conf.status === 'active' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'} text-xs font-semibold rounded-full">${conf.status}</span>
+            // Load registration counts for all conferences
+            Promise.all(conferences.map(async (conf) => {
+                try {
+                    const adminToken = localStorage.getItem('adminToken') || 'admin-token-123';
+                    const response = await fetch(`/api/conferences/${conf.id}/registrations?adminToken=${adminToken}`);
+                    const data = await response.json();
+                    conf.registrationCount = data.success ? data.registrations.length : 0;
+                } catch (error) {
+                    conf.registrationCount = 0;
+                }
+                return conf;
+            })).then(conferencesWithCounts => {
+                container.innerHTML = conferencesWithCounts.map(conf => `
+                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-3 mb-2">
+                                    <h4 class="text-lg font-semibold text-gray-900">${conf.title}</h4>
+                                    <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-semibold rounded-full">${conf.category}</span>
+                                    <span class="px-2 py-1 ${conf.status === 'active' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'} text-xs font-semibold rounded-full">${conf.status}</span>
+                                    ${conf.registrationCount > 0 ? `<span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full"><i class="fas fa-users mr-1"></i>${conf.registrationCount} Registered</span>` : ''}
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2">${conf.description || 'No description'}</p>
+                                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                    ${conf.location ? `<span><i class="fas fa-map-marker-alt mr-1"></i>${conf.location}</span>` : ''}
+                                    ${conf.start_date ? `<span><i class="fas fa-calendar mr-1"></i>${formatConferenceDate(conf.start_date, conf.end_date)}</span>` : ''}
+                                </div>
                             </div>
-                            <p class="text-sm text-gray-600 mb-2">${conf.description || 'No description'}</p>
-                            <div class="flex items-center space-x-4 text-sm text-gray-500">
-                                ${conf.location ? `<span><i class="fas fa-map-marker-alt mr-1"></i>${conf.location}</span>` : ''}
-                                ${conf.start_date ? `<span><i class="fas fa-calendar mr-1"></i>${formatConferenceDate(conf.start_date, conf.end_date)}</span>` : ''}
+                            <div class="flex items-center space-x-2 ml-4">
+                                <button onclick="viewConferenceRegistrations(${conf.id}, '${conf.title.replace(/'/g, "\\'")}')" class="bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition-colors text-sm" title="View Registrations">
+                                    <i class="fas fa-users"></i>
+                                </button>
+                                <button onclick="editConference(${conf.id})" class="bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button onclick="deleteConference(${conf.id}, '${conf.title}')" class="bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700 transition-colors text-sm">
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </div>
-                        </div>
-                        <div class="flex items-center space-x-2 ml-4">
-                            <button onclick="editConference(${conf.id})" class="bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button onclick="deleteConference(${conf.id}, '${conf.title}')" class="bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700 transition-colors text-sm">
-                                <i class="fas fa-trash"></i>
-                            </button>
                         </div>
                     </div>
-                </div>
-            `).join('');
+                `).join('');
+            });
         }
 
         // Filter conferences
@@ -2000,12 +2714,17 @@
                 const response = await fetch(url, {
                     method: method,
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${adminToken}`
                     },
                     body: JSON.stringify(conferenceData)
                 });
                 
                 const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || `HTTP error! status: ${response.status}`);
+                }
                 
                 if (data.success) {
                     alert(editingConferenceId ? 'Conference updated successfully!' : 'Conference added successfully!');
@@ -2016,7 +2735,9 @@
                 }
             } catch (error) {
                 console.error('Error saving conference:', error);
-                alert('Failed to save conference. Please try again.');
+                console.error('Response status:', error.status);
+                console.error('Error details:', error);
+                alert('Failed to save conference: ' + (error.message || 'Please try again.'));
             }
         }
 
@@ -2046,6 +2767,92 @@
                 console.error('Error deleting conference:', error);
                 alert('Failed to delete conference');
             }
+        }
+
+        // View conference registrations
+        async function viewConferenceRegistrations(conferenceId, conferenceTitle) {
+            const adminToken = localStorage.getItem('adminToken') || 'admin-token-123';
+            
+            try {
+                const response = await fetch(`/api/conferences/${conferenceId}/registrations?adminToken=${adminToken}`);
+                const data = await response.json();
+                
+                if (!data.success) {
+                    alert('Failed to load registrations: ' + (data.message || 'Unknown error'));
+                    return;
+                }
+                
+                // Show modal with registrations
+                showRegistrationsModal(conferenceTitle, data.registrations);
+            } catch (error) {
+                console.error('Error loading registrations:', error);
+                alert('Failed to load registrations');
+            }
+        }
+
+        // Show registrations modal
+        function showRegistrationsModal(conferenceTitle, registrations) {
+            const modal = document.getElementById('registrationsModal');
+            const modalTitle = document.getElementById('registrationsModalTitle');
+            const registrationsList = document.getElementById('registrationsList');
+            
+            modalTitle.textContent = `Registrations for: ${conferenceTitle}`;
+            
+            if (registrations.length === 0) {
+                registrationsList.innerHTML = `
+                    <div class="text-center py-12 text-gray-500">
+                        <i class="fas fa-users text-4xl mb-4"></i>
+                        <p>No registrations yet for this conference.</p>
+                    </div>
+                `;
+            } else {
+                registrationsList.innerHTML = `
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Registration Date</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                ${registrations.map(reg => `
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">${reg.first_name} ${reg.last_name}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-500">${reg.email}</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">${reg.role || 'author'}</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            ${new Date(reg.registration_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">${reg.status || 'registered'}</span>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4 text-sm text-gray-600">
+                        <strong>Total Registrations: ${registrations.length}</strong>
+                    </div>
+                `;
+            }
+            
+            modal.classList.remove('hidden');
+        }
+
+        // Hide registrations modal
+        function hideRegistrationsModal() {
+            document.getElementById('registrationsModal').classList.add('hidden');
         }
 
         // Format conference date

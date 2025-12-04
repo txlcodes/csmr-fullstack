@@ -375,12 +375,12 @@
                         <div class="profile-icon" onclick="toggleProfileDropdown()" id="profileIcon">
                             <i class="fas fa-user text-sm" id="profileIconDefault"></i>
                             <span id="profileIconInitials" class="text-xs font-semibold hidden"></span>
-                        </div>
+                    </div>
                         <div class="profile-dropdown-menu">
                             <div class="profile-dropdown-header">
                                 <div class="user-name" id="profileUserName">User Name</div>
                                 <div class="user-email" id="profileUserEmail">user@example.com</div>
-                            </div>
+                </div>
                             <button class="profile-dropdown-item" onclick="checkAuthAndNavigate('my-submissions.html'); toggleProfileDropdown();">
                                 <i class="fas fa-list-alt"></i>
                                 <span>View My Submissions</span>
@@ -450,8 +450,24 @@
                     <!-- Dropdown Menu -->
                     <div class="absolute top-full left-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                         <div class="py-2">
-                            <a href="certification.html" class="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
-                                <div class="font-semibold">Certification Program</div>
+                            <a href="certification.html" class="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors border-b border-gray-100">
+                                <div class="font-semibold flex items-center">
+                                    <i class="fas fa-certificate mr-2 text-blue-600"></i>
+                                    Certification Program
+                                </div>
+                            </a>
+                            <a href="conferences.html" class="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors border-b border-gray-100">
+                                <div class="font-semibold flex items-center">
+                                    <i class="fas fa-calendar-alt mr-2 text-blue-600"></i>
+                                    Conferences
+                                </div>
+                            </a>
+                            <a href="#" class="block px-4 py-3 text-gray-500 cursor-not-allowed" onclick="return false;" title="Coming Soon">
+                                <div class="font-semibold flex items-center">
+                                    <i class="fas fa-chalkboard-teacher mr-2 text-gray-400"></i>
+                                    Workshops & Webinars
+                                    <span class="ml-auto text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded">Soon</span>
+                                </div>
                             </a>
                         </div>
                     </div>
@@ -518,7 +534,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div class="fade-in-left">
                     <img src="images/conference-room.jpg" alt="Certified Sustainability Professional" class="w-full h-auto rounded-2xl shadow-2xl object-cover image-slide-left image-stagger-1" style="max-height: 500px;" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'500\'%3E%3Crect fill=\'%23f3f4f6\' width=\'800\' height=\'500\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%239ca3af\' font-family=\'sans-serif\' font-size=\'18\'%3EAdd certification image%3C/text%3E%3C/svg%3E';">
-                </div>
+                    </div>
                 <div class="fade-in-right">
                     <h2 class="text-4xl font-bold text-blue-900 mb-4">Become a Certified Sustainability Professional</h2>
                     <p class="text-lg text-gray-600 mb-6 leading-relaxed font-semibold">
@@ -550,8 +566,8 @@
                         <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
-            </div>
-        </div>
+                    </div>
+                </div>
     </section>
 
     <!-- Showcase Your Research Section -->
@@ -604,9 +620,9 @@
                     <div class="flex items-center space-x-2 text-blue-600 font-semibold mb-2">
                         <i class="fas fa-star w-5 h-5"></i>
                         <span class="uppercase tracking-wider text-sm">Editor's Choice</span>
-                    </div>
+            </div>
                     <h2 class="text-3xl md:text-4xl font-serif font-bold text-slate-900">Featured Journals</h2>
-                </div>
+                        </div>
                 <a href="journals.html" class="hidden md:flex items-center text-slate-600 hover:text-blue-600 font-medium transition-colors">
                     View all publications <i class="fas fa-arrow-right ml-2 w-4 h-4"></i>
                 </a>
@@ -614,7 +630,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <!-- Journal 1 -->
-                <div class="group flex flex-col lg:flex-row bg-white rounded-2xl border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden h-full">
+                <a href="journals.html?journal=sustainability-management" class="group flex flex-col lg:flex-row bg-white rounded-2xl border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden h-full cursor-pointer">
                     <!-- Fake Cover -->
                     <div class="lg:w-2/5 p-8 flex flex-col justify-center items-center text-center bg-gradient-to-br from-emerald-600 to-teal-800 text-white relative overflow-hidden">
                         <div class="absolute inset-0 bg-black/10"></div>
@@ -622,45 +638,45 @@
                         <div class="relative z-10 border-2 border-white/30 p-4 w-full h-full flex flex-col justify-center items-center min-h-[240px]">
                             <span class="font-serif font-bold text-xl leading-tight mb-2">Journal of Sustainability & Management</span>
                             <span class="text-xs opacity-75 uppercase tracking-widest mt-4">Volume 12</span>
-                        </div>
                     </div>
-                    
+                </div>
+
                     <!-- Content -->
                     <div class="lg:w-3/5 p-8 flex flex-col">
                         <div class="text-xs font-mono text-slate-400 mb-3">ISSN: 2456-7890</div>
                         <h3 class="text-xl font-bold text-slate-900 mb-4 group-hover:text-blue-600 transition-colors">Journal of Sustainability & Management</h3>
                         <p class="text-slate-600 mb-6 leading-relaxed flex-grow">A multidisciplinary platform publishing high-impact research at the intersection of environmental sustainability and strategic management.</p>
                         <div class="mt-auto pt-6 border-t border-slate-100 flex items-center justify-between">
-                            <span class="text-xs font-semibold bg-green-100 text-green-700 px-3 py-1 rounded-full">Open Access</span>
-                            <a href="journals.html?journal=sustainability-management" class="text-blue-600 font-semibold text-sm hover:underline">Read Current Issue</a>
+                            <span class="text-xs font-semibold bg-blue-100 text-blue-700 px-3 py-1 rounded-full">Open Access</span>
+                            <span class="text-blue-600 font-semibold text-sm group-hover:underline">Read Current Issue <i class="fas fa-arrow-right ml-1"></i></span>
                         </div>
                     </div>
-                </div>
+                </a>
 
                 <!-- Journal 2 -->
-                <div class="group flex flex-col lg:flex-row bg-white rounded-2xl border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden h-full">
+                <a href="journals.html?journal=sustainability-cases" class="group flex flex-col lg:flex-row bg-white rounded-2xl border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden h-full cursor-pointer">
                     <!-- Fake Cover -->
                     <div class="lg:w-2/5 p-8 flex flex-col justify-center items-center text-center bg-gradient-to-br from-blue-600 to-indigo-800 text-white relative overflow-hidden">
                         <div class="absolute inset-0 bg-black/10"></div>
                         <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
                         <div class="relative z-10 border-2 border-white/30 p-4 w-full h-full flex flex-col justify-center items-center min-h-[240px]">
-                            <span class="font-serif font-bold text-xl leading-tight mb-2">Sustainability Cases Quarterly</span>
+                            <span class="font-serif font-bold text-xl leading-tight mb-2">Sustainability Cases</span>
                             <span class="text-xs opacity-75 uppercase tracking-widest mt-4">Volume 12</span>
-                        </div>
                     </div>
-                    
+                </div>
+
                     <!-- Content -->
                     <div class="lg:w-3/5 p-8 flex flex-col">
                         <div class="text-xs font-mono text-slate-400 mb-3">ISSN: 2345-6789</div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-4 group-hover:text-blue-600 transition-colors">Sustainability Cases Quarterly</h3>
+                        <h3 class="text-xl font-bold text-slate-900 mb-4 group-hover:text-blue-600 transition-colors">Sustainability Cases</h3>
                         <p class="text-slate-600 mb-6 leading-relaxed flex-grow">Peer-reviewed case studies focusing on real-world implementation of sustainable practices in developing economies.</p>
                         <div class="mt-auto pt-6 border-t border-slate-100 flex items-center justify-between">
-                            <span class="text-xs font-semibold bg-green-100 text-green-700 px-3 py-1 rounded-full">Open Access</span>
-                            <a href="journals.html?journal=sustainability-cases" class="text-blue-600 font-semibold text-sm hover:underline">Read Current Issue</a>
+                            <span class="text-xs font-semibold bg-blue-100 text-blue-700 px-3 py-1 rounded-full">Open Access</span>
+                            <span class="text-blue-600 font-semibold text-sm group-hover:underline">Read Current Issue <i class="fas fa-arrow-right ml-1"></i></span>
                         </div>
                     </div>
+                </a>
                 </div>
-            </div>
 
             <div class="mt-8 text-center md:hidden">
                 <a href="journals.html" class="inline-flex items-center text-blue-600 font-medium">
@@ -682,11 +698,11 @@
                     <p class="text-base text-gray-600 mb-6 leading-relaxed">
                         At CSMR, we partner with corporates to build robust sustainability systems aligned with global standards such as IFRS S1 & S2, BRSR, GRI, and SDGs. Our consulting services help organisations transition toward responsible, climate-conscious, and future-ready business practices.
                     </p>
-                </div>
+            </div>
                 <div class="fade-in-right">
                     <img src="images/collaborative-work.jpg" alt="Corporate Sustainability Reporting & Consulting" class="w-full h-auto rounded-2xl shadow-2xl object-cover image-slide-right image-stagger-2" style="max-height: 500px;" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'500\'%3E%3Crect fill=\'%23f3f4f6\' width=\'800\' height=\'500\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%239ca3af\' font-family=\'sans-serif\' font-size=\'18\'%3EAdd collaborative-work.jpg%3C/text%3E%3C/svg%3E';">
+                    </div>
                 </div>
-            </div>
         </div>
     </section>
 
@@ -696,7 +712,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div class="fade-in-left order-1 lg:order-1">
                     <img src="images/collaborative-work.jpg" alt="Our Expertise" class="w-full h-auto rounded-2xl shadow-2xl object-cover image-slide-left image-stagger-1" style="max-height: 500px;" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'500\'%3E%3Crect fill=\'%23f3f4f6\' width=\'800\' height=\'500\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%239ca3af\' font-family=\'sans-serif\' font-size=\'18\'%3EAdd collaborative-work.jpg%3C/text%3E%3C/svg%3E';">
-                </div>
+                    </div>
                 <div class="fade-in-right order-2 lg:order-2">
                     <h3 class="text-xl font-bold text-blue-900 mb-6">Our Expertise</h3>
                     <ul class="space-y-4 text-gray-600">
@@ -705,28 +721,28 @@
                             <div>
                                 <span class="font-semibold text-gray-900 block mb-1 text-base">Sustainability Performance Tracking</span>
                                 <span class="text-sm leading-relaxed">Comprehensive assessment of environmental, social, and governance (ESG) indicators to help organisations identify gaps, strengths, and improvement opportunities.</span>
-                            </div>
+                </div>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-blue-600 mr-3 mt-1"></i>
                             <div>
                                 <span class="font-semibold text-gray-900 block mb-1 text-base">Carbon Accounting & Emission Analysis</span>
                                 <span class="text-sm leading-relaxed">End-to-end support in measuring Scope 1, Scope 2, and Scope 3 emissions, enabling organisations to build accurate carbon inventories and climate risk profiles.</span>
-                            </div>
+                    </div>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-blue-600 mr-3 mt-1"></i>
                             <div>
                                 <span class="font-semibold text-gray-900 block mb-1 text-base">Carbon Footprint Monitoring</span>
                                 <span class="text-sm leading-relaxed">Continuous monitoring of carbon-intensive activities, energy use, resource efficiency, and waste patterns to support decarbonisation strategies.</span>
-                            </div>
+                </div>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-blue-600 mr-3 mt-1"></i>
                             <div>
                                 <span class="font-semibold text-gray-900 block mb-1 text-base">Sustainability Reporting & Disclosure</span>
                                 <span class="text-sm leading-relaxed">Preparation of high-quality sustainability reports aligned with mandatory and voluntary frameworks—covering ESG performance, climate risk, impact metrics, and future action plans.</span>
-                            </div>
+                    </div>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check-circle text-blue-600 mr-3 mt-1"></i>
@@ -798,7 +814,7 @@
                     <div class="flex items-center justify-between mb-6">
                         <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center transition-colors duration-300 group-hover:bg-blue-100">
                             <i class="fas fa-newspaper text-xl text-blue-600"></i>
-                        </div>
+                    </div>
                         <i class="fas fa-arrow-right w-5 h-5 text-slate-300 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-300"></i>
                     </div>
                     <h3 class="text-xl font-bold text-slate-900 mb-3" data-translate="research">Research</h3>
@@ -810,7 +826,7 @@
                     <div class="flex items-center justify-between mb-6">
                         <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center transition-colors duration-300 group-hover:bg-blue-100">
                             <i class="fas fa-users text-xl text-blue-600"></i>
-                        </div>
+                    </div>
                         <i class="fas fa-arrow-right w-5 h-5 text-slate-300 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-300"></i>
                     </div>
                     <h3 class="text-xl font-bold text-slate-900 mb-3" data-translate="conferences">Conferences</h3>
@@ -822,7 +838,7 @@
                     <div class="flex items-center justify-between mb-6">
                         <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center transition-colors duration-300 group-hover:bg-blue-100">
                             <i class="fas fa-certificate text-xl text-blue-600"></i>
-                        </div>
+                    </div>
                         <i class="fas fa-arrow-right w-5 h-5 text-slate-300 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-300"></i>
                     </div>
                     <h3 class="text-xl font-bold text-slate-900 mb-3" data-translate="program">Program</h3>
@@ -834,7 +850,7 @@
                     <div class="flex items-center justify-between mb-6">
                         <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center transition-colors duration-300 group-hover:bg-blue-100">
                             <i class="fas fa-chart-bar text-xl text-blue-600"></i>
-                        </div>
+                    </div>
                         <i class="fas fa-arrow-right w-5 h-5 text-slate-300 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-300"></i>
                     </div>
                     <h3 class="text-xl font-bold text-slate-900 mb-3" data-translate="reporting">Reporting</h3>
@@ -857,19 +873,19 @@
                 <div class="card-hover fade-in-left bg-white rounded-xl p-8 shadow-lg border border-blue-100 text-center">
                     <div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-university text-2xl text-blue-600"></i>
-                    </div>
+                            </div>
                     <h3 class="text-lg font-bold text-blue-900 mb-2">Indian Institute of Management</h3>
                     <p class="text-blue-600 text-sm">Bangalore, India</p>
-                </div>
-
+                    </div>
+                    
                 <div class="card-hover fade-in-up bg-white rounded-xl p-8 shadow-lg border border-blue-100 text-center">
                     <div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-graduation-cap text-2xl text-blue-600"></i>
                     </div>
                     <h3 class="text-lg font-bold text-blue-900 mb-2">XLRI Jamshedpur</h3>
                     <p class="text-blue-600 text-sm">Jamshedpur, India</p>
-                </div>
-
+                    </div>
+                    
                 <div class="card-hover fade-in-up bg-white rounded-xl p-8 shadow-lg border border-blue-100 text-center">
                     <div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-microscope text-2xl text-blue-600"></i>
@@ -881,7 +897,7 @@
                 <div class="card-hover fade-in-right bg-white rounded-xl p-8 shadow-lg border border-blue-100 text-center">
                     <div class="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center mx-auto mb-6">
                         <i class="fas fa-book text-2xl text-blue-600"></i>
-                    </div>
+                            </div>
                     <h3 class="text-lg font-bold text-blue-900 mb-2">Tata Institute of Social Sciences</h3>
                     <p class="text-blue-600 text-sm">Mumbai, India</p>
                 </div>

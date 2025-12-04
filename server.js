@@ -259,6 +259,26 @@ const db = new sqlite3.Database('users.db', (err) => {
                         console.error('Error creating conferences table:', err.message);
                     } else {
                         console.log('Conferences table created/verified');
+                        
+                        // Create conference_registrations table
+                        db.run(`CREATE TABLE IF NOT EXISTS conference_registrations (
+                            id INTEGER PRIMARY KEY AUTOINCREMENT,
+                            conference_id INTEGER NOT NULL,
+                            user_id INTEGER NOT NULL,
+                            registration_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+                            status TEXT DEFAULT 'registered',
+                            notes TEXT,
+                            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                            FOREIGN KEY (conference_id) REFERENCES conferences (id),
+                            FOREIGN KEY (user_id) REFERENCES users (id),
+                            UNIQUE(conference_id, user_id)
+                        )`, (err) => {
+                            if (err) {
+                                console.error('Error creating conference_registrations table:', err.message);
+                            } else {
+                                console.log('Conference registrations table created/verified');
+                            }
+                        });
                     }
                 });
             }
@@ -545,7 +565,7 @@ app.post('/api/reviewers/invite', async (req, res) => {
                     <body style="font-family: Arial, Helvetica, sans-serif; line-height: 1.6; color: #333333; max-width: 700px; margin: 0 auto; padding: 20px;">
                         <div style="background-color: #ffffff; padding: 30px; border: 1px solid #e0e0e0;">
                             <p style="margin: 0 0 20px 0;">Dear ${reviewerName},</p>
-                            
+                        
                             <p style="margin: 0 0 15px 0;">We recently received a manuscript titled <strong>"${manuscriptTitle}"</strong> for <strong>Centre for Sustainability & Management Research (CSMR)</strong>.</p>
                             
                             <p style="margin: 0 0 15px 0;">Given your expertise in ${reviewerExpertise}, we would like to invite you to review it.</p>
@@ -1363,9 +1383,9 @@ app.post('/api/reviewers/add', async (req, res) => {
                     return res.status(500).json({ 
                         success: false, 
                         message: 'Database error' 
-                    });
-                }
-                
+                });
+            }
+            
                 if (pendingApproval) {
                     return res.status(400).json({ 
                         success: false, 
@@ -1548,8 +1568,8 @@ app.post('/api/reviewers/add', async (req, res) => {
                                         message: 'Reviewer created but failed to send approval email: ' + (emailError.message || 'Unknown error') 
                                     });
                                 }
-                            }
-                        );
+                }
+            );
                     }
                 );
             });
@@ -2386,6 +2406,159 @@ app.delete('/api/conferences/:id', (req, res) => {
         }
         
         res.json({ success: true, message: 'Conference deleted successfully' });
+    });
+});
+
+// POST /api/conferences/:id/register - Register user for a conference (Requires authentication)
+app.post('/api/conferences/:id/register', (req, res) => {
+    try {
+        const token = req.headers.authorization?.replace('Bearer ', '') || req.body.token;
+        const conferenceId = req.params.id;
+        
+        console.log('Registration request:', { conferenceId, hasToken: !!token });
+        
+        if (!token) {
+            return res.status(401).json({ success: false, message: 'Authentication required. Please login first.' });
+        }
+        
+        if (!conferenceId || isNaN(conferenceId)) {
+            return res.status(400).json({ success: false, message: 'Invalid conference ID' });
+        }
+        
+        // Verify JWT token
+        jwt.verify(token, JWT_SECRET, (err, decoded) => {
+            if (err) {
+                console.error('JWT verification error:', err);
+                return res.status(401).json({ success: false, message: 'Invalid or expired token. Please login again.' });
+            }
+            
+            const userId = decoded.userId;
+            console.log('JWT decoded:', { userId, conferenceId });
+            
+            if (!userId) {
+                return res.status(401).json({ success: false, message: 'Invalid token. User ID not found.' });
+            }
+            
+            // Check if conference exists
+            db.get('SELECT id, title FROM conferences WHERE id = ?', [conferenceId], (err, conference) => {
+                if (err) {
+                    console.error('Error checking conference:', err);
+                    return res.status(500).json({ success: false, message: 'Database error: ' + err.message });
+                }
+                
+                if (!conference) {
+                    console.log('Conference not found:', conferenceId);
+                    return res.status(404).json({ success: false, message: 'Conference not found' });
+                }
+                
+                console.log('Conference found:', conference.title);
+                
+                // Check if user already registered
+                db.get('SELECT id FROM conference_registrations WHERE conference_id = ? AND user_id = ?', 
+                    [conferenceId, userId], (err, existing) => {
+                    if (err) {
+                        console.error('Error checking existing registration:', err);
+                        // Check if table exists
+                        if (err.message && err.message.includes('no such table')) {
+                            return res.status(500).json({ 
+                                success: false, 
+                                message: 'Registration system not initialized. Please contact administrator.' 
+                            });
+                        }
+                        return res.status(500).json({ success: false, message: 'Database error: ' + err.message });
+                    }
+                    
+                    if (existing) {
+                        console.log('User already registered:', { userId, conferenceId });
+                        return res.status(400).json({ success: false, message: 'You are already registered for this conference' });
+                    }
+                    
+                    // Register user
+                    db.run('INSERT INTO conference_registrations (conference_id, user_id) VALUES (?, ?)', 
+                        [conferenceId, userId], function(err) {
+                        if (err) {
+                            console.error('Error registering for conference:', err);
+                            // Check for specific database errors
+                            if (err.message && err.message.includes('no such table')) {
+                                return res.status(500).json({ 
+                                    success: false, 
+                                    message: 'Registration system not initialized. Please contact administrator.' 
+                                });
+                            }
+                            if (err.message && err.message.includes('FOREIGN KEY')) {
+                                return res.status(500).json({ 
+                                    success: false, 
+                                    message: 'Invalid conference or user data.' 
+                                });
+                            }
+                            return res.status(500).json({ success: false, message: 'Database error: ' + err.message });
+                        }
+                        
+                        console.log('Registration successful:', { userId, conferenceId, registrationId: this.lastID });
+                        
+                        res.json({ 
+                            success: true, 
+                            message: `Successfully registered for "${conference.title}"`,
+                            registrationId: this.lastID
+                        });
+                    });
+                });
+            });
+        });
+    } catch (error) {
+        console.error('Unexpected error in registration endpoint:', error);
+        res.status(500).json({ success: false, message: 'An unexpected error occurred: ' + error.message });
+    }
+});
+
+// GET /api/conferences/:id/registrations - Get all registrations for a conference (Admin only)
+app.get('/api/conferences/:id/registrations', (req, res) => {
+    const adminToken = req.headers.authorization?.replace('Bearer ', '') || req.query.adminToken;
+    
+    if (!adminToken || adminToken !== 'admin-token-123') {
+        return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+    
+    const conferenceId = req.params.id;
+    
+    db.all(`SELECT cr.id, cr.registration_date, cr.status, cr.notes,
+                   u.id as user_id, u.first_name, u.last_name, u.email, u.role
+            FROM conference_registrations cr
+            JOIN users u ON cr.user_id = u.id
+            WHERE cr.conference_id = ?
+            ORDER BY cr.registration_date DESC`, 
+        [conferenceId], (err, rows) => {
+        if (err) {
+            console.error('Error fetching registrations:', err);
+            return res.status(500).json({ success: false, message: 'Database error' });
+        }
+        
+        res.json({ success: true, registrations: rows });
+    });
+});
+
+// GET /api/admin/conferences/registrations - Get all registrations across all conferences (Admin only)
+app.get('/api/admin/conferences/registrations', (req, res) => {
+    const adminToken = req.headers.authorization?.replace('Bearer ', '') || req.query.adminToken;
+    
+    if (!adminToken || adminToken !== 'admin-token-123') {
+        return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+    
+    db.all(`SELECT cr.id, cr.registration_date, cr.status, cr.notes,
+                   c.id as conference_id, c.title as conference_title, c.category,
+                   u.id as user_id, u.first_name, u.last_name, u.email, u.role
+            FROM conference_registrations cr
+            JOIN conferences c ON cr.conference_id = c.id
+            JOIN users u ON cr.user_id = u.id
+            ORDER BY cr.registration_date DESC`, 
+        [], (err, rows) => {
+        if (err) {
+            console.error('Error fetching all registrations:', err);
+            return res.status(500).json({ success: false, message: 'Database error' });
+        }
+        
+        res.json({ success: true, registrations: rows });
     });
 });
 
