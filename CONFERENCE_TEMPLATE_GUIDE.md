@@ -3,7 +3,7 @@
 ## Overview
 The conferences page now uses a dynamic template system. Conferences are loaded from the database and rendered automatically based on their category.
 
-## Conference Data Structure
+## Conference Data Structures
 
 Each conference should have the following fields:
 
