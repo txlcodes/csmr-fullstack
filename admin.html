@@ -2741,6 +2741,36 @@
             }
         }
 
+        // Switch conference tab
+        function switchConferenceTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.conf-tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.conf-tab-btn').forEach(btn => {
+                btn.classList.remove('active', 'border-blue-600', 'text-blue-600');
+                btn.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700');
+            });
+            
+            // Show selected tab content
+            const tabContent = document.getElementById('confTab-' + tabName);
+            if (tabContent) {
+                tabContent.classList.remove('hidden');
+            }
+            
+            // Find and activate the clicked button
+            const buttons = document.querySelectorAll('.conf-tab-btn');
+            buttons.forEach(btn => {
+                const onclick = btn.getAttribute('onclick');
+                if (onclick && onclick.includes(`switchConferenceTab('${tabName}')`)) {
+                    btn.classList.add('active', 'border-blue-600', 'text-blue-600');
+                    btn.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700');
+                }
+            });
+        }
+
         // Delete conference
         async function deleteConference(id, title) {
             if (!confirm(`Are you sure you want to delete "${title}"? This action cannot be undone.`)) {
